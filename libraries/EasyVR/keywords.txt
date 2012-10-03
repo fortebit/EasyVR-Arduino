@@ -1,0 +1,127 @@
+#######################################
+# Syntax Coloring Map For EasyVR
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+EasyVR	KEYWORD1
+EasyVRBridge	KEYWORD1
+
+int8_t	KEYWORD1
+uint8_t	KEYWORD1
+int16_t	KEYWORD1
+uint16_t	KEYWORD1
+int32_t	KEYWORD1
+uint32_t	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+detect	KEYWORD2
+stop	KEYWORD2
+getID	KEYWORD2
+setLanguage	KEYWORD2
+setTimeout	KEYWORD2
+setKnob	KEYWORD2
+setLevel	KEYWORD2
+setDelay	KEYWORD2
+changeBaudrate	KEYWORD2
+sleep	KEYWORD2
+
+# command management
+addCommand	KEYWORD2
+removeCommand	KEYWORD2
+setCommandLabel	KEYWORD2
+eraseCommand	KEYWORD2
+
+# command discovery
+getGroupMask	KEYWORD2
+getCommandCount	KEYWORD2
+dumpCommand	KEYWORD2
+
+# recognition/training
+trainCommand	KEYWORD2
+recognizeCommand	KEYWORD2
+recognizeWord	KEYWORD2
+hasFinished	KEYWORD2
+
+# analyse result
+getCommand	KEYWORD2
+getWord	KEYWORD2
+getError	KEYWORD2
+isConflict	KEYWORD2
+isTimeout	KEYWORD2
+isMemoryFull	KEYWORD2
+
+# pin I/O functions
+setPinOutput	KEYWORD2
+getPinInput	KEYWORD2
+
+# sound table functions
+playSound	KEYWORD2
+playSoundAsync	KEYWORD2
+dumpSoundTable	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+VRBOT	LITERAL1
+EASYVR	LITERAL1
+
+ENGLISH	LITERAL1
+ITALIAN	LITERAL1
+JAPANESE	LITERAL1
+GERMAN	LITERAL1
+SPANISH	LITERAL1
+FRENCH	LITERAL1
+
+TRIGGER	LITERAL1
+PASSWORD	LITERAL1
+
+LOOSER	LITERAL1
+LOOSE	LITERAL1
+TYPICAL	LITERAL1
+STRICT	LITERAL1
+STRICTER	LITERAL1
+
+EASY	LITERAL1
+NORMAL	LITERAL1
+HARD	LITERAL1
+HARDER	LITERAL1
+HARDEST	LITERAL1
+
+B115200	LITERAL1
+B57600	LITERAL1
+B38400	LITERAL1
+B19200	LITERAL1
+B9600	LITERAL1
+
+WAKE_ON_CHAR	LITERAL1
+WAKE_ON_WHISTLE	LITERAL1
+WAKE_ON_LOUDSOUND	LITERAL1
+
+WAKE_ON_2CLAPS	LITERAL1
+WAKE_ON_3CLAPS	LITERAL1
+
+CLAP_SENS_LOW	LITERAL1
+CLAP_SENS_MID	LITERAL1
+CLAP_SENS_HIGH	LITERAL1
+
+OUTPUT_LOW	LITERAL1
+OUTPUT_HIGH	LITERAL1
+INPUT_HIZ	LITERAL1
+INPUT_STRONG	LITERAL1
+INPUT_WEAK	LITERAL1
+
+IO1	LITERAL1
+IO2	LITERAL1
+IO3	LITERAL1
+
+VOL_MIN	LITERAL1
+VOL_HALF	LITERAL1
+VOL_FULL	LITERAL1
+VOL_DOUBLE	LITERAL1
