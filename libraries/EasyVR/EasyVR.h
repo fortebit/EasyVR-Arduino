@@ -1,5 +1,5 @@
 /** @file
-EasyVR library v1.0
+EasyVR library v1.2
 Copyright (C) 2011 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -284,7 +284,7 @@ public:
   /**
     Gets the number of commands in the specified group.
     @param group (0-16) is the target group, or one of the values in #Groups
-    @retval is the command count
+    @retval is the count of commands
   */
   int8_t getCommandCount(int8_t group);
   /**

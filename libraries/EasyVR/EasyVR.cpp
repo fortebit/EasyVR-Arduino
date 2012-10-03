@@ -1,5 +1,5 @@
 /*
-EasyVR library v1.0
+EasyVR library v1.2
 Copyright (C) 2011 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -274,7 +274,9 @@ int8_t EasyVR::getCommandCount(int8_t group)
   {
     int8_t rx;
     if (recvArg(rx, DEF_TIMEOUT))
-      return rx;
+    {
+      return rx == -1 ? 32 : rx;
+    }
   }
   return -1;
 }
