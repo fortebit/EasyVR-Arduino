@@ -2,24 +2,23 @@
   <!-- Navigation index tabs for HTML output -->
   <navindex>
     <tab type="mainpage" visible="no" title=""/>
-    <tab type="pages" visible="no" title=""/>
-    <tab type="modules" visible="no" title=""/>
+    <tab type="pages" visible="no" title="" intro=""/>
+    <tab type="modules" visible="no" title="" intro=""/>
     <tab type="namespaces" visible="no" title="">
-      <tab type="namespaces" visible="no" title=""/>
-      <tab type="namespacemembers" visible="no" title=""/>
+      <tab type="namespacelist" visible="no" title="" intro=""/>
+      <tab type="namespacemembers" visible="no" title="" intro=""/>
     </tab>
     <tab type="classes" visible="no" title="">
-      <tab type="classes" visible="no" title=""/>
+      <tab type="classlist" visible="no" title="" intro=""/>
       <tab type="classindex" visible="no" title=""/> 
-      <tab type="hierarchy" visible="no" title=""/>
-      <tab type="classmembers" visible="no" title=""/>
+      <tab type="hierarchy" visible="no" title="" intro=""/>
+      <tab type="classmembers" visible="no" title="" intro=""/>
     </tab>
     <tab type="files" visible="no" title="">
-      <tab type="files" visible="no" title=""/>
-      <tab type="globals" visible="no" title=""/>
+      <tab type="filelist" visible="no" title="" intro=""/>
+      <tab type="globals" visible="no" title="" intro=""/>
     </tab>
-    <tab type="dirs" visible="no" title=""/>
-    <tab type="examples" visible="no" title=""/>  
+    <tab type="examples" visible="no" title="" intro=""/>  
   </navindex>
 
   <!-- Layout definition for a class page -->
@@ -28,7 +27,6 @@
     <includes visible="$SHOW_INCLUDE_FILES"/>
     <inheritancegraph visible="$CLASS_GRAPH"/>
     <collaborationgraph visible="$COLLABORATION_GRAPH"/>
-    <allmemberslink visible="no"/>
     <memberdecl>
       <nestedclasses visible="yes" title=""/>
       <publictypes title=""/>
@@ -63,6 +61,7 @@
     </memberdecl>
     <detaileddescription title=""/>
     <memberdef>
+      <inlineclasses title=""/>
       <typedefs title=""/>
       <enums title=""/>
       <constructors title=""/>
@@ -72,6 +71,7 @@
       <properties title=""/>
       <events title=""/>
     </memberdef>
+    <allmemberslink visible="no"/>
     <usedfiles visible="$SHOW_USED_FILES"/>
     <authorsection visible="yes"/>
   </class>
@@ -90,6 +90,7 @@
     </memberdecl>
     <detaileddescription title=""/>
     <memberdef>
+      <inlineclasses title=""/>
       <typedefs title=""/>
       <enums title=""/>
       <functions title=""/>
@@ -117,6 +118,7 @@
     </memberdecl>
     <detaileddescription title=""/>
     <memberdef>
+      <inlineclasses title=""/>
       <defines title=""/>
       <typedefs title=""/>
       <enums title=""/>
@@ -131,11 +133,11 @@
     <briefdescription visible="yes"/>
     <groupgraph visible="$GROUP_GRAPHS"/>
     <memberdecl>
-      <classes visible="yes" title=""/>
-      <namespaces visible="yes" title=""/>
-      <dirs visible="yes" title=""/>
       <nestedgroups visible="yes" title=""/>
+      <dirs visible="yes" title=""/>
       <files visible="yes" title=""/>
+      <namespaces visible="yes" title=""/>
+      <classes visible="yes" title=""/>
       <defines title=""/>
       <typedefs title=""/>
       <enums title=""/>
@@ -154,6 +156,7 @@
     <detaileddescription title=""/>
     <memberdef>
       <pagedocs/>
+      <inlineclasses title=""/>
       <defines title=""/>
       <typedefs title=""/>
       <enums title=""/>
