@@ -65,12 +65,18 @@ playSound	KEYWORD2
 playSoundAsync	KEYWORD2
 dumpSoundTable	KEYWORD2
 
+# grammar discovery
+getGrammarsCount	KEYWORD2
+dumpGrammar	KEYWORD2
+getNextWordLabel	KEYWORD2
+
 #######################################
 # Constants (LITERAL1)
 #######################################
 
 VRBOT	LITERAL1
 EASYVR	LITERAL1
+EASYVR2	LITERAL1
 
 ENGLISH	LITERAL1
 ITALIAN	LITERAL1
