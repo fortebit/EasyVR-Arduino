@@ -15,11 +15,11 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 /*****************************************************************************/
 
 #ifndef EASYVR_RX_TIMEOUT
-#define EASYVR_RX_TIMEOUT  50  //  default receive timeout (in ms)
+#define EASYVR_RX_TIMEOUT  100  //  default receive timeout (in ms)
 #endif
 
 #ifndef EASYVR_WAKE_TIMEOUT
-#define EASYVR_WAKE_TIMEOUT  100  // wakeup max delay (in ms)
+#define EASYVR_WAKE_TIMEOUT  200  // wakeup max delay (in ms)
 #endif
 
 #ifndef EASYVR_PLAY_TIMEOUT
@@ -74,6 +74,7 @@ public:
   {
     VRBOT,    /**< Identifies a VRbot module */
     EASYVR,   /**< Identifies an EasyVR module */
+    EASYVR2,  /**< Identifies an EasyVR module */
   };
   /** Language to use for recognition of built-in words */
   enum Language
@@ -166,7 +167,7 @@ public:
   enum SoundVolume
   {
     VOL_MIN = 0,      /**< Lowest volume (almost mute) */
-    VOL_HALF = 7,     /**< Half scale volume (softer)*/
+    VOL_HALF = 7,     /**< Half scale volume (softer) */
     VOL_FULL = 15,    /**< Full scale volume (normal) */
     VOL_DOUBLE = 31,  /**< Double gain volume (louder) */
   };
@@ -174,6 +175,63 @@ public:
   enum SoundIndex
   {
     BEEP = 0,   /**< Beep sound */
+  };
+  /** Special sound index values, always available even when no soundtable is present */
+  enum GrammarFlag
+  {
+    GF_TRIGGER = 0x20, /**< A bit mask for trigger grammars */
+  };
+  /** Error codes used by various functions */
+  enum ErrorCode
+  {
+    //-- 0x: Data collection errors (patgen, wordspot, t2si)
+    ERR_DATACOL_TOO_LONG        = 0x02, /**< too long (memory overflow) */
+    ERR_DATACOL_TOO_NOISY       = 0x03, /**< too noisy */
+    ERR_DATACOL_TOO_SOFT        = 0x04, /**< spoke too soft */
+    ERR_DATACOL_TOO_LOUD        = 0x05, /**< spoke too loud */
+    ERR_DATACOL_TOO_SOON        = 0x06, /**< spoke too soon */
+    ERR_DATACOL_TOO_CHOPPY      = 0x07, /**< too many segments/too complex */
+    ERR_DATACOL_BAD_WEIGHTS     = 0x08, /**< invalid si weights */
+    ERR_DATACOL_BAD_SETUP       = 0x09, /**< invalid setup */
+
+    //-- 1x: Recognition errors (si, sd, sv, train, cl7, t2si)
+    ERR_RECOG_FAIL              = 0x11, /**< recognition failed */
+    ERR_RECOG_LOW_CONF          = 0x12, /**< recognition result doubtful */
+    ERR_RECOG_MID_CONF          = 0x13, /**< recognition result maybe */
+    ERR_RECOG_BAD_TEMPLATE      = 0x14, /**< invalid sd/sv template */
+    ERR_RECOG_BAD_WEIGHTS       = 0x15, /**< invalid si weights */
+    ERR_RECOG_DURATION          = 0x17, /**< incompatible pattern durations */
+
+    //-- 2x: T2si errors (t2si)
+    ERR_T2SI_EXCESS_STATES      = 0x21, /**< state structure is too big */
+    ERR_T2SI_BAD_VERSION        = 0x22, /**< RSC code ver/Grammar ROM dont match */
+    ERR_T2SI_OUT_OF_RAM         = 0x23, /**< reached limit of available RAM */
+    ERR_T2SI_UNEXPECTED         = 0x24, /**< an unexpected error occurred */
+    ERR_T2SI_OVERFLOW           = 0x25, /**< ran out of time to process */
+    ERR_T2SI_PARAMETER          = 0x26, /**< bad macro or grammar parameter */
+    ERR_T2SI_NO_RT_LIPSYNC      = 0x27, /**< no Real-time LipSync info available */
+
+    ERR_T2SI_NN_TOO_BIG         = 0x29, /**< layer size out of limits */
+    ERR_T2SI_NN_BAD_VERSION     = 0x2A, /**< net structure incompatibility */
+    ERR_T2SI_NN_NOT_READY       = 0x2B, /**< initialization not complete */
+    ERR_T2SI_NN_BAD_LAYERS      = 0x2C, /**< not correct number of layers */
+
+    ERR_T2SI_TRIG_OOV           = 0x2D, /**< trigger recognized Out Of Vocabulary */
+    ERR_T2SI_TOO_SHORT          = 0x2F, /**< utterance was too short */
+
+    //-- 4x: Synthesis errors (talk, sxtalk, music)
+    ERR_SYNTH_BAD_VERSION       = 0x4A, /**< bad release number in speech file */
+    ERR_SYNTH_ID_NOT_SET        = 0x4B, /**< (obsolete) bad sentence structure */
+    ERR_SYNTH_TOO_MANY_TABLES   = 0x4C, /**< (obsolete) too many talk tables */
+    ERR_SYNTH_BAD_SEN           = 0x4D, /**< (obsolete) bad sentence number */
+    ERR_SYNTH_BAD_MSG           = 0x4E, /**< bad message data or SX technology files missing */
+
+    //-- 8x: Custom errors
+    ERR_CUSTOM_NOTA             = 0x80, /**< none of the above (out of grammar) */
+
+    //-- Cx: Internal errors (all)
+    ERR_SW_STACK_OVERFLOW       = 0xC0, /**< no room left in sp stack */
+    ERR_INTERNAL_T2SI_BAD_SETUP = 0xCC, /**< t2si test mode error */
   };
 
   /**
@@ -284,7 +342,7 @@ public:
   /**
     Gets the number of commands in the specified group.
     @param group (0-16) is the target group, or one of the values in #Groups
-    @retval is the count of commands
+    @retval is the count of commands (negative in case of errors)
   */
   int8_t getCommandCount(int8_t group);
   /**
@@ -299,6 +357,31 @@ public:
     @retval is true if the operation is successful
   */
   bool dumpCommand(int8_t group, int8_t index, char* name, uint8_t& training);
+  // custom grammars
+  /**
+    Gets the total number of grammars available, including built-in and custom.
+    @retval is the count of grammars (negative in case of errors)
+  */
+  int8_t getGrammarsCount(void);
+  /**
+    Retrieves the contents of a built-in or a custom grammar.
+    Command labels contained in the grammar can be obtained by calling #getWordLabel()
+    @param grammar (0-31) is the target grammar, or one of the values in #Wordset
+    @param flags is a variable that holds some grammar flags when the function
+    returns. See #GrammarFlag
+    @param count is a variable that holds the number of words in the grammar when
+    the function returns.
+    @retval is true if the operation is successful
+  */
+  bool dumpGrammar(int8_t grammar, uint8_t& flags, uint8_t& count);
+  /**
+    Retrieves the name of a command contained in a custom grammar.
+    It must be called after #dumpGrammar()
+    @param name points to an array of at least 32 characters that holds the
+    command label when the function returns
+    @retval is true if the operation is successful
+  */
+  bool getNextWordLabel(char* name);
   // recognition/training
   /**
     Starts training of a custom command. Results are available after
