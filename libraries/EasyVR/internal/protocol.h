@@ -1,14 +1,3 @@
-/*
-EasyVR protocol v1.0
-Copyright (C) 2011 RoboTech srl
-
-C/C++ definitions for use with EasyVR modules or
-EasyVR Shield boards produced by VeeaR <www.veear.eu>
-
-Released under the terms of the MIT license, as found in the accompanying
-file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
-*/
-
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
@@ -33,11 +22,12 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 #define CMD_DELAY       'y' // set transmit delay <1> (log scale)
 #define CMD_BAUDRATE    'a' // set baudrate <1> (bit time, 1=>115200)
 #define CMD_QUERY_IO    'q' // configure, read or write I/O pin <1> of type <2>
-#define CMD_PLAY_SX     'w' // wave table entry <1><2> (10-bit) playback at volume <3>
+#define CMD_PLAY_SX     'w' // wave table entry <1-2> (10-bit) playback at volume <3>
 #define CMD_DUMP_SX     'h' // dump wave table entries
+#define CMD_DUMP_SI     'z' // dump si settings for ws <1> (or total ws count if -1)
 
 #define STS_MASK        'k' // mask of active groups <1-8>
-#define STS_COUNT       'c' // count of commands <1>
+#define STS_COUNT       'c' // count of commands <1> (or number of ws <1>)
 #define STS_AWAKEN      'w' // back from power down mode
 #define STS_DATA        'd' // provide training <1>, conflict <2>, command label <3-35> (counted string)
 #define STS_ERROR       'e' // signal error code <1-2>
@@ -51,6 +41,7 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 #define STS_ID          'x' // provide version id <1>
 #define STS_PIN         'p' // return pin state <1>
 #define STS_TABLE_SX    'h' // provide table entries count <1-2> (10-bit), table name <3-35> (counted string)
+#define STS_GRAMMAR     'z' // provide si grammar settings: trigger flag <1>, word count <2>, labels... <3-35> (counted string)
 
 // protocol arguments are in the range 0x40 (-1) to 0x60 (+31) inclusive
 #define ARG_MIN     0x40

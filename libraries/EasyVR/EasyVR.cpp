@@ -308,8 +308,8 @@ bool EasyVR::dumpCommand(int8_t group, int8_t index, char* name, uint8_t& traini
 
   if (!recvArg(rx, DEF_TIMEOUT))
     return false;
-  int len = rx;
-  for (int8_t i = 0, k = 0; i < len; ++i, ++k)
+  int8_t len = rx == -1 ? 32 : rx;
+  for ( ; len > 0; --len, ++name)
   {
     if (!recvArg(rx, DEF_TIMEOUT))
       return false;
@@ -317,15 +317,81 @@ bool EasyVR::dumpCommand(int8_t group, int8_t index, char* name, uint8_t& traini
     {
       if (!recvArg(rx, DEF_TIMEOUT))
         return false;
-      ++i;
-      name[k] = '0' + rx;
+      *name = '0' + rx;
+      --len;
     }
     else
     {
-      name[k] = ARG_ZERO + rx;
+      *name = ARG_ZERO + rx;
     }
   }
-  name[len] = 0;
+  *name = 0;
+  return true;
+}
+
+int8_t EasyVR::getGrammarsCount(void)
+{
+  sendCmd(CMD_DUMP_SI);
+  sendArg(-1);
+
+  if (recv(DEF_TIMEOUT) == STS_COUNT)
+  {
+    int8_t rx;
+    if (recvArg(rx, DEF_TIMEOUT))
+    {
+      return rx == -1 ? 32 : rx;
+    }
+  }
+  return -1;
+}
+
+bool EasyVR::dumpGrammar(int8_t grammar, uint8_t& flags, uint8_t& count)
+{
+  sendCmd(CMD_DUMP_SI);
+  sendArg(grammar);
+
+  if (recv(DEF_TIMEOUT) != STS_GRAMMAR)
+    return false;
+  
+  int8_t rx;
+  if (!recvArg(rx, DEF_TIMEOUT))
+    return false;
+  flags = rx == -1 ? 32 : rx;
+  
+  if (!recvArg(rx, DEF_TIMEOUT))
+    return false;
+  count = rx;
+  return true;
+}
+
+bool EasyVR::getNextWordLabel(char* name)
+{
+  int8_t count;
+  if (!recvArg(count, DEF_TIMEOUT))
+    return false;
+  if (count == -1)
+    count = 32;
+  
+  for ( ; count > 0; --count, ++name)
+  {
+    int8_t rx;
+    if (!recvArg(rx, DEF_TIMEOUT))
+      return false;
+    
+    if (rx == '^' - ARG_ZERO)
+    {
+      if (!recvArg(rx, DEF_TIMEOUT))
+        return false;
+      
+      *name = '0' + rx;
+      --count;
+    }
+    else
+    {
+      *name = ARG_ZERO + rx;
+    }
+  }
+  *name = 0;
   return true;
 }
 
