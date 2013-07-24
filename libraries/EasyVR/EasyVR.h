@@ -191,25 +191,24 @@ public:
     ERR_DATACOL_TOO_LOUD        = 0x05, /**< spoke too loud */
     ERR_DATACOL_TOO_SOON        = 0x06, /**< spoke too soon */
     ERR_DATACOL_TOO_CHOPPY      = 0x07, /**< too many segments/too complex */
-    ERR_DATACOL_BAD_WEIGHTS     = 0x08, /**< invalid si weights */
+    ERR_DATACOL_BAD_WEIGHTS     = 0x08, /**< invalid SI weights */
     ERR_DATACOL_BAD_SETUP       = 0x09, /**< invalid setup */
 
     //-- 1x: Recognition errors (si, sd, sv, train, cl7, t2si)
     ERR_RECOG_FAIL              = 0x11, /**< recognition failed */
     ERR_RECOG_LOW_CONF          = 0x12, /**< recognition result doubtful */
     ERR_RECOG_MID_CONF          = 0x13, /**< recognition result maybe */
-    ERR_RECOG_BAD_TEMPLATE      = 0x14, /**< invalid sd/sv template */
-    ERR_RECOG_BAD_WEIGHTS       = 0x15, /**< invalid si weights */
+    ERR_RECOG_BAD_TEMPLATE      = 0x14, /**< invalid SD/SV template */
+    ERR_RECOG_BAD_WEIGHTS       = 0x15, /**< invalid SI weights */
     ERR_RECOG_DURATION          = 0x17, /**< incompatible pattern durations */
 
     //-- 2x: T2si errors (t2si)
     ERR_T2SI_EXCESS_STATES      = 0x21, /**< state structure is too big */
-    ERR_T2SI_BAD_VERSION        = 0x22, /**< RSC code ver/Grammar ROM dont match */
+    ERR_T2SI_BAD_VERSION        = 0x22, /**< RSC code version/Grammar ROM dont match */
     ERR_T2SI_OUT_OF_RAM         = 0x23, /**< reached limit of available RAM */
     ERR_T2SI_UNEXPECTED         = 0x24, /**< an unexpected error occurred */
     ERR_T2SI_OVERFLOW           = 0x25, /**< ran out of time to process */
     ERR_T2SI_PARAMETER          = 0x26, /**< bad macro or grammar parameter */
-    ERR_T2SI_NO_RT_LIPSYNC      = 0x27, /**< no Real-time LipSync info available */
 
     ERR_T2SI_NN_TOO_BIG         = 0x29, /**< layer size out of limits */
     ERR_T2SI_NN_BAD_VERSION     = 0x2A, /**< net structure incompatibility */
@@ -230,8 +229,8 @@ public:
     ERR_CUSTOM_NOTA             = 0x80, /**< none of the above (out of grammar) */
 
     //-- Cx: Internal errors (all)
-    ERR_SW_STACK_OVERFLOW       = 0xC0, /**< no room left in sp stack */
-    ERR_INTERNAL_T2SI_BAD_SETUP = 0xCC, /**< t2si test mode error */
+    ERR_SW_STACK_OVERFLOW       = 0xC0, /**< no room left in software stack */
+    ERR_INTERNAL_T2SI_BAD_SETUP = 0xCC, /**< T2SI test mode error */
   };
 
   /**
@@ -244,63 +243,63 @@ public:
   /**
     Detects an EasyVR module, waking it from sleep mode and checking
     it responds correctly.
-    @retval is true if a compatible module has been found
+    @retval true if a compatible module has been found
   */
   bool detect();
   /**
     Interrupts pending recognition or playback operations.
-    @retval is true if the request is satisfied and the module is back to ready
+    @retval true if the request is satisfied and the module is back to ready
   */
   bool stop();
   /**
     Gets the module identification number (firmware version).
-    @retval is one of the values in #ModuleId
+    @retval integer is one of the values in #ModuleId
   */
   int8_t getID();
   /**
     Sets the language to use for recognition of built-in words.
     @param lang (0-5) is one of values in #Language
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool setLanguage(int8_t lang);
   /**
     Sets the timeout to use for any recognition task.
     @param seconds (0-31) is the maximum time the module keep listening
     for a word or a command
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool setTimeout(int8_t seconds);
   /**
     Sets the confidence threshold to use for recognition of built-in words.
     @param knob (0-4) is one of values in #Knob
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool setKnob(int8_t knob);
   /**
     Sets the strictness level to use for recognition of custom commands.
     @param level (1-5) is one of values in #Level
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool setLevel(int8_t level);
   /**
     Sets the delay before any reply of the module.
     @param millis (0-1000) is the delay duration in milliseconds, rounded to
     10 units in range 10-100 and to 100 units in range 100-1000.
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool setDelay(uint16_t millis);
   /**
     Sets the new communication speed. You need to modify the baudrate of the
     underlying Stream object accordingly, after the function returns successfully.
     @param baud is one of values in #Baudrate
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool changeBaudrate(int8_t baud);
   /**
     Puts the module in sleep mode.
     @param mode is one of values in #WakeMode, optionally combined with one of
     the values in #ClapSense
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool sleep(int8_t mode);
   // command management
@@ -308,41 +307,41 @@ public:
     Adds a new custom command to a group.
     @param group (0-16) is the target group, or one of the values in #Groups
     @param index (0-31) is the index of the command within the selected group
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool addCommand(int8_t group, int8_t index);
   /**
     Removes a custom command from a group.
     @param group (0-16) is the target group, or one of the values in #Groups
     @param index (0-31) is the index of the command within the selected group
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool removeCommand(int8_t group, int8_t index);
   /**
     Sets the name of a custom command.
     @param group (0-16) is the target group, or one of the values in #Groups
     @param index (0-31) is the index of the command within the selected group
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool setCommandLabel(int8_t group, int8_t index, const char* name);
   /**
     Erases the training data of a custom command.
     @param group (0-16) is the target group, or one of the values in #Groups
     @param index (0-31) is the index of the command within the selected group
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool eraseCommand(int8_t group, int8_t index);
   // command discovery
   /**
     Gets a bit mask of groups that contain at least one command.
     @param mask is a variable to hold the group mask when the function returns
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool getGroupMask(uint32_t& mask);
   /**
     Gets the number of commands in the specified group.
     @param group (0-16) is the target group, or one of the values in #Groups
-    @retval is the count of commands (negative in case of errors)
+    @retval integer is the count of commands (negative in case of errors)
   */
   int8_t getCommandCount(int8_t group);
   /**
@@ -354,24 +353,24 @@ public:
     @param training is a variable that holds the training count when the
     function returns. Additional information about training is available
     through the functions #isConflict() and #getWord() or #getCommand()
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool dumpCommand(int8_t group, int8_t index, char* name, uint8_t& training);
   // custom grammars
   /**
     Gets the total number of grammars available, including built-in and custom.
-    @retval is the count of grammars (negative in case of errors)
+    @retval integer is the count of grammars (negative in case of errors)
   */
   int8_t getGrammarsCount(void);
   /**
     Retrieves the contents of a built-in or a custom grammar.
-    Command labels contained in the grammar can be obtained by calling #getWordLabel()
+    Command labels contained in the grammar can be obtained by calling #getNextWordLabel()
     @param grammar (0-31) is the target grammar, or one of the values in #Wordset
     @param flags is a variable that holds some grammar flags when the function
     returns. See #GrammarFlag
     @param count is a variable that holds the number of words in the grammar when
     the function returns.
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool dumpGrammar(int8_t grammar, uint8_t& flags, uint8_t& count);
   /**
@@ -379,7 +378,7 @@ public:
     It must be called after #dumpGrammar()
     @param name points to an array of at least 32 characters that holds the
     command label when the function returns
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool getNextWordLabel(char* name);
   // recognition/training
@@ -411,35 +410,35 @@ public:
   /**
     Polls the status of on-going recognition, training or asynchronous
     playback tasks.
-    @retval is true if the operation has completed
+    @retval true if the operation has completed
   */
   bool hasFinished();
   // analyse result
   /**
     Gets the recognised command index if any.
     @retval (0-31) is the command index if recognition is successful, (-1) if no
-    command has been recognized or an error occured
+    command has been recognized or an error occurred
   */
   int8_t getCommand() { return _status.b._command ? _value : -1; }
   /**
     Gets the recognised built-in word index if any.
     @retval (0-31) is the command index if recognition is successful, (-1) if no
-    built-in word has been recognized or an error occured
+    built-in word has been recognized or an error occurred
   */
   int8_t getWord() { return _status.b._builtin ? _value : -1; }
   /**
     Gets the last error code if any.
-    @retval (0-255) is the error code, (-1) if no error occured
+    @retval (0-255) is the error code, (-1) if no error occurred
   */
   int16_t getError() { return _status.b._error ? _value : -1; }
   /**
     Retrieves the timeout indicator.
-    @retval is true if a timeout occurred
+    @retval true if a timeout occurred
   */
   bool isTimeout() { return _status.b._timeout; }
   /**
     Retrieves the conflict indicator.
-    @retval is true is a conflict occurred during training. To know what
+    @retval true is a conflict occurred during training. To know what
     caused the conflict, use #getCommand() and #getWord()
     (only valid for triggers)
   */
@@ -447,7 +446,7 @@ public:
   /**
     Retrieves the memory full indicator (only valid after #addCommand()
     returned false).
-    @retval is true if a command could not be added because of memory size
+    @retval true if a command could not be added because of memory size
     constaints (up to 32 custom commands can be created)
   */
   bool isMemoryFull() { return _status.b._memfull; }
@@ -457,7 +456,7 @@ public:
     @param pin (1-3) is one of values in #PinNumber
     @param pin (0-1) is one of the output values in #PinConfig,
     or Arduino style HIGH and LOW macros
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool setPinOutput(int8_t pin, int8_t value);
   /**
@@ -465,7 +464,7 @@ public:
     return its value
     @param pin (1-3) is one of values in #PinNumber
     @param pin (2-4) is one of the input values in #PinConfig
-    @retval is the value of the pin
+    @retval integer is the logical value of the pin
   */
   int8_t getPinInput(int8_t pin, int8_t config);
   // sound table functions
@@ -482,7 +481,7 @@ public:
     Plays a sound from the sound table and waits for completion
     @param index is the index of the target sound in the sound table
     @param volume (0-31) may be one of the values in #SoundVolume
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
     @note To alter the maximum time for the wait, define the 
     EASYVR_PLAY_TIMEOUT macro before including the EasyVR library.
   */
@@ -493,12 +492,12 @@ public:
     sound table label when the function returns
     @param count is a variable that holds the number of sounds when the
     function returns
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
   */
   bool dumpSoundTable(char* name, int16_t& count);
   /**
     Empties internal memory for custom commands and groups.
-    @retval is true if the operation is successful
+    @retval true if the operation is successful
     @note It will take about 35 seconds for the whole process to complete
     and it cannot be interrupted. During this time the module cannot
     accept any other command. The sound table data is not affected.

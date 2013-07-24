@@ -1,5 +1,5 @@
 /*
-EasyVR library v1.1
+EasyVR library v1.3
 Copyright (C) 2011 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or

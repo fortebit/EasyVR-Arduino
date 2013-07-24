@@ -1,5 +1,5 @@
 /** @file
-EasyVR library v1.1
+EasyVR library v1.3
 Copyright (C) 2011 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -19,14 +19,14 @@ class EasyVRBridge
 public:
   /**
     Tests if bridge mode has been requested
-    @retval is true if bridge mode should be started
+    @retval true if bridge mode should be started
     @note The %EasyVR Commander software can request bridge mode using the
     Serial port. This method does not require to reserve EEPROM locations.
   */
   bool check();
   /**
     Tests if bridge mode has been requested (legacy method)
-    @retval is true if bridge mode should be started
+    @retval true if bridge mode should be started
     @note The first two EEPROM locations (bytes 0-1) are used for discovery
     and request of bridge mode from the %EasyVR Commander software. Do not use
     the same locations for other programa data.
