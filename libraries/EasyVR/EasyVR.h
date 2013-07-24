@@ -179,7 +179,7 @@ public:
   /** Special sound index values, always available even when no soundtable is present */
   enum GrammarFlag
   {
-    GF_TRIGGER = 0x20, /**< A bit mask for trigger grammars */
+    GF_TRIGGER = 0x10, /**< A bit mask for trigger grammars */
   };
   /** Error codes used by various functions */
   enum ErrorCode
