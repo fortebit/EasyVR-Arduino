@@ -45,7 +45,8 @@ int8_t set = 0;
 int8_t group = 0;
 uint32_t mask = 0;  
 uint8_t train = 0;
-char name[32];
+uint8_t grammars = 0;
+char name[33];
 bool useCommands = true;
 
 EasyVRBridge bridge;
@@ -69,7 +70,8 @@ void setup()
   }
 
   easyvr.setPinOutput(EasyVR::IO1, LOW);
-  Serial.println("EasyVR detected!");
+  Serial.print("EasyVR detected, version ");
+  Serial.println(easyvr.getID());
   easyvr.setTimeout(5);
   easyvr.setLanguage(EasyVR::ITALIAN);
   
@@ -81,6 +83,42 @@ void setup()
     Serial.println(name);
     Serial.print("Sound entries: ");
     Serial.println(count);
+  }
+  else
+    Serial.println("n/a");
+
+  Serial.print("Custom Grammars: ");
+  grammars = easyvr.getGrammarsCount();
+  if (grammars > 4)
+  {
+    Serial.println(grammars - 4);
+    for (set = 4; set < grammars; ++set)
+    {
+      Serial.print("Grammar ");
+      Serial.print(set);
+
+      uint8_t flags, num;
+      if (easyvr.dumpGrammar(set, flags, num))
+      {
+        Serial.print(" has ");
+        Serial.print(num);
+        if (flags & EasyVR::GF_TRIGGER)
+          Serial.println(" trigger");
+        else
+          Serial.println(" command(s)");
+      }
+      else
+        Serial.println(" error");
+        
+      for (int8_t idx = 0; idx < num; ++idx)
+      {
+        Serial.print(idx);
+        Serial.print(" = ");
+        if (!easyvr.getNextWordLabel(name))
+          break;
+        Serial.println(name);
+      }
+    }
   }
   else
     Serial.println("n/a");
@@ -189,6 +227,13 @@ bool checkMonitorInput()
     if (set > 3)
       set = 0;
   }
+  if (rx == 'g')
+  {
+    useCommands = false;
+    set++;
+    if (set >= grammars)
+      set = 4;
+  }
   if (rx == 'c')
   {
     useCommands = true;
@@ -261,12 +306,37 @@ void loop()
     Serial.print(" = ");
     if (useCommands)
       Serial.println(ws[group][idx]);
-    else
+    // --- optional: builtin words can be retrieved from the module
+    else if (set < 4)
       Serial.println(ws[set][idx]);
+    // ---
+    else
+    {
+      uint8_t flags, num;
+      if (easyvr.dumpGrammar(set, flags, num))
+        while (idx-- >= 0)
+        {
+          if (!easyvr.getNextWordLabel(name))
+            break;
+        }
+      if (idx < 0)
+        Serial.println(name);
+      else
+        Serial.println();
+    }
     // ok, let's try another set
-    set++;
-    if (set > 3)
-      set = 0;
+    if (set < 4)
+    {
+      set++;
+      if (set > 3)
+        set = 0;
+    }
+    else
+    {
+      set++;
+      if (set >= grammars)
+        set = 4;
+    }
     easyvr.playSound(0, EasyVR::VOL_FULL);
   }
   else
@@ -299,7 +369,7 @@ void loop()
       int16_t err = easyvr.getError();
       if (err >= 0)
       {
-        Serial.print("Error ");
+        Serial.print("Error 0x");
         Serial.println(err, HEX);
       }
     }
