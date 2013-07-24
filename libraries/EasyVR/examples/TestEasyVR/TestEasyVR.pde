@@ -5,8 +5,10 @@
   and exercise it with playback and recognition.
   
   Serial monitor can be used to send a few basic commands:
+  'l' - cycles through available languages
   'c' - cycles through available command groups
   'b' - cycles through built-in word sets
+  'g' - cycles through custom grammars
   's123.' - play back sound 123 if available (or beep)
   
   With EasyVR Shield, the green LED is ON while the module
@@ -46,6 +48,7 @@ int8_t group = 0;
 uint32_t mask = 0;  
 uint8_t train = 0;
 uint8_t grammars = 0;
+int8_t lang = 0;
 char name[33];
 bool useCommands = true;
 
@@ -73,7 +76,8 @@ void setup()
   Serial.print("EasyVR detected, version ");
   Serial.println(easyvr.getID());
   easyvr.setTimeout(5);
-  easyvr.setLanguage(EasyVR::ITALIAN);
+  lang = EasyVR::ENGLISH;
+  easyvr.setLanguage(lang);
   
   int16_t count = 0;
   
@@ -137,10 +141,14 @@ void setup()
       {
         Serial.print("Group ");
         Serial.print(group);
-        Serial.print(": ");
+        Serial.print(" has ");
       }
       count = easyvr.getCommandCount(group);
-      Serial.println(count);
+      Serial.print(count);
+      if (group == 0)
+        Serial.println(" trigger");
+      else
+        Serial.println(" command(s)");
       for (int8_t idx = 0; idx < count; ++idx)
       {
         if (easyvr.dumpCommand(group, idx, name, train))
@@ -220,6 +228,18 @@ bool checkMonitorInput()
   
   // check console commands
   int16_t rx = Serial.read();
+  if (rx == 'l')
+  {
+    easyvr.stop();
+    lang++;
+    if (easyvr.setLanguage(lang) || easyvr.setLanguage(lang = 0))
+    {
+      Serial.print("Language set to ");
+      Serial.println(lang);
+    }
+    else
+      Serial.println("Error while setting language!");
+  }
   if (rx == 'b')
   {
     useCommands = false;
@@ -227,7 +247,7 @@ bool checkMonitorInput()
     if (set > 3)
       set = 0;
   }
-  if (rx == 'g')
+  if (rx == 'g' && grammars > 4)
   {
     useCommands = false;
     set++;
@@ -247,14 +267,12 @@ bool checkMonitorInput()
   if (rx == 's')
   {
     int16_t num = 0;
-    delay(5);
     while ((rx = Serial.read()) >= 0)
     {
       if (isdigit(rx))
         num = num * 10 + (rx - '0');
       else
         break;
-      delay(5);
     }
     if (rx == '.')
     {
