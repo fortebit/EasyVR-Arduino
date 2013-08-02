@@ -442,6 +442,20 @@ bool EasyVR::hasFinished()
     }
     break;
     
+  case STS_TOKEN:
+    _status.b._token = true;
+  
+    if (recvArg(rx, DEF_TIMEOUT))
+    {
+      _value = rx << 5;
+      if (recvArg(rx, DEF_TIMEOUT))
+      {
+        _value |= rx;
+        return true;
+      }
+    }
+    break;
+    
   case STS_TIMEOUT:
     _status.b._timeout = true;
     return true;
@@ -465,6 +479,7 @@ bool EasyVR::hasFinished()
   }
 
   // unexpected condition (communication error)
+  _status.v = 0;
   _status.b._error = true;
   return true;
 }
@@ -495,6 +510,18 @@ int8_t EasyVR::getPinInput(int8_t pin, int8_t config)
   return -1;
 }
 
+bool EasyVR::playPhoneTone(int8_t tone, uint8_t duration)
+{
+  sendCmd(CMD_PLAY_DTMF);
+  sendArg(-1);
+  sendArg(tone);
+  sendArg(duration - 1);
+
+  if (recv((tone < 0 ? duration * 1000 : duration * 40) + DEF_TIMEOUT) == STS_SUCCESS)
+    return true;
+  return false;
+}
+
 bool EasyVR::playSound(int16_t index, int8_t volume)
 {
   sendCmd(CMD_PLAY_SX);
@@ -513,6 +540,55 @@ void EasyVR::playSoundAsync(int16_t index, int8_t volume)
   sendArg((index >> 5) & 0x1F);
   sendArg(index & 0x1F);
   sendArg(volume);
+}
+
+void EasyVR::detectToken(int8_t bits, int8_t rejection, uint16_t timeout)
+{
+  sendCmd(CMD_RECV_SN);
+  sendArg(bits);
+  sendArg(rejection);
+  timeout = timeout * 2 / 55; // approx / 27.46 - err < 0.15%
+  sendArg((timeout >> 5) & 0x1F);
+  sendArg(timeout & 0x1F);
+}
+
+bool EasyVR::sendToken(int8_t bits, uint8_t token)
+{
+  sendCmd(CMD_SEND_SN);
+  sendArg(bits);
+  sendArg((token >> 5) & 0x1F);
+  sendArg(token & 0x1F);
+  sendArg(0);
+  sendArg(0);
+
+  if (recv(TOKEN_TIMEOUT) == STS_SUCCESS)
+    return true;
+  return false;
+}
+
+void EasyVR::sendTokenAsync(int8_t bits, uint8_t token)
+{
+  sendCmd(CMD_SEND_SN);
+  sendArg(bits);
+  sendArg((token >> 5) & 0x1F);
+  sendArg(token & 0x1F);
+  sendArg(0);
+  sendArg(0);
+}
+
+bool EasyVR::embedToken(int8_t bits, uint8_t token, uint16_t delay)
+{
+  sendCmd(CMD_SEND_SN);
+  sendArg(bits);
+  sendArg((token >> 5) & 0x1F);
+  sendArg(token & 0x1F);
+  delay = delay * 2 / 55; // approx / 27.46 - err < 0.15%
+  sendArg((delay >> 5) & 0x1F);
+  sendArg(delay & 0x1F);
+
+  if (recv(DEF_TIMEOUT) == STS_SUCCESS)
+    return true;
+  return false;
 }
 
 bool EasyVR::dumpSoundTable(char* name, int16_t& count)

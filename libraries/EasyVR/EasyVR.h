@@ -26,6 +26,10 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 #define EASYVR_PLAY_TIMEOUT  5000  // playback max duration (in ms)
 #endif
 
+#ifndef EASYVR_TOKEN_TIMEOUT
+#define EASYVR_TOKEN_TIMEOUT  1500  // token max duration (in ms)
+#endif
+
 /**
   An implementation of the %EasyVR communication protocol.
 */
@@ -48,6 +52,7 @@ private:
       uint8_t _invalid : 1;
       uint8_t _memfull : 1;
       uint8_t _conflict : 1;
+      uint8_t _token : 1;
     }
     b;
   }
@@ -59,6 +64,7 @@ private:
       DEF_TIMEOUT = EASYVR_RX_TIMEOUT,
       WAKE_TIMEOUT = EASYVR_WAKE_TIMEOUT,
       PLAY_TIMEOUT = EASYVR_PLAY_TIMEOUT,
+      TOKEN_TIMEOUT = EASYVR_TOKEN_TIMEOUT,
       RESET_TIMEOUT = 40000,
   };
 
@@ -179,7 +185,14 @@ public:
   /** Special sound index values, always available even when no soundtable is present */
   enum GrammarFlag
   {
-    GF_TRIGGER = 0x10, /**< A bit mask for trigger grammars */
+    GF_TRIGGER = 0x10,  /**< A bit mask for trigger grammars */
+  };
+  /** Noise rejection level for SonicNet token detection (higher value, fewer results) */
+  enum RejectionLevel
+  {
+    REJECTION_MIN,    /**< Lowest noise rejection, highest sensitivity */
+    REJECTION_AVG,    /**< Medium noise rejection, medium sensitivity */
+    REJECTION_MAX,    /**< Highest noise rejection, lowest sensitivity */
   };
   /** Error codes used by various functions */
   enum ErrorCode
@@ -194,7 +207,7 @@ public:
     ERR_DATACOL_BAD_WEIGHTS     = 0x08, /**< invalid SI weights */
     ERR_DATACOL_BAD_SETUP       = 0x09, /**< invalid setup */
 
-    //-- 1x: Recognition errors (si, sd, sv, train, cl7, t2si)
+    //-- 1x: Recognition errors (si, sd, sv, train, t2si)
     ERR_RECOG_FAIL              = 0x11, /**< recognition failed */
     ERR_RECOG_LOW_CONF          = 0x12, /**< recognition result doubtful */
     ERR_RECOG_MID_CONF          = 0x13, /**< recognition result maybe */
@@ -218,7 +231,7 @@ public:
     ERR_T2SI_TRIG_OOV           = 0x2D, /**< trigger recognized Out Of Vocabulary */
     ERR_T2SI_TOO_SHORT          = 0x2F, /**< utterance was too short */
 
-    //-- 4x: Synthesis errors (talk, sxtalk, music)
+    //-- 4x: Synthesis errors (talk, sxtalk)
     ERR_SYNTH_BAD_VERSION       = 0x4A, /**< bad release number in speech file */
     ERR_SYNTH_ID_NOT_SET        = 0x4B, /**< (obsolete) bad sentence structure */
     ERR_SYNTH_TOO_MANY_TABLES   = 0x4C, /**< (obsolete) too many talk tables */
@@ -427,6 +440,13 @@ public:
   */
   int8_t getWord() { return _status.b._builtin ? _value : -1; }
   /**
+    Gets the index of the received SonicNet token if any.
+    @retval integer is the index of the received SonicNet token (0-255 for 8-bit
+    tokens or 0-15 for 4-bit tokens) if detection was successful, (-1) if no
+    token has been received or an error occurred
+  */
+  int16_t getToken() { return _status.b._token ? _value : -1; }
+  /**
     Gets the last error code if any.
     @retval (0-255) is the error code, (-1) if no error occurred
   */
@@ -469,6 +489,48 @@ public:
   int8_t getPinInput(int8_t pin, int8_t config);
   // sound table functions
   /**
+    Starts listening for a SonicNet token. Manually check for
+    completion with #hasFinished().
+    @param bits (4 or 8) specifies the length of received tokens
+    @param rejection (0-2) specifies the noise rejection level,
+    it can be one of the values in #RejectionLevel
+    @param timeout (1-28090) is the maximum time in milliseconds to keep
+    listening for a valid token or (0) to listen without time limits.
+    @note The module is busy until token detection completes and it cannot
+    accept other commands. You can interrupt listening with #stop().
+  */
+  void detectToken(int8_t bits, int8_t rejection, uint16_t timeout);
+  /**
+    Starts immediate playback of a SonicNet token. Manually check for
+    completion with #hasFinished().
+    @param bits (4 or 8) specifies the length of trasmitted token
+    @param token is the index of the SonicNet token to play (0-255 for 8-bit
+    tokens or 0-15 for 4-bit tokens)
+    @note The module is busy until playback completes and it cannot
+    accept other commands. You can interrupt playback with #stop().
+  */
+  void sendTokenAsync(int8_t bits, uint8_t token);
+  /**
+    Plays a SonicNet token and waits for completion.
+    @param bits (4 or 8) specifies the length of trasmitted token
+    @param token is the index of the SonicNet token to play (0-255 for 8-bit
+    tokens or 0-15 for 4-bit tokens)
+    @retval true if the operation is successful
+  */
+  bool sendToken(int8_t bits, uint8_t token);
+  /**
+    Schedules playback of a SonicNet token after the next sound starts playing.
+    @param bits (4 or 8) specifies the length of trasmitted token
+    @param token is the index of the SonicNet token to play (0-255 for 8-bit
+    tokens or 0-15 for 4-bit tokens)
+    @param delay (1-28090) is the time in milliseconds at which to send the token,
+    since the beginning of the next sound playback
+    @retval true if the operation is successful
+    @note The scheduled token remains valid for one operation only, so you have
+    to call #playSound() or #playSoundAsync() immediately after this function.
+  */
+  bool embedToken(int8_t bits, uint8_t token, uint16_t delay);
+  /**
     Starts playback of a sound from the sound table. Manually check for
     completion with #hasFinished().
     @param index is the index of the target sound in the sound table
@@ -495,6 +557,15 @@ public:
     @retval true if the operation is successful
   */
   bool dumpSoundTable(char* name, int16_t& count);
+  /**
+    Plays a phone tone and waits for completion
+    @param tone is the index of the tone (0-9 for digits, 10 for '*' key, 11
+    for '#' key and 12-15 for extra keys 'A' to 'D', -1 for the dial tone)
+    @param duration (1-32) is the tone duration in 40 milliseconds units, or
+    in seconds for the dial tone
+    @retval true if the operation is successful
+  */
+  bool playPhoneTone(int8_t tone, uint8_t duration);
   /**
     Empties internal memory for custom commands and groups.
     @retval true if the operation is successful

@@ -9,7 +9,10 @@
   'c' - cycles through available command groups
   'b' - cycles through built-in word sets
   'g' - cycles through custom grammars
-  's123.' - play back sound 123 if available (or beep)
+  's123' - play back sound 123 if available (or beep)
+  'd0123456789ABCD*#' - dials the specified number ('_' is dial tone)
+  'k' - starts detection of tokens
+  'n123' - play back token 123 (not checked for validity)
   
   With EasyVR Shield, the green LED is ON while the module
   is listening (using pin IO1 of EasyVR).
@@ -43,6 +46,7 @@
 
 EasyVR easyvr(port);
 
+int8_t bits = 4;
 int8_t set = 0;
 int8_t group = 0;
 uint32_t mask = 0;  
@@ -51,6 +55,7 @@ uint8_t grammars = 0;
 int8_t lang = 0;
 char name[33];
 bool useCommands = true;
+bool useTokens = false;
 
 EasyVRBridge bridge;
 
@@ -242,6 +247,7 @@ bool checkMonitorInput()
   }
   if (rx == 'b')
   {
+    useTokens = false;
     useCommands = false;
     set++;
     if (set > 3)
@@ -249,6 +255,7 @@ bool checkMonitorInput()
   }
   if (rx == 'g' && grammars > 4)
   {
+    useTokens = false;
     useCommands = false;
     set++;
     if (set >= grammars)
@@ -256,6 +263,7 @@ bool checkMonitorInput()
   }
   if (rx == 'c')
   {
+    useTokens = false;
     useCommands = true;
     do
     {
@@ -264,20 +272,70 @@ bool checkMonitorInput()
         group = 0;
     } while (!((mask >> group) & 1));
   }
-  if (rx == 's')
+  if (rx == 'k')
+  {
+    useTokens = true;
+  }
+  if (rx == 'n')
   {
     int16_t num = 0;
+    delay(5);
     while ((rx = Serial.read()) >= 0)
     {
+      delay(5);
       if (isdigit(rx))
         num = num * 10 + (rx - '0');
       else
         break;
     }
-    if (rx == '.')
+    Serial.print("Play token ");
+    Serial.println(num);
+    easyvr.stop();
+    easyvr.sendToken(bits, num);
+  }
+  if (rx == 's')
+  {
+    int16_t num = 0;
+    delay(5);
+    while ((rx = Serial.read()) >= 0)
     {
-      easyvr.stop();
-      easyvr.playSound(num, EasyVR::VOL_DOUBLE);
+      delay(5);
+      if (isdigit(rx))
+        num = num * 10 + (rx - '0');
+      else
+        break;
+    }
+    Serial.print("Play sound ");
+    Serial.println(num);
+    easyvr.stop();
+    easyvr.playSound(num, EasyVR::VOL_DOUBLE);
+  }
+  if (rx == 'd')
+  {
+    easyvr.stop();
+    Serial.println("Play tones:");
+    int16_t num = 0;
+    delay(5);
+    while ((rx = Serial.read()) >= 0)
+    {
+      delay(5);
+      if (isdigit(rx))
+        num = rx - '0';
+      else if (rx == '*')
+        num = 10;
+      else if (rx == '#')
+        num = 11;
+      else if (rx >= 'A' && rx <= 'D')
+        num = rx - 'A';
+      else if (rx == '_')
+        num = -1;
+      else
+        break;
+      Serial.print(num);
+      if (easyvr.playPhoneTone(num, 3))
+        Serial.println(" OK");
+      else
+        Serial.println(" ERR");
     }
   }
   if (rx >= 0)
@@ -294,7 +352,14 @@ void loop()
   checkMonitorInput();
   
   easyvr.setPinOutput(EasyVR::IO1, HIGH); // LED on (listening)
-  if (useCommands)
+  if (useTokens)
+  {
+    Serial.print("Detect a ");
+    Serial.print(bits);
+    Serial.println(" bit token ...");
+    easyvr.detectToken(bits, 0, 10000);
+  }
+  else if (useCommands)
   {
     Serial.print("Say a command in Group ");
     Serial.println(group);
@@ -316,7 +381,19 @@ void loop()
   
   easyvr.setPinOutput(EasyVR::IO1, LOW); // LED off
 
-  int16_t idx = easyvr.getWord();
+  int16_t idx;
+  if (useTokens)
+  {
+    idx = easyvr.getToken();
+    if (idx >= 0)
+    {
+      Serial.print("Token: ");
+      Serial.println(idx);
+      easyvr.playSound(0, EasyVR::VOL_FULL);
+    }
+  }
+  // handle voice recognition
+  idx = easyvr.getWord();
   if (idx >= 0)
   {
     Serial.print("Word: ");
