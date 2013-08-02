@@ -12,6 +12,7 @@
   's123' - play back sound 123 if available (or beep)
   'd0123456789ABCD*#' - dials the specified number ('_' is dial tone)
   'k' - starts detection of tokens
+  '4' or '8' - sets token length to 4 or 8 bits
   'n123' - play back token 123 (not checked for validity)
   
   With EasyVR Shield, the green LED is ON while the module
@@ -276,6 +277,14 @@ bool checkMonitorInput()
   {
     useTokens = true;
   }
+  if (rx == '4')
+  {
+    bits = 4;
+  }
+  if (rx == '8')
+  {
+    bits = 8;
+  }
   if (rx == 'n')
   {
     int16_t num = 0;
@@ -357,7 +366,7 @@ void loop()
     Serial.print("Detect a ");
     Serial.print(bits);
     Serial.println(" bit token ...");
-    easyvr.detectToken(bits, 0, 10000);
+    easyvr.detectToken(bits, EasyVR::REJECTION_AVG, 0);
   }
   else if (useCommands)
   {
