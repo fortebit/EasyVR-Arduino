@@ -182,10 +182,10 @@ public:
   {
     BEEP = 0,   /**< Beep sound */
   };
-  /** Special sound index values, always available even when no soundtable is present */
+  /** Flags used by custom grammars */
   enum GrammarFlag
   {
-    GF_TRIGGER = 0x10,  /**< A bit mask for trigger grammars */
+    GF_TRIGGER = 0x10,  /**< A bit mask that indicate grammar is a trigger (opposed to commands) */
   };
   /** Noise rejection level for SonicNet token detection (higher value, fewer results) */
   enum RejectionLevel
@@ -571,7 +571,7 @@ public:
     @retval true if the operation is successful
     @note It will take about 35 seconds for the whole process to complete
     and it cannot be interrupted. During this time the module cannot
-    accept any other command. The sound table data is not affected.
+    accept any other command. The sound table and custom grammars data is not affected.
   */
   bool resetAll();
 };
