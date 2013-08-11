@@ -48,9 +48,16 @@ recognizeCommand	KEYWORD2
 recognizeWord	KEYWORD2
 hasFinished	KEYWORD2
 
+# sonicnet functions
+detectToken	KEYWORD2
+sendTokenAsync	KEYWORD2
+sendToken	KEYWORD2
+embedToken	KEYWORD2
+
 # analyse result
 getCommand	KEYWORD2
 getWord	KEYWORD2
+getToken	KEYWORD2
 getError	KEYWORD2
 isConflict	KEYWORD2
 isTimeout	KEYWORD2
@@ -64,6 +71,7 @@ getPinInput	KEYWORD2
 playSound	KEYWORD2
 playSoundAsync	KEYWORD2
 dumpSoundTable	KEYWORD2
+playPhoneTone	KEYWORD2
 
 # grammar discovery
 getGrammarsCount	KEYWORD2
@@ -131,3 +139,9 @@ VOL_MIN	LITERAL1
 VOL_HALF	LITERAL1
 VOL_FULL	LITERAL1
 VOL_DOUBLE	LITERAL1
+
+REJECTION_MIN	LITERAL1
+REJECTION_AVG	LITERAL1
+REJECTION_MAX	LITERAL1
+
+BEEP	LITERAL1
