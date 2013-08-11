@@ -80,7 +80,7 @@ public:
   {
     VRBOT,    /**< Identifies a VRbot module */
     EASYVR,   /**< Identifies an EasyVR module */
-    EASYVR2,  /**< Identifies an EasyVR module */
+    EASYVR2,  /**< Identifies an EasyVR module version 2 */
   };
   /** Language to use for recognition of built-in words */
   enum Language

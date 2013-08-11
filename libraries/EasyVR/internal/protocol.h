@@ -45,7 +45,7 @@
 #define STS_PIN         'p' // return pin state <1>
 #define STS_TABLE_SX    'h' // table entries count <1-2> (10-bit), table name <3-35> (counted string)
 #define STS_GRAMMAR     'z' // si grammar: flags <1>, word count <2>, labels... <3-35> (n counted strings)
-#define STS_TOKEN       'f' // received sonicnet token <1>
+#define STS_TOKEN       'f' // received sonicnet token <1-2>
 
 // protocol arguments are in the range 0x40 (-1) to 0x60 (+31) inclusive
 #define ARG_MIN     0x40
