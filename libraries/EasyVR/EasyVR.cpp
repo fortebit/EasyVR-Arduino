@@ -513,7 +513,7 @@ int8_t EasyVR::getPinInput(int8_t pin, int8_t config)
 bool EasyVR::playPhoneTone(int8_t tone, uint8_t duration)
 {
   sendCmd(CMD_PLAY_DTMF);
-  sendArg(-1);
+  sendArg(-1); // distinguish DTMF from SX
   sendArg(tone);
   sendArg(duration - 1);
 
@@ -547,7 +547,8 @@ void EasyVR::detectToken(int8_t bits, int8_t rejection, uint16_t timeout)
   sendCmd(CMD_RECV_SN);
   sendArg(bits);
   sendArg(rejection);
-  timeout = timeout * 2 / 55; // approx / 27.46 - err < 0.15%
+  if (timeout > 0)
+    timeout = (timeout * 2 + 53)/ 55; // approx / 27.46 - err < 0.15%
   sendArg((timeout >> 5) & 0x1F);
   sendArg(timeout & 0x1F);
 }
@@ -582,7 +583,9 @@ bool EasyVR::embedToken(int8_t bits, uint8_t token, uint16_t delay)
   sendArg(bits);
   sendArg((token >> 5) & 0x1F);
   sendArg(token & 0x1F);
-  delay = delay * 2 / 55; // approx / 27.46 - err < 0.15%
+  delay = (delay * 2 + 27) / 55; // approx / 27.46 - err < 0.15%
+  if (delay == 0) // must be > 0 to embed in some audio
+    delay = 1;
   sendArg((delay >> 5) & 0x1F);
   sendArg(delay & 0x1F);
 
