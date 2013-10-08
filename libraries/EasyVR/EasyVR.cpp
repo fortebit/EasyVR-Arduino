@@ -34,6 +34,13 @@ inline void EasyVR::sendArg(int8_t c)
 */
 #define sendArg(c) send((c) + ARG_ZERO)
 
+inline void EasyVR::sendGroup(int8_t c)
+{
+  delay(1);
+  _s->write(c + ARG_ZERO);
+  delay(19); // worst case time to cache a full group in memory
+}
+
 int EasyVR::recv(int16_t timeout) // negative means forever
 {
   while (timeout != 0 && _s->available() == 0)
@@ -171,7 +178,7 @@ bool EasyVR::changeBaudrate(int8_t baud)
 bool EasyVR::addCommand(int8_t group, int8_t index)
 {
   sendCmd(CMD_GROUP_SD);
-  sendArg(group);
+  sendGroup(group);
   sendArg(index);
 
   int rx = recv(DEF_TIMEOUT);
@@ -186,7 +193,7 @@ bool EasyVR::addCommand(int8_t group, int8_t index)
 bool EasyVR::removeCommand(int8_t group, int8_t index)
 {
   sendCmd(CMD_UNGROUP_SD);
-  sendArg(group);
+  sendGroup(group);
   sendArg(index);
 
   if (recv(DEF_TIMEOUT) == STS_SUCCESS)
@@ -197,7 +204,7 @@ bool EasyVR::removeCommand(int8_t group, int8_t index)
 bool EasyVR::setCommandLabel(int8_t group, int8_t index, const char* name)
 {
   sendCmd(CMD_NAME_SD);
-  sendArg(group);
+  sendGroup(group);
   sendArg(index);
   
   int8_t len = 31;
@@ -235,7 +242,7 @@ bool EasyVR::setCommandLabel(int8_t group, int8_t index, const char* name)
 bool EasyVR::eraseCommand(int8_t group, int8_t index)
 {
   sendCmd(CMD_ERASE_SD);
-  sendArg(group);
+  sendGroup(group);
   sendArg(index);
 
   if (recv(DEF_TIMEOUT) == STS_SUCCESS)
@@ -284,7 +291,7 @@ int8_t EasyVR::getCommandCount(int8_t group)
 bool EasyVR::dumpCommand(int8_t group, int8_t index, char* name, uint8_t& training)
 {
   sendCmd(CMD_DUMP_SD);
-  sendArg(group);
+  sendGroup(group);
   sendArg(index);
 
   if (recv(DEF_TIMEOUT) != STS_DATA)
@@ -398,7 +405,7 @@ bool EasyVR::getNextWordLabel(char* name)
 void EasyVR::trainCommand(int8_t group, int8_t index)
 {
   sendCmd(CMD_TRAIN_SD);
-  sendArg(group);
+  sendGroup(group);
   sendArg(index);
 }
 

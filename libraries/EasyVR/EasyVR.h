@@ -71,6 +71,7 @@ private:
   void send(uint8_t c);
   void sendCmd(uint8_t c) { _s->flush(); send(c); }
   void sendArg(int8_t c);
+  void sendGroup(int8_t c);
   int recv(int16_t timeout = INFINITE);
   bool recvArg(int8_t& c, int16_t timeout = INFINITE);
     
