@@ -108,7 +108,8 @@ public:
     NUMBER_SET,     /**< The built-in number word set */
   };
   /** Confidence thresholds for the knob settings,
-  used for recognition of built-in words (except trigger) */
+  used for recognition of built-in words or custom grammars
+  (not used for the mixed trigger group) */
   enum Knob
   {
     LOOSER,   /**< Lowest threshold, most results reported */
@@ -118,7 +119,8 @@ public:
     STRICTER, /**< Highest threshold, fewest results reported */
   };
   /** Strictness values for the level settings,
-  used for recognition of custom commands (except triggers) */
+  used for recognition of custom commands
+  (not used for the mixed trigger group) */
   enum Level
   {
     EASY = 1, /**< Lowest value, most results reported */
@@ -342,6 +344,8 @@ public:
     Erases the training data of a custom command.
     @param group (0-16) is the target group, or one of the values in #Groups
     @param index (0-31) is the index of the command within the selected group
+    @param name is a string containing the label to be assigned to the
+    specified command
     @retval true if the operation is successful
   */
   bool eraseCommand(int8_t group, int8_t index);
@@ -416,7 +420,8 @@ public:
   /**
     Starts recognition of a built-in word. Results are available after
     #hasFinished() returns true.
-    @param wordset (0-3) is the target word set, or one of the values in #Wordset
+    @param wordset (0-3) is the target word set, or one of the values in
+    #Wordset, (4-31) is the target custom grammar, if present
     @note The module is busy until recognition completes and it cannot
     accept other commands. You can interrupt recognition with #stop().
   */
@@ -435,7 +440,7 @@ public:
   */
   int8_t getCommand() { return _status.b._command ? _value : -1; }
   /**
-    Gets the recognised built-in word index if any.
+    Gets the recognised word index if any, from built-in sets or custom grammars.
     @retval (0-31) is the command index if recognition is successful, (-1) if no
     built-in word has been recognized or an error occurred
   */
