@@ -5,6 +5,7 @@
   and exercise it with playback and recognition.
   
   Serial monitor can be used to send a few basic commands:
+  '?' - display the module setup
   'l' - cycles through available languages
   'c' - cycles through available command groups
   'b' - cycles through built-in word sets
@@ -21,8 +22,8 @@
   Details are displayed on the serial monitor window.
 
 **
-  Example code for the EasyVR library v1.3
-  Written in 2013 by RoboTech srl for VeeaR <http:://www.veear.eu> 
+  Example code for the EasyVR library v1.4
+  Written in 2014 by RoboTech srl for VeeaR <http:://www.veear.eu> 
 
   To the extent possible under law, the author(s) have dedicated all
   copyright and related and neighboring rights to this software to the 
@@ -35,8 +36,15 @@
 
 #if defined(ARDUINO) && ARDUINO >= 100
   #include "Arduino.h"
+  #include "Platform.h"
   #include "SoftwareSerial.h"
+#ifndef CDC_ENABLED
+  // Shield Jumper on SW
   SoftwareSerial port(12,13);
+#else
+  // Shield Jumper on HW (for Leonardo)
+  #define port Serial1
+#endif
 #else // Arduino 0022 - use modified NewSoftSerial
   #include "WProgram.h"
   #include "NewSoftSerial.h"
@@ -62,6 +70,7 @@ EasyVRBridge bridge;
 
 void setup()
 {
+#ifndef CDC_ENABLED
   // bridge mode?
   if (bridge.check())
   {
@@ -70,12 +79,22 @@ void setup()
   }
   // run normally
   Serial.begin(9600);
+  Serial.println("Bridge not started!");
+#else
+  // bridge mode?
+  if (bridge.check())
+  {
+    port.begin(9600);
+    bridge.loop(port);
+  }
+  Serial.println("Bridge connection aborted!");
+#endif
   port.begin(9600);
 
-  if (!easyvr.detect())
+  while (!easyvr.detect())
   {
     Serial.println("EasyVR not detected!");
-    for (;;);
+    delay(1000);
   }
 
   easyvr.setPinOutput(EasyVR::IO1, LOW);
@@ -234,6 +253,10 @@ bool checkMonitorInput()
   
   // check console commands
   int16_t rx = Serial.read();
+  if (rx == '?')
+  {
+    setup();
+  }
   if (rx == 'l')
   {
     easyvr.stop();
