@@ -1,6 +1,6 @@
 /** @file
-EasyVR library v1.3
-Copyright (C) 2011 RoboTech srl
+EasyVR library v1.4
+Copyright (C) 2014 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
 EasyVR Shield boards produced by VeeaR <www.veear.eu>
@@ -337,6 +337,8 @@ public:
     Sets the name of a custom command.
     @param group (0-16) is the target group, or one of the values in #Groups
     @param index (0-31) is the index of the command within the selected group
+    @param name is a string containing the label to be assigned to the
+    specified command
     @retval true if the operation is successful
   */
   bool setCommandLabel(int8_t group, int8_t index, const char* name);
@@ -344,8 +346,6 @@ public:
     Erases the training data of a custom command.
     @param group (0-16) is the target group, or one of the values in #Groups
     @param index (0-31) is the index of the command within the selected group
-    @param name is a string containing the label to be assigned to the
-    specified command
     @retval true if the operation is successful
   */
   bool eraseCommand(int8_t group, int8_t index);
