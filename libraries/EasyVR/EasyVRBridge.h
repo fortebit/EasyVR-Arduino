@@ -1,6 +1,6 @@
 /** @file
-EasyVR library v1.3
-Copyright (C) 2011 RoboTech srl
+EasyVR library v1.4
+Copyright (C) 2014 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
 EasyVR Shield boards produced by VeeaR <www.veear.eu>
@@ -44,4 +44,12 @@ public:
     loop, that runs until the microcontroller is reset.
   */
   void loop(uint8_t a_rx, uint8_t a_tx, uint8_t b_rx, uint8_t b_tx);
+  /**
+    Performs bridge mode between the PC Serial port and the specified port
+    in a continuos loop. It can be aborted by sending a question mark ('?').
+    @param s is the target serial port
+    @note You can use this alternate loop on boards that don't have a separate
+    USB/Serial adapter, such as Arduino Leonardo.
+  */
+  void loop(Stream& s);
 };

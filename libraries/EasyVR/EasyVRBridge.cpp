@@ -1,6 +1,6 @@
 /*
-EasyVR library v1.3
-Copyright (C) 2011 RoboTech srl
+EasyVR library v1.4
+Copyright (C) 2014 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
 EasyVR Shield boards produced by VeeaR <www.veear.eu>
@@ -11,6 +11,7 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 
 #if defined(ARDUINO) && ARDUINO >= 100
   #include "Arduino.h"
+  #include "Platform.h"
 #else
   #include "WProgram.h"
 #endif
@@ -39,6 +40,24 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 
 #define vrx_pin_read() (*vrx_reg & vrx_mask)
 
+#if defined(CDC_ENABLED)
+void EasyVRBridge::loop(Stream& s)
+{
+  int rx;
+  for (;;)
+  {
+    if (Serial.available())
+    {
+      rx = Serial.read();
+      if (rx == '?')
+        return;
+      s.write(rx);
+    }
+    if (s.available())
+      Serial.write(s.read());
+  }
+}
+#else
 void EasyVRBridge::loop(uint8_t a_rx, uint8_t a_tx, uint8_t b_rx, uint8_t b_tx)
 {
   uint8_t rx_mask;
@@ -77,6 +96,7 @@ void EasyVRBridge::loop(uint8_t a_rx, uint8_t a_tx, uint8_t b_rx, uint8_t b_tx)
     tx_pin_write(vrx_pin_read());
   }
 }
+#endif
 
 bool EasyVRBridge::checkEEPROM()
 {
@@ -103,7 +123,7 @@ bool EasyVRBridge::checkEEPROM()
 
 bool EasyVRBridge::check()
 {
-#if defined(UBRRH) || defined(UBRR0H)
+#if defined(UBRRH) || defined(UBRR0H) || defined(CDC_ENABLED)
 #define pcSerial Serial
 #elif defined(UBRR1H)
 #define pcSerial Serial1
@@ -114,7 +134,7 @@ bool EasyVRBridge::check()
   // look for a request header
   bool bridge = false;
   int t;
-  for (t=0; t<20; ++t)
+  for (t=0; t<150; ++t)
   {
     delay(10);
     if (pcSerial.available() > 0 && pcSerial.read() == 0xBB)
@@ -129,7 +149,7 @@ bool EasyVRBridge::check()
   {
     // send reply and wait for confirmation
     bridge = false;
-    for (t=0; t<20; ++t)
+    for (t=0; t<50; ++t)
     {
       delay(10);
       if (pcSerial.available() > 0 && pcSerial.read() == 0xDD)
