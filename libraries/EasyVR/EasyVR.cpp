@@ -1,5 +1,5 @@
 /*
-EasyVR library v1.4
+EasyVR library v1.5
 Copyright (C) 2014 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -651,8 +651,16 @@ bool EasyVR::resetAll()
 }
 
 /** @mainpage
-  The %EasyVR library implements the communication protocol for
-  handling the %EasyVR module and enable easy access to all its features.
+
+  <table><tr><td>
+  <img src="EasyVR_2.jpg" alt="EasyVR module" title="EasyVR module">
+  </td><td>
+  <img src="EasyVR_Shield_2.jpg" alt="EasyVR Shield" title="EasyVR Shield">
+  </td></tr></table>
+
+  The %EasyVR library implements the serial communication protocol to
+  manage the %EasyVR module and the EasyVR Shield from Arduino boards and 
+  controllers and it enables easy access to all the EasyVR features.
 
   The library is composed of two classes:
   - #EasyVR
