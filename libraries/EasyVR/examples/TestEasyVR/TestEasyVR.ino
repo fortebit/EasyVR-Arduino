@@ -53,10 +53,8 @@
   // Shield Jumper on HW (for Leonardo)
   #define port Serial1
 #endif
-#else // Arduino 0022 - use modified NewSoftSerial
-  #include "WProgram.h"
-  #include "NewSoftSerial.h"
-  NewSoftSerial port(12,13);
+#else
+  #error "Arduino version not supported. Please update your IDE."
 #endif
 
 #include "EasyVR.h"
