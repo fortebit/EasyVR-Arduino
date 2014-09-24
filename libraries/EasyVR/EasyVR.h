@@ -42,17 +42,18 @@ private:
 
   union
   {
-    uint8_t v;
+    uint16_t v;
     struct
     {
-      uint8_t _command : 1;
-      uint8_t _builtin : 1;
-      uint8_t _error : 1;
-      uint8_t _timeout : 1;
-      uint8_t _invalid : 1;
-      uint8_t _memfull : 1;
-      uint8_t _conflict : 1;
-      uint8_t _token : 1;
+      uint16_t _command : 1;
+      uint16_t _builtin : 1;
+      uint16_t _error : 1;
+      uint16_t _timeout : 1;
+      uint16_t _invalid : 1;
+      uint16_t _memfull : 1;
+      uint16_t _conflict : 1;
+      uint16_t _token : 1;
+      uint16_t _awakened : 1;
     }
     b;
   }
@@ -479,6 +480,12 @@ public:
     @retval true if a timeout occurred
   */
   bool isTimeout() { return _status.b._timeout; }
+  /**
+    Retrieves the wake-up indicator (only valid after #hasFinished() has been
+    called).
+    @retval true if the module has been awakened from sleep mode
+  */
+  bool isAwakened() { return _status.b._awakened; }
   /**
     Retrieves the conflict indicator.
     @retval true is a conflict occurred during training. To know what

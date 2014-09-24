@@ -269,6 +269,7 @@ bool EasyVR::getGroupMask(uint32_t& mask)
   if (recv(DEF_TIMEOUT) == STS_MASK)
   {
     int8_t rx;
+    mask = 0;
     for (int8_t i = 0; i < 4; ++i)
     {
       if (!recvArg(rx, DEF_TIMEOUT))
@@ -439,6 +440,7 @@ bool EasyVR::hasFinished()
     return false;
   
   _status.v = 0;
+  _value = 0;
   
   switch (rx)
   {
@@ -474,6 +476,10 @@ bool EasyVR::hasFinished()
     }
     break;
     
+  case STS_AWAKEN:
+    _status.b._awakened = true;
+    return true;
+    
   case STS_TIMEOUT:
     _status.b._timeout = true;
     return true;
@@ -499,6 +505,7 @@ bool EasyVR::hasFinished()
   // unexpected condition (communication error)
   _status.v = 0;
   _status.b._error = true;
+  _value = 0;
   return true;
 }
 
