@@ -140,6 +140,7 @@ bool EasyVRBridge::check()
     if (pcSerial.available() > 0 && pcSerial.read() == 0xBB)
     {
       pcSerial.write(0xCC);
+      delay(1); // flush not reliable on some core libraries
       pcSerial.flush();
       bridge = true;
       break;
@@ -155,6 +156,7 @@ bool EasyVRBridge::check()
       if (pcSerial.available() > 0 && pcSerial.read() == 0xDD)
       {
         pcSerial.write(0xEE);
+        delay(1); // flush not reliable on some core libraries
         pcSerial.flush();
         bridge = true;
         break;
