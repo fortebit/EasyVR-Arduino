@@ -4,6 +4,7 @@
 #define CMD_BREAK       'b' // abort recog or ping
 #define CMD_SLEEP       's' // go to power down
 #define CMD_KNOB        'k' // set si knob <1>
+#define CMD_MIC_DIST    'k' // set microphone (<1>=-1) distance <2>
 #define CMD_LEVEL       'v' // set sd level <1>
 #define CMD_LANGUAGE    'l' // set si language <1>
 #define CMD_TIMEOUT     'o' // set timeout <1>

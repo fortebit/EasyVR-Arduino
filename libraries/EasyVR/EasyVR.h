@@ -82,6 +82,7 @@ public:
     VRBOT,    /**< Identifies a VRbot module */
     EASYVR,   /**< Identifies an EasyVR module */
     EASYVR2,  /**< Identifies an EasyVR module version 2 */
+    EASYVR2_3, /**< Identifies an EasyVR module version 2, firmware revision 3 */
   };
   /** Language to use for recognition of built-in words */
   enum Language
@@ -106,6 +107,14 @@ public:
     ACTION_SET,     /**< The built-in action word set */
     DIRECTION_SET,  /**< The built-in direction word set */
     NUMBER_SET,     /**< The built-in number word set */
+  };
+  /** Microphone distance from the user's mouth,
+  used by all recognition technologies */
+  enum Distance
+  {
+    HEADSET = 1,   /**< Nearest range (around 5cm) */
+    ARMS_LENGTH,   /**< Medium range (from about 50cm to 1m) */
+    FAR_MIC,       /**< Farthest range (up to 3m) */
   };
   /** Confidence thresholds for the knob settings,
   used for recognition of built-in words or custom grammars
@@ -285,6 +294,14 @@ public:
     @retval true if the operation is successful
   */
   bool setTimeout(int8_t seconds);
+  /**
+    Sets the operating distance of the microphone.
+	This setting represents the distance between the microphone and the
+	user's mouth, in one of three possible configurations.
+    @param dist (1-3) is one of values in #Distance
+    @retval true if the operation is successful
+  */
+  bool setMicDistance(int8_t dist);
   /**
     Sets the confidence threshold to use for recognition of built-in words.
     @param knob (0-4) is one of values in #Knob

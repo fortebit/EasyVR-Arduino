@@ -127,6 +127,17 @@ bool EasyVR::setTimeout(int8_t seconds)
   return false;
 }
 
+bool EasyVR::setMicDistance(int8_t dist)
+{
+  sendCmd(CMD_MIC_DIST);
+  sendArg(-1);
+  sendArg(dist);
+
+  if (recv(DEF_TIMEOUT) == STS_SUCCESS)
+    return true;
+  return false;
+}
+
 bool EasyVR::setKnob(int8_t knob)
 {
   sendCmd(CMD_KNOB);
