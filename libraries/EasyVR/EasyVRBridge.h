@@ -25,15 +25,6 @@ public:
   */
   bool check();
   /**
-    Tests if bridge mode has been requested (legacy method)
-    @retval true if bridge mode should be started
-    @note The first two EEPROM locations (bytes 0-1) are used for discovery
-    and request of bridge mode from the %EasyVR Commander software. Do not use
-    the same locations for other programa data.
-    @deprecated
-  */
-  bool checkEEPROM();
-  /**
     Performs bridge mode between port A and B in an endless loop
     @param a_rx is the Rx pin of port A
     @param a_tx is the Tx pin of port A

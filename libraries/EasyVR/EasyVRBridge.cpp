@@ -13,14 +13,10 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
   #include "Arduino.h"
   #include "Platform.h"
 #else
-  #include "WProgram.h"
+  #error "Arduino version not supported. Please update your IDE."
 #endif
 
 #include "pins_arduino.h"
-#include <avr/eeprom.h>
-
-#define BRIDGE_ID0 ((uint8_t *) 0)
-#define BRIDGE_ID1 ((uint8_t *) 1)
 
 #include "EasyVRBridge.h"
 
@@ -97,29 +93,6 @@ void EasyVRBridge::loop(uint8_t a_rx, uint8_t a_tx, uint8_t b_rx, uint8_t b_tx)
   }
 }
 #endif
-
-bool EasyVRBridge::checkEEPROM()
-{
-  uint8_t b0 = eeprom_read_byte(BRIDGE_ID0);
-  uint8_t b1 = eeprom_read_byte(BRIDGE_ID1);
-  if (b0 != 'B')
-  {
-    while (!eeprom_is_ready());
-    eeprom_write_byte(BRIDGE_ID0, 'B');
-  }
-  else if (b1 == 'b')
-  {
-    while (!eeprom_is_ready());
-    eeprom_write_byte(BRIDGE_ID1, 'B');
-    return true;
-  }
-  if (b1 != 'B')
-  {
-    while (!eeprom_is_ready());
-    eeprom_write_byte(BRIDGE_ID1, 'B');
-  }    
-  return false;
-}
 
 bool EasyVRBridge::check()
 {

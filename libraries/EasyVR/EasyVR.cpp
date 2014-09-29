@@ -12,7 +12,7 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 #if defined(ARDUINO) && ARDUINO >= 100
   #include "Arduino.h"
 #else
-  #include "WProgram.h"
+  #error "Arduino version not supported. Please update your IDE."
 #endif
 
 #include "EasyVR.h"
