@@ -86,8 +86,8 @@ void setup()
   }
   // run normally
   Serial.begin(9600);
-  Serial.println("---");
-  Serial.println("Bridge not started!");
+  Serial.println(F("---"));
+  Serial.println(F("Bridge not started!"));
 #else
   // bridge mode?
   if (bridge.check())
@@ -95,19 +95,19 @@ void setup()
     port.begin(9600);
     bridge.loop(port);
   }
-  Serial.println("---");
-  Serial.println("Bridge connection aborted!");
+  Serial.println(F("---"));
+  Serial.println(F("Bridge connection aborted!"));
 #endif
   port.begin(9600);
 
   while (!easyvr.detect())
   {
-    Serial.println("EasyVR not detected!");
+    Serial.println(F("EasyVR not detected!"));
     delay(1000);
   }
 
   easyvr.setPinOutput(EasyVR::IO1, LOW);
-  Serial.print("EasyVR detected, version ");
+  Serial.print(F("EasyVR detected, version "));
   Serial.println(easyvr.getID());
   easyvr.setTimeout(5);
   lang = EasyVR::ENGLISH;
@@ -115,43 +115,43 @@ void setup()
 
   int16_t count = 0;
 
-  Serial.print("Sound table: ");
+  Serial.print(F("Sound table: "));
   if (easyvr.dumpSoundTable(name, count))
   {
     Serial.println(name);
-    Serial.print("Sound entries: ");
+    Serial.print(F("Sound entries: "));
     Serial.println(count);
   }
   else
-    Serial.println("n/a");
+    Serial.println(F("n/a"));
 
-  Serial.print("Custom Grammars: ");
+  Serial.print(F("Custom Grammars: "));
   grammars = easyvr.getGrammarsCount();
   if (grammars > 4)
   {
     Serial.println(grammars - 4);
     for (set = 4; set < grammars; ++set)
     {
-      Serial.print("Grammar ");
+      Serial.print(F("Grammar "));
       Serial.print(set);
 
       uint8_t flags, num;
       if (easyvr.dumpGrammar(set, flags, num))
       {
-        Serial.print(" has ");
+        Serial.print(F(" has "));
         Serial.print(num);
         if (flags & EasyVR::GF_TRIGGER)
-          Serial.println(" trigger");
+          Serial.println(F(" trigger"));
         else
-          Serial.println(" command(s)");
+          Serial.println(F(" command(s)"));
       }
       else
-        Serial.println(" error");
+        Serial.println(F(" error"));
 
       for (int8_t idx = 0; idx < num; ++idx)
       {
         Serial.print(idx);
-        Serial.print(" = ");
+        Serial.print(F(" = "));
         if (!easyvr.getNextWordLabel(name))
           break;
         Serial.println(name);
@@ -159,7 +159,7 @@ void setup()
     }
   }
   else
-    Serial.println("n/a");
+    Serial.println(F("n/a"));
 
   if (easyvr.getGroupMask(mask))
   {
@@ -168,41 +168,41 @@ void setup()
     {
       if (!(msk & 1)) continue;
       if (group == EasyVR::TRIGGER)
-        Serial.print("Trigger: ");
+        Serial.print(F("Trigger: "));
       else if (group == EasyVR::PASSWORD)
-        Serial.print("Password: ");
+        Serial.print(F("Password: "));
       else
       {
-        Serial.print("Group ");
+        Serial.print(F("Group "));
         Serial.print(group);
-        Serial.print(" has ");
+        Serial.print(F(" has "));
       }
       count = easyvr.getCommandCount(group);
       Serial.print(count);
       if (group == 0)
-        Serial.println(" trigger(s)");
+        Serial.println(F(" trigger(s)"));
       else
-        Serial.println(" command(s)");
+        Serial.println(F(" command(s)"));
       for (int8_t idx = 0; idx < count; ++idx)
       {
         if (easyvr.dumpCommand(group, idx, name, train))
         {
           Serial.print(idx);
-          Serial.print(" = ");
+          Serial.print(F(" = "));
           Serial.print(name);
-          Serial.print(", Trained ");
+          Serial.print(F(", Trained "));
           Serial.print(train, DEC);
           if (!easyvr.isConflict())
-            Serial.println(" times, OK");
+            Serial.println(F(" times, OK"));
           else
           {
             int8_t confl = easyvr.getWord();
             if (confl >= 0)
-              Serial.print(" times, Similar to Word ");
+              Serial.print(F(" times, Similar to Word "));
             else
             {
               confl = easyvr.getCommand();
-              Serial.print(" times, Similar to Command ");
+              Serial.print(F(" times, Similar to Command "));
             }
             Serial.println(confl);
           }
@@ -214,7 +214,7 @@ void setup()
   useCommands = (mask != 0);
   mask |= 1; // force to use trigger
   isSleeping = false;
-  Serial.println("---");
+  Serial.println(F("---"));
 }
 
 const char* ws0[] =
@@ -274,7 +274,7 @@ bool checkMonitorInput()
     // any character received will exit sleep
     isSleeping = false;
     easyvr.stop();
-    Serial.println("Forced wake-up!");
+    Serial.println(F("Forced wake-up!"));
     return true;
   }
   if (rx == 'l')
@@ -283,11 +283,11 @@ bool checkMonitorInput()
     lang++;
     if (easyvr.setLanguage(lang) || easyvr.setLanguage(lang = 0))
     {
-      Serial.print("Language set to ");
+      Serial.print(F("Language set to "));
       Serial.println(lang);
     }
     else
-      Serial.println("Error while setting language!");
+      Serial.println(F("Error while setting language!"));
   }
   if (rx == 'b')
   {
@@ -341,7 +341,7 @@ bool checkMonitorInput()
       else
         break;
     }
-    Serial.print("Play token ");
+    Serial.print(F("Play token "));
     Serial.println(num);
     easyvr.stop();
     easyvr.sendToken(bits, num);
@@ -358,7 +358,7 @@ bool checkMonitorInput()
       else
         break;
     }
-    Serial.print("Play sound ");
+    Serial.print(F("Play sound "));
     Serial.println(num);
     easyvr.stop();
     easyvr.playSound(num, EasyVR::VOL_DOUBLE);
@@ -366,7 +366,7 @@ bool checkMonitorInput()
   if (rx == 'd')
   {
     easyvr.stop();
-    Serial.println("Play tones:");
+    Serial.println(F("Play tones:"));
     int16_t num = 0;
     delay(5);
     while ((rx = Serial.read()) >= 0)
@@ -386,9 +386,9 @@ bool checkMonitorInput()
         break;
       Serial.print(num);
       if (easyvr.playPhoneTone(num, 3))
-        Serial.println(" OK");
+        Serial.println(F(" OK"));
       else
-        Serial.println(" ERR");
+        Serial.println(F(" ERR"));
     }
   }
   if (rx == 'm')
@@ -403,7 +403,7 @@ bool checkMonitorInput()
       else
         break;
     }
-    Serial.print("Mic distance ");
+    Serial.print(F("Mic distance "));
     Serial.println(num);
     easyvr.stop();
     easyvr.setMicDistance(num);
@@ -424,7 +424,7 @@ bool checkMonitorInput()
       if (rx == 'l')
         mode = EasyVR::WAKE_ON_LOUDSOUND;
     }
-    Serial.print("Sleep mode ");
+    Serial.print(F("Sleep mode "));
     Serial.println(mode);
     easyvr.stop();
     easyvr.setPinOutput(EasyVR::IO1, LOW); // LED off
@@ -450,20 +450,20 @@ void loop()
     easyvr.setPinOutput(EasyVR::IO1, HIGH); // LED on (listening)
     if (useTokens)
     {
-      Serial.print("Detect a ");
+      Serial.print(F("Detect a "));
       Serial.print(bits);
-      Serial.println(" bit token ...");
+      Serial.println(F(" bit token ..."));
       easyvr.detectToken(bits, EasyVR::REJECTION_AVG, 0);
     }
     else if (useCommands)
     {
-      Serial.print("Say a command in Group ");
+      Serial.print(F("Say a command in Group "));
       Serial.println(group);
       easyvr.recognizeCommand(group);
     }
     else
     {
-      Serial.print("Say a word in Wordset ");
+      Serial.print(F("Say a word in Wordset "));
       Serial.println(set);
       easyvr.recognizeWord(set);
     }
@@ -480,7 +480,7 @@ void loop()
 
   if (easyvr.isAwakened())
   {
-    Serial.println("Audio wake-up!");
+    Serial.println(F("Audio wake-up!"));
     return;
   }
 
@@ -490,7 +490,7 @@ void loop()
     idx = easyvr.getToken();
     if (idx >= 0)
     {
-      Serial.print("Token: ");
+      Serial.print(F("Token: "));
       Serial.println(idx);
       easyvr.playSound(0, EasyVR::VOL_FULL);
     }
@@ -499,9 +499,9 @@ void loop()
   idx = easyvr.getWord();
   if (idx >= 0)
   {
-    Serial.print("Word: ");
+    Serial.print(F("Word: "));
     Serial.print(easyvr.getWord());
-    Serial.print(" = ");
+    Serial.print(F(" = "));
     if (useCommands)
       Serial.println(ws[group][idx]);
     // --- optional: builtin words can be retrieved from the module
@@ -542,11 +542,11 @@ void loop()
     idx = easyvr.getCommand();
     if (idx >= 0)
     {
-      Serial.print("Command: ");
+      Serial.print(F("Command: "));
       Serial.print(easyvr.getCommand());
       if (easyvr.dumpCommand(group, idx, name, train))
       {
-        Serial.print(" = ");
+        Serial.print(F(" = "));
         Serial.println(name);
       }
       else
@@ -564,11 +564,11 @@ void loop()
     else // errors or timeout
     {
       if (easyvr.isTimeout())
-        Serial.println("Timed out, try again...");
+        Serial.println(F("Timed out, try again..."));
       int16_t err = easyvr.getError();
       if (err >= 0)
       {
-        Serial.print("Error 0x");
+        Serial.print(F("Error 0x"));
         Serial.println(err, HEX);
       }
     }
