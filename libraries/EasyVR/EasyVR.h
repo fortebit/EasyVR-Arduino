@@ -124,7 +124,7 @@ public:
   {
     LOOSER,   /**< Lowest threshold, most results reported */
     LOOSE,    /**< Lower threshold, more results reported */
-    TYPICAL,  /**< Typical threshold (deafult) */
+    TYPICAL,  /**< Typical threshold (default) */
     STRICT,   /**< Higher threshold, fewer results reported */
     STRICTER, /**< Highest threshold, fewest results reported */
   };
