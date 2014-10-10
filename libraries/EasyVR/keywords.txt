@@ -25,6 +25,7 @@ stop	KEYWORD2
 getID	KEYWORD2
 setLanguage	KEYWORD2
 setTimeout	KEYWORD2
+setMicDistance	KEYWORD2
 setKnob	KEYWORD2
 setLevel	KEYWORD2
 setDelay	KEYWORD2
