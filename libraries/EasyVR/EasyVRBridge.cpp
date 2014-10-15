@@ -1,5 +1,5 @@
 /*
-EasyVR library v1.5
+EasyVR library v1.6
 Copyright (C) 2014 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -9,14 +9,11 @@ Released under the terms of the MIT license, as found in the accompanying
 file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 */
 
-#if defined(ARDUINO) && ARDUINO >= 100
+#if defined(ARDUINO) && ((ARDUINO >= 106 && ARDUINO < 150) || ARDUINO >= 155)
   #include "Arduino.h"
-  #include "Platform.h"
 #else
-  #error "Arduino version not supported. Please update your IDE."
+  #error "Arduino version not supported. Please update your IDE to the latest version."
 #endif
-
-#include "pins_arduino.h"
 
 #include "EasyVRBridge.h"
 
@@ -37,23 +34,27 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 #define vrx_pin_read() (*vrx_reg & vrx_mask)
 
 #if defined(CDC_ENABLED)
+#define pcSerial SERIAL_PORT_USBVIRTUAL
+
 void EasyVRBridge::loop(Stream& s)
 {
   int rx;
   for (;;)
   {
-    if (Serial.available())
+    if (pcSerial.available())
     {
-      rx = Serial.read();
+      rx = pcSerial.read();
       if (rx == '?')
         return;
       s.write(rx);
     }
     if (s.available())
-      Serial.write(s.read());
+      pcSerial.write(s.read());
   }
 }
 #else
+#define pcSerial SERIAL_PORT_MONITOR
+
 void EasyVRBridge::loop(uint8_t a_rx, uint8_t a_tx, uint8_t b_rx, uint8_t b_tx)
 {
   uint8_t rx_mask;
@@ -96,13 +97,6 @@ void EasyVRBridge::loop(uint8_t a_rx, uint8_t a_tx, uint8_t b_rx, uint8_t b_tx)
 
 bool EasyVRBridge::check()
 {
-#if defined(UBRRH) || defined(UBRR0H) || defined(CDC_ENABLED)
-#define pcSerial Serial
-#elif defined(UBRR1H)
-#define pcSerial Serial1
-#else
-#error "Target platform does not have a serial port!"
-#endif
   pcSerial.begin(9600);
   // look for a request header
   bool bridge = false;

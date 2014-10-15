@@ -1,5 +1,5 @@
 /*
-EasyVR library v1.5
+EasyVR library v1.6
 Copyright (C) 2014 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -9,10 +9,10 @@ Released under the terms of the MIT license, as found in the accompanying
 file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 */
 
-#if defined(ARDUINO) && ARDUINO >= 100
+#if defined(ARDUINO) && ((ARDUINO >= 106 && ARDUINO < 150) || ARDUINO >= 155)
   #include "Arduino.h"
 #else
-  #error "Arduino version not supported. Please update your IDE."
+  #error "Arduino version not supported. Please update your IDE to the latest version."
 #endif
 
 #include "EasyVR.h"

@@ -5,7 +5,7 @@
   like a USB/Serial adapter.
 
 **
-  Example code for the EasyVR library v1.4
+  Example code for the EasyVR library v1.6
   Written in 2014 by RoboTech srl for VeeaR <http:://www.veear.eu> 
 
   To the extent possible under law, the author(s) have dedicated all
@@ -17,24 +17,25 @@
   If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 */
 
-#if defined(ARDUINO) && ARDUINO >= 100
+#if defined(ARDUINO) && ((ARDUINO >= 106 && ARDUINO < 150) || ARDUINO >= 155)
   #include "Arduino.h"
-  #include "Platform.h"
-  #include "SoftwareSerial.h"
-#ifndef CDC_ENABLED
-  // Shield Jumper on SW
-  SoftwareSerial port(12,13);
 #else
-  // Shield Jumper on HW (for Leonardo)
-  #define port Serial1
+  #error "Arduino version not supported. Please update your IDE to the latest version."
 #endif
-#else // Arduino 0022 - use modified NewSoftSerial
-  #include "WProgram.h"
-  #include "NewSoftSerial.h"
-  NewSoftSerial port(12,13);
+
+#if defined(CDC_ENABLED)
+  // Shield Jumper on HW (for Leonardo and Due)
+  #define port SERIAL_PORT_HARDWARE
+  #define pcSerial SERIAL_PORT_USBVIRTUAL
+#else
+  // Shield Jumper on SW (using pins 12/13 as RX/TX)
+  #include "SoftwareSerial.h"
+  SoftwareSerial port(12,13);
+  #define pcSerial SERIAL_PORT_MONITOR
 #endif
 
 #include "EasyVR.h"
+#include "EasyVRBridge.h"
 
 EasyVRBridge bridge;
 
@@ -48,8 +49,9 @@ void setup()
     bridge.loop(0, 1, 12, 13);
   }
   // run normally
-  Serial.begin(9600);
-  Serial.println("Bridge not started!");
+  pcSerial.begin(9600);
+  pcSerial.println(F("---"));
+  pcSerial.println(F("Bridge not started!"));
 #else
   // bridge mode?
   if (bridge.check())
@@ -57,8 +59,10 @@ void setup()
     port.begin(9600);
     bridge.loop(port);
   }
-  Serial.println("Bridge connection aborted!");
+  pcSerial.println(F("---"));
+  pcSerial.println(F("Bridge connection aborted!"));
 #endif
+  port.begin(9600);
 }
 
 void loop()

@@ -1,5 +1,5 @@
 /** @file
-EasyVR library v1.5
+EasyVR library v1.6
 Copyright (C) 2014 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -8,6 +8,8 @@ EasyVR Shield boards produced by VeeaR <www.veear.eu>
 Released under the terms of the MIT license, as found in the accompanying
 file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 */
+
+#pragma once
 
 /**
   An implementation of a software bridge between two series of Rx/Tx pins,
