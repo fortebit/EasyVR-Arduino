@@ -17,26 +17,13 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 
 #include "EasyVRBridge.h"
 
-#define tx_pin_write(pin_state) \
-    if (!(pin_state)) \
-      *tx_reg &= ~tx_mask; \
-    else \
-      *tx_reg |= tx_mask;
-
-#define rx_pin_read() (*rx_reg & rx_mask)
-
-#define vtx_pin_write(pin_state) \
-    if (!(pin_state)) \
-      *vtx_reg &= ~vtx_mask; \
-    else \
-      *vtx_reg |= vtx_mask;
-
-#define vrx_pin_read() (*vrx_reg & vrx_mask)
-
 #if defined(CDC_ENABLED)
 #define pcSerial SERIAL_PORT_USBVIRTUAL
+#else
+#define pcSerial SERIAL_PORT_MONITOR
+#endif
 
-void EasyVRBridge::loop(Stream& s)
+void EasyVRBridge::loop(Stream& port)
 {
   int rx;
   for (;;)
@@ -46,58 +33,15 @@ void EasyVRBridge::loop(Stream& s)
       rx = pcSerial.read();
       if (rx == '?')
         return;
-      s.write(rx);
+      port.write(rx);
     }
-    if (s.available())
-      pcSerial.write(s.read());
+    if (port.available())
+      pcSerial.write(port.read());
   }
 }
-#else
-#define pcSerial SERIAL_PORT_MONITOR
-
-void EasyVRBridge::loop(uint8_t a_rx, uint8_t a_tx, uint8_t b_rx, uint8_t b_tx)
-{
-  uint8_t rx_mask;
-  volatile uint8_t *rx_reg;
-  uint8_t tx_mask;
-  volatile uint8_t *tx_reg;
-
-  uint8_t vrx_mask;
-  volatile uint8_t *vrx_reg;
-  uint8_t vtx_mask;
-  volatile uint8_t *vtx_reg;
-
-  pinMode(a_rx, INPUT);
-  digitalWrite(a_rx, HIGH);
-  pinMode(a_tx, OUTPUT);
-  digitalWrite(a_tx, HIGH);
-
-  pinMode(b_rx, INPUT);
-  digitalWrite(b_rx, HIGH);
-  pinMode(b_tx, OUTPUT);
-  digitalWrite(b_tx, HIGH);
-
-  rx_mask = digitalPinToBitMask(a_rx);
-  rx_reg = portInputRegister(digitalPinToPort(a_rx));
-  tx_mask = digitalPinToBitMask(a_tx);
-  tx_reg = portOutputRegister(digitalPinToPort(a_tx));
-
-  vrx_mask = digitalPinToBitMask(b_rx);
-  vrx_reg = portInputRegister(digitalPinToPort(b_rx));
-  vtx_mask = digitalPinToBitMask(b_tx);
-  vtx_reg = portOutputRegister(digitalPinToPort(b_tx));
-
-  for (;;)
-  {
-    vtx_pin_write(rx_pin_read());
-    tx_pin_write(vrx_pin_read());
-  }
-}
-#endif
 
 bool EasyVRBridge::check()
 {
-  pcSerial.begin(9600);
   // look for a request header
   bool bridge = false;
   int t;
@@ -130,6 +74,5 @@ bool EasyVRBridge::check()
       }
     }
   }
-  pcSerial.end();
   return bridge;
 }

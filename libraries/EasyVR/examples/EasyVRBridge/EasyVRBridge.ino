@@ -28,7 +28,7 @@
   #define port SERIAL_PORT_HARDWARE
   #define pcSerial SERIAL_PORT_USBVIRTUAL
 #else
-  // Shield Jumper on SW (using pins 12/13 as RX/TX)
+  // Shield Jumper on SW (using pins 12/13 or 8/9 as RX/TX)
   #include "SoftwareSerial.h"
   SoftwareSerial port(12,13);
   #define pcSerial SERIAL_PORT_MONITOR
@@ -41,28 +41,25 @@ EasyVRBridge bridge;
 
 void setup()
 {
-#ifndef CDC_ENABLED
-  // bridge mode?
-  if (bridge.check())
-  {
-    cli();
-    bridge.loop(0, 1, 12, 13);
-  }
-  // run normally
-  pcSerial.begin(9600);
-  pcSerial.println(F("---"));
-  pcSerial.println(F("Bridge not started!"));
-#else
-  // bridge mode?
-  if (bridge.check())
-  {
-    port.begin(9600);
-    bridge.loop(port);
-  }
-  pcSerial.println(F("---"));
-  pcSerial.println(F("Bridge connection aborted!"));
-#endif
+  // setup serial ports
   port.begin(9600);
+  pcSerial.begin(9600);
+
+  // bridge mode?
+  if (bridge.check())
+  {
+    // soft-connect the two serial ports (PC and EasyVR)
+    bridge.loop(port);
+    // resume normally if aborted
+    pcSerial.println(F("---"));
+    pcSerial.println(F("Bridge connection aborted!"));
+  }
+  else
+  {
+    // run normally
+    pcSerial.println(F("---"));
+    pcSerial.println(F("Bridge not started!"));
+  }
 }
 
 void loop()
