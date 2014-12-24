@@ -37,7 +37,7 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 */
 class EasyVR
 {
-private:
+protected:
   Stream* _s;
 
   uint8_t _value;
@@ -68,7 +68,6 @@ private:
       WAKE_TIMEOUT = EASYVR_WAKE_TIMEOUT,
       PLAY_TIMEOUT = EASYVR_PLAY_TIMEOUT,
       TOKEN_TIMEOUT = EASYVR_TOKEN_TIMEOUT,
-      RESET_TIMEOUT = 40000,
   };
 
   void send(uint8_t c);
@@ -86,6 +85,7 @@ public:
     EASYVR,   /**< Identifies an EasyVR module */
     EASYVR2,  /**< Identifies an EasyVR module version 2 */
     EASYVR2_3, /**< Identifies an EasyVR module version 2, firmware revision 3 */
+    EASYVR3 = 8, /**< Identifies an EasyVR module version 3, firmware revision 0 */
   };
   /** Language to use for recognition of built-in words */
   enum Language
@@ -600,10 +600,11 @@ public:
   bool playPhoneTone(int8_t tone, uint8_t duration);
   /**
     Empties internal memory for custom commands and groups.
+    @param wait specifies whether to wait until the operation is complete (or times out)
     @retval true if the operation is successful
     @note It will take about 35 seconds for the whole process to complete
     and it cannot be interrupted. During this time the module cannot
     accept any other command. The sound table and custom grammars data is not affected.
   */
-  bool resetAll();
+  bool resetAll(bool wait = true);
 };

@@ -658,12 +658,24 @@ bool EasyVR::dumpSoundTable(char* name, int16_t& count)
 }
 
 
-bool EasyVR::resetAll()
+bool EasyVR::resetAll(bool wait)
 {
   sendCmd(CMD_RESETALL);
   sendArg(17);
 
-  if (recv(RESET_TIMEOUT) == STS_SUCCESS)
+  if (!wait)
+    return true;
+
+  int timeout = 40; // seconds
+  if (getID() >= EASYVR3)
+    timeout = 5;
+  while (timeout != 0 && _s->available() == 0)
+  {
+    delay(1000);
+    if (timeout > 0)
+      --timeout;
+  }
+  if (_s->read() == STS_SUCCESS)
     return true;
   return false;
 }
