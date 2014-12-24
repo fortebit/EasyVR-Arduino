@@ -44,6 +44,8 @@
 
 #if defined(ARDUINO) && ((ARDUINO >= 106 && ARDUINO < 150) || ARDUINO >= 155)
   #include "Arduino.h"
+  #include "Platform.h"
+  #include "SoftwareSerial.h"
 #else
   #error "Arduino version not supported. Please update your IDE to the latest version."
 #endif
