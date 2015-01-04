@@ -652,7 +652,6 @@ bool EasyVR::dumpSoundTable(char* name, int16_t& count)
   return true;
 }
 
-
 bool EasyVR::resetAll(bool wait)
 {
   sendCmd(CMD_RESETALL);
@@ -675,6 +674,62 @@ bool EasyVR::resetAll(bool wait)
   return false;
 }
 
+// Bridge Mode implementation
+
+void EasyVR::bridgeLoop(Stream& pcSerial)
+{
+  int rx;
+  for (;;)
+  {
+    if (pcSerial.available())
+    {
+      rx = pcSerial.read();
+      if (rx == '?')
+        return;
+      _s->write(rx);
+    }
+    if (_s->available())
+      pcSerial.write(_s->read());
+  }
+}
+
+bool EasyVR::bridgeRequested(Stream& pcSerial)
+{
+  // look for a request header
+  bool bridge = false;
+  int t;
+  for (t=0; t<150; ++t)
+  {
+    delay(10);
+    if (pcSerial.available() > 0 && pcSerial.read() == 0xBB)
+    {
+      pcSerial.write(0xCC);
+      delay(1); // flush not reliable on some core libraries
+      pcSerial.flush();
+      bridge = true;
+      break;
+    }
+  }
+  if (bridge)
+  {
+    // send reply and wait for confirmation
+    bridge = false;
+    for (t=0; t<50; ++t)
+    {
+      delay(10);
+      if (pcSerial.available() > 0 && pcSerial.read() == 0xDD)
+      {
+        pcSerial.write(0xEE);
+        delay(1); // flush not reliable on some core libraries
+        pcSerial.flush();
+        bridge = true;
+        break;
+      }
+    }
+  }
+  return bridge;
+}
+
 /** @mainpage
 
   <table><tr><td>
@@ -686,10 +741,6 @@ bool EasyVR::resetAll(bool wait)
   The %EasyVR library implements the serial communication protocol to
   manage the %EasyVR module and the EasyVR Shield from Arduino boards and 
   controllers and it enables easy access to all the EasyVR features.
-
-  The library is composed of two classes:
-  - #EasyVR
-  - #EasyVRBridge
 
   Examples for using the library are available from inside the Arduino
   IDE, as for any other library (menu File > Examples > %EasyVR).

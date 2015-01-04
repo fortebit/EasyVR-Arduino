@@ -34,9 +34,8 @@
 #endif
 
 #include "EasyVR.h"
-#include "EasyVRBridge.h"
 
-EasyVRBridge bridge;
+EasyVR easyvr(port);
 
 void setup()
 {
@@ -45,10 +44,10 @@ void setup()
   pcSerial.begin(9600);
 
   // bridge mode?
-  if (bridge.check())
+  if (easyvr.bridgeRequested(pcSerial))
   {
     // soft-connect the two serial ports (PC and EasyVR)
-    bridge.loop(port);
+    easyvr.bridgeLoop(pcSerial);
     // resume normally if aborted
     pcSerial.println(F("---"));
     pcSerial.println(F("Bridge connection aborted!"));

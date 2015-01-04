@@ -7,7 +7,6 @@
 #######################################
 
 EasyVR	KEYWORD1
-EasyVRBridge	KEYWORD1
 
 int8_t	KEYWORD1
 uint8_t	KEYWORD1
@@ -79,6 +78,10 @@ playPhoneTone	KEYWORD2
 getGrammarsCount	KEYWORD2
 dumpGrammar	KEYWORD2
 getNextWordLabel	KEYWORD2
+
+# bridge mode
+bridgeRequested	KEYWORD2
+bridgeLoop	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

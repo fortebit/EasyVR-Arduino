@@ -607,4 +607,19 @@ public:
     accept any other command. The sound table and custom grammars data is not affected.
   */
   bool resetAll(bool wait = true);
+  /**
+    Tests if bridge mode has been requested on the specified port
+    @param port is the target serial port (usually the PC serial port)
+    @retval true if bridge mode should be started
+    @note The %EasyVR Commander software can request bridge mode when connected
+    to the specified serial port, with a special handshake sequence.
+  */
+  bool bridgeRequested(Stream& port);
+  /**
+    Performs bridge mode between the EasyVR serial port and the specified port
+    in a continuous loop. It can be aborted by sending a question mark ('?') on
+    the target port.
+    @param port is the target serial port (usually the PC serial port)
+  */
+  void bridgeLoop(Stream& port);
 };
