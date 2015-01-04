@@ -42,15 +42,12 @@
   If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 */
 
-#if defined(ARDUINO) && ((ARDUINO >= 106 && ARDUINO < 150) || ARDUINO >= 155)
-  #include "Arduino.h"
-  #include "Platform.h"
-  #include "SoftwareSerial.h"
-#else
+#include "Arduino.h"
+#if !defined(SERIAL_PORT_MONITOR)
   #error "Arduino version not supported. Please update your IDE to the latest version."
 #endif
 
-#if defined(CDC_ENABLED)
+#if defined(SERIAL_PORT_USBVIRTUAL)
   // Shield Jumper on HW (for Leonardo and Due)
   #define port SERIAL_PORT_HARDWARE
   #define pcSerial SERIAL_PORT_USBVIRTUAL

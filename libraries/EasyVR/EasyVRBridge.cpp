@@ -9,16 +9,14 @@ Released under the terms of the MIT license, as found in the accompanying
 file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 */
 
-#if defined(ARDUINO) && ((ARDUINO >= 106 && ARDUINO < 150) || ARDUINO >= 155)
-  #include "Arduino.h"
-  #include "Platform.h"
-#else
+#include "Arduino.h"
+#if !defined(SERIAL_PORT_MONITOR)
   #error "Arduino version not supported. Please update your IDE to the latest version."
 #endif
 
 #include "EasyVRBridge.h"
 
-#if defined(CDC_ENABLED)
+#if defined(SERIAL_PORT_USBVIRTUAL)
 #define pcSerial SERIAL_PORT_USBVIRTUAL
 #else
 #define pcSerial SERIAL_PORT_MONITOR
