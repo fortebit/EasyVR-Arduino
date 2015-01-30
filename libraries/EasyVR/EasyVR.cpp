@@ -21,19 +21,29 @@ void EasyVR::send(uint8_t c)
   _s->write(c);
 }
 
-/*
-inline void EasyVR::sendArg(int8_t c)
+void EasyVR::sendCmd(uint8_t c)
+{
+  _s->flush();
+  send(c);
+}
+
+void EasyVR::sendArg(int8_t c)
 {
   send(c + ARG_ZERO);
 }
-*/
-#define sendArg(c) send((c) + ARG_ZERO)
 
 inline void EasyVR::sendGroup(int8_t c)
 {
-  delay(1);
-  _s->write(c + ARG_ZERO);
-  delay(19); // worst case time to cache a full group in memory
+  send(c + ARG_ZERO);
+  if (c != _group)
+  {
+    _group = c;
+    // worst case time to cache a full group in memory
+    if (_id >= EASYVR3)
+      delay(39);
+    else
+      delay(19);
+  }
 }
 
 int EasyVR::recv(int16_t timeout) // negative means forever
@@ -95,11 +105,11 @@ int8_t EasyVR::getID()
   sendCmd(CMD_ID);
   if (recv(DEF_TIMEOUT) == STS_ID)
   {
-    int8_t rx;
-    if (recvArg(rx, DEF_TIMEOUT))
-      return rx;
+    if (recvArg(_id, DEF_TIMEOUT))
+      return _id;
   }
-  return -1;
+  _id = -1;
+  return _id;
 }
 
 bool EasyVR::setLanguage(int8_t lang)

@@ -38,9 +38,9 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 class EasyVR
 {
 protected:
-  Stream* _s;
+  Stream* _s; // communication interface for the EasyVR module
 
-  uint8_t _value;
+  uint8_t _value; // store last result or error code
 
   union
   {
@@ -59,9 +59,13 @@ protected:
     }
     b;
   }
-  _status;
-  
-  enum
+  _status; // store last command status or type of result
+
+  int8_t _group; // last used group (cached by the module)
+
+  int8_t _id; // last detected module id (can optimize some functions)
+
+  enum // internal constants
   {
       NO_TIMEOUT = 0, INFINITE = -1,
       DEF_TIMEOUT = EASYVR_RX_TIMEOUT,
@@ -70,8 +74,9 @@ protected:
       TOKEN_TIMEOUT = EASYVR_TOKEN_TIMEOUT,
   };
 
+  // internal functions
   void send(uint8_t c);
-  void sendCmd(uint8_t c) { _s->flush(); send(c); }
+  void sendCmd(uint8_t c);
   void sendArg(int8_t c);
   void sendGroup(int8_t c);
   int recv(int16_t timeout = INFINITE);
@@ -267,7 +272,10 @@ public:
     and #NewSoftSerial).
     @param s the Stream object to use for communication with the EasyVR module
   */
-  EasyVR(Stream& s) : _s(&s) { };
+  EasyVR(Stream& s) : _s(&s), _value(-1), _group(-1), _id(-1)
+  {
+    _status.v = 0;
+  };
   /**
     Detects an EasyVR module, waking it from sleep mode and checking
     it responds correctly.
@@ -299,8 +307,8 @@ public:
   bool setTimeout(int8_t seconds);
   /**
     Sets the operating distance of the microphone.
-	This setting represents the distance between the microphone and the
-	user's mouth, in one of three possible configurations.
+    This setting represents the distance between the microphone and the
+    user's mouth, in one of three possible configurations.
     @param dist (1-3) is one of values in #Distance
     @retval true if the operation is successful
   */
