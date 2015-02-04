@@ -688,53 +688,73 @@ bool EasyVR::resetAll(bool wait)
 
 void EasyVR::bridgeLoop(Stream& pcSerial)
 {
-  int rx;
+  unsigned long time = millis();
+  int rx, cmd = -1;
   for (;;)
   {
+    if (cmd >= 0 && millis() >= time)
+      return;
     if (pcSerial.available())
     {
       rx = pcSerial.read();
-      if (rx == '?')
-        return;
+      if (rx == '?' && millis() >= time)
+      {
+        cmd = rx;
+        time = millis() + 100;
+        continue;
+      }
       _s->write(rx);
+      cmd = -1;
+      time = millis() + 100;
     }
     if (_s->available())
       pcSerial.write(_s->read());
   }
 }
 
-bool EasyVR::bridgeRequested(Stream& pcSerial)
+int EasyVR::bridgeRequested(Stream& pcSerial)
 {
   // look for a request header
-  bool bridge = false;
-  int t;
+  int bridge = BRIDGE_NONE;
+  bool request = false;
+  int t, rx;
   for (t=0; t<150; ++t)
   {
     delay(10);
-    if (pcSerial.available() > 0 && pcSerial.read() == 0xBB)
+    rx = pcSerial.read();
+    if (rx < 0)
+      continue;
+    if (!request)
     {
-      pcSerial.write(0xCC);
-      delay(1); // flush not reliable on some core libraries
-      pcSerial.flush();
-      bridge = true;
-      break;
+      if (rx == 0xBB)
+      {
+        pcSerial.write(0xCC);
+        delay(1); // flush not reliable on some core libraries
+        pcSerial.flush();
+        request = true;
+        continue;
+      }
+      request = false;
     }
-  }
-  if (bridge)
-  {
-    // send reply and wait for confirmation
-    bridge = false;
-    for (t=0; t<50; ++t)
+    else
     {
-      delay(10);
-      if (pcSerial.available() > 0 && pcSerial.read() == 0xDD)
+      if (rx == 0xDD)
       {
         pcSerial.write(0xEE);
         delay(1); // flush not reliable on some core libraries
         pcSerial.flush();
-        bridge = true;
+        bridge = BRIDGE_NORMAL;
         break;
       }
+      if (rx == 0xAA)
+      {
+        pcSerial.write(0xFF);
+        delay(1); // flush not reliable on some core libraries
+        pcSerial.flush();
+        bridge = BRIDGE_BOOT;
+        break;
+      }
+      request = false;
     }
   }
   return bridge;

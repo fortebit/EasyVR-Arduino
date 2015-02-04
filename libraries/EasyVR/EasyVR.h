@@ -265,6 +265,13 @@ public:
     ERR_SW_STACK_OVERFLOW       = 0xC0, /**< no room left in software stack */
     ERR_INTERNAL_T2SI_BAD_SETUP = 0xCC, /**< T2SI test mode error */
   };
+  /** Type of Bridge mode requested */
+  enum BridgeMode
+  {
+    BRIDGE_NONE,    /**< Bridge mode has not been requested */
+    BRIDGE_NORMAL,  /**< Normal bridge mode (EasyVR baudrate 9600) */
+    BRIDGE_BOOT,    /**< Bridge mode for EasyVR bootloader (baudrate 115200) */
+  };
 
   /**
     Creates an EasyVR object, using a communication object implementing the 
@@ -618,11 +625,11 @@ public:
   /**
     Tests if bridge mode has been requested on the specified port
     @param port is the target serial port (usually the PC serial port)
-    @retval true if bridge mode should be started
+    @retval non zero if bridge mode should be started
     @note The %EasyVR Commander software can request bridge mode when connected
     to the specified serial port, with a special handshake sequence.
   */
-  bool bridgeRequested(Stream& port);
+  int bridgeRequested(Stream& port);
   /**
     Performs bridge mode between the EasyVR serial port and the specified port
     in a continuous loop. It can be aborted by sending a question mark ('?') on
