@@ -57,10 +57,10 @@ int EasyVR::recv(int16_t timeout) // negative means forever
   return _s->read();
 }
 
-bool EasyVR::recvArg(int8_t& c, int16_t timeout)
+bool EasyVR::recvArg(int8_t& c)
 {
   send(ARG_ACK);
-  int r = recv(timeout);
+  int r = recv(DEF_TIMEOUT);
   c = r - ARG_ZERO;
   return r >= ARG_MIN && r <= ARG_MAX;
 }
@@ -105,7 +105,7 @@ int8_t EasyVR::getID()
   sendCmd(CMD_ID);
   if (recv(DEF_TIMEOUT) == STS_ID)
   {
-    if (recvArg(_id, DEF_TIMEOUT))
+    if (recvArg(_id))
       return _id;
   }
   _id = -1;
@@ -197,7 +197,7 @@ bool EasyVR::addCommand(int8_t group, int8_t index)
   sendGroup(group);
   sendArg(index);
 
-  int rx = recv(DEF_TIMEOUT);
+  int rx = recv(STORAGE_TIMEOUT);
   if (rx == STS_SUCCESS)
     return true;
   _status.v = 0;
@@ -212,7 +212,7 @@ bool EasyVR::removeCommand(int8_t group, int8_t index)
   sendGroup(group);
   sendArg(index);
 
-  if (recv(DEF_TIMEOUT) == STS_SUCCESS)
+  if (recv(STORAGE_TIMEOUT) == STS_SUCCESS)
     return true;
   return false;
 }
@@ -250,7 +250,7 @@ bool EasyVR::setCommandLabel(int8_t group, int8_t index, const char* name)
     }
   }
 
-  if (recv(DEF_TIMEOUT) == STS_SUCCESS)
+  if (recv(STORAGE_TIMEOUT) == STS_SUCCESS)
     return true;
   return false;
 }
@@ -261,7 +261,7 @@ bool EasyVR::eraseCommand(int8_t group, int8_t index)
   sendGroup(group);
   sendArg(index);
 
-  if (recv(DEF_TIMEOUT) == STS_SUCCESS)
+  if (recv(STORAGE_TIMEOUT) == STS_SUCCESS)
     return true;
   return false;
 }
@@ -277,10 +277,10 @@ bool EasyVR::getGroupMask(uint32_t& mask)
     mask = 0;
     for (int8_t i = 0; i < 4; ++i)
     {
-      if (!recvArg(rx, DEF_TIMEOUT))
+      if (!recvArg(rx))
         return false;
       ((uint8_t*)&mask)[i] |= rx & 0x0F;
-      if (!recvArg(rx, DEF_TIMEOUT))
+      if (!recvArg(rx))
         return false;
       ((uint8_t*)&mask)[i] |= (rx << 4) & 0xF0;
     }
@@ -297,7 +297,7 @@ int8_t EasyVR::getCommandCount(int8_t group)
   if (recv(DEF_TIMEOUT) == STS_COUNT)
   {
     int8_t rx;
-    if (recvArg(rx, DEF_TIMEOUT))
+    if (recvArg(rx))
     {
       return rx == -1 ? 32 : rx;
     }
@@ -315,7 +315,7 @@ bool EasyVR::dumpCommand(int8_t group, int8_t index, char* name, uint8_t& traini
     return false;
   
   int8_t rx;
-  if (!recvArg(rx, DEF_TIMEOUT))
+  if (!recvArg(rx))
     return false;
   training = rx & 0x07;
   if (rx == -1 || training == 7)
@@ -326,20 +326,20 @@ bool EasyVR::dumpCommand(int8_t group, int8_t index, char* name, uint8_t& traini
   _status.b._command = (rx & 0x08) != 0;
   _status.b._builtin = (rx & 0x10) != 0;
   
-  if (!recvArg(rx, DEF_TIMEOUT))
+  if (!recvArg(rx))
     return false;
   _value = rx;
 
-  if (!recvArg(rx, DEF_TIMEOUT))
+  if (!recvArg(rx))
     return false;
   int8_t len = rx == -1 ? 32 : rx;
   for ( ; len > 0; --len, ++name)
   {
-    if (!recvArg(rx, DEF_TIMEOUT))
+    if (!recvArg(rx))
       return false;
     if (rx == '^' - ARG_ZERO)
     {
-      if (!recvArg(rx, DEF_TIMEOUT))
+      if (!recvArg(rx))
         return false;
       *name = '0' + rx;
       --len;
@@ -361,7 +361,7 @@ int8_t EasyVR::getGrammarsCount(void)
   if (recv(DEF_TIMEOUT) == STS_COUNT)
   {
     int8_t rx;
-    if (recvArg(rx, DEF_TIMEOUT))
+    if (recvArg(rx))
     {
       return rx == -1 ? 32 : rx;
     }
@@ -378,11 +378,11 @@ bool EasyVR::dumpGrammar(int8_t grammar, uint8_t& flags, uint8_t& count)
     return false;
   
   int8_t rx;
-  if (!recvArg(rx, DEF_TIMEOUT))
+  if (!recvArg(rx))
     return false;
   flags = rx == -1 ? 32 : rx;
   
-  if (!recvArg(rx, DEF_TIMEOUT))
+  if (!recvArg(rx))
     return false;
   count = rx;
   return true;
@@ -391,7 +391,7 @@ bool EasyVR::dumpGrammar(int8_t grammar, uint8_t& flags, uint8_t& count)
 bool EasyVR::getNextWordLabel(char* name)
 {
   int8_t count;
-  if (!recvArg(count, DEF_TIMEOUT))
+  if (!recvArg(count))
     return false;
   if (count == -1)
     count = 32;
@@ -399,12 +399,12 @@ bool EasyVR::getNextWordLabel(char* name)
   for ( ; count > 0; --count, ++name)
   {
     int8_t rx;
-    if (!recvArg(rx, DEF_TIMEOUT))
+    if (!recvArg(rx))
       return false;
     
     if (rx == '^' - ARG_ZERO)
     {
-      if (!recvArg(rx, DEF_TIMEOUT))
+      if (!recvArg(rx))
         return false;
       
       *name = '0' + rx;
@@ -460,7 +460,7 @@ bool EasyVR::hasFinished()
     _status.b._command = true;
   
   GET_WORD_INDEX:
-    if (recvArg(rx, DEF_TIMEOUT))
+    if (recvArg(rx))
     {
       _value = rx;
       return true;
@@ -470,10 +470,10 @@ bool EasyVR::hasFinished()
   case STS_TOKEN:
     _status.b._token = true;
   
-    if (recvArg(rx, DEF_TIMEOUT))
+    if (recvArg(rx))
     {
       _value = rx << 5;
-      if (recvArg(rx, DEF_TIMEOUT))
+      if (recvArg(rx))
       {
         _value |= rx;
         return true;
@@ -495,10 +495,10 @@ bool EasyVR::hasFinished()
     
   case STS_ERROR:
     _status.b._error = true;
-    if (recvArg(rx, DEF_TIMEOUT))
+    if (recvArg(rx))
     {
       _value = rx << 4;
-      if (recvArg(rx, DEF_TIMEOUT))
+      if (recvArg(rx))
       {
         _value |= rx;
         return true;
@@ -534,7 +534,7 @@ int8_t EasyVR::getPinInput(int8_t pin, int8_t config)
   if (recv(DEF_TIMEOUT) == STS_PIN)
   {
     int8_t rx;
-    if (recvArg(rx, DEF_TIMEOUT))
+    if (recvArg(rx))
       return rx;
   }
   return -1;
@@ -632,23 +632,23 @@ bool EasyVR::dumpSoundTable(char* name, int16_t& count)
     return false;
   
   int8_t rx;
-  if (!recvArg(rx, DEF_TIMEOUT))
+  if (!recvArg(rx))
     return false;
   count = rx << 5;
-  if (!recvArg(rx, DEF_TIMEOUT))
+  if (!recvArg(rx))
     return false;
   count |= rx;
   
-  if (!recvArg(rx, DEF_TIMEOUT))
+  if (!recvArg(rx))
     return false;
   int len = rx;
   for (int8_t i = 0, k = 0; i < len; ++i, ++k)
   {
-    if (!recvArg(rx, DEF_TIMEOUT))
+    if (!recvArg(rx))
       return false;
     if (rx == '^' - ARG_ZERO)
     {
-      if (!recvArg(rx, DEF_TIMEOUT))
+      if (!recvArg(rx))
         return false;
       ++i;
       name[k] = '0' + rx;

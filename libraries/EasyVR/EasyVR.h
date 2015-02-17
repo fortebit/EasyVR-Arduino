@@ -20,6 +20,10 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 #define EASYVR_RX_TIMEOUT  100  //  default receive timeout (in ms)
 #endif
 
+#ifndef EASYVR_STORAGE_TIMEOUT
+#define EASYVR_STORAGE_TIMEOUT  500  // reply timeout for storage ops (in ms)
+#endif
+
 #ifndef EASYVR_WAKE_TIMEOUT
 #define EASYVR_WAKE_TIMEOUT  200  // wakeup max delay (in ms)
 #endif
@@ -72,6 +76,7 @@ protected:
       WAKE_TIMEOUT = EASYVR_WAKE_TIMEOUT,
       PLAY_TIMEOUT = EASYVR_PLAY_TIMEOUT,
       TOKEN_TIMEOUT = EASYVR_TOKEN_TIMEOUT,
+      STORAGE_TIMEOUT = EASYVR_STORAGE_TIMEOUT,
   };
 
   // internal functions
@@ -80,7 +85,7 @@ protected:
   void sendArg(int8_t c);
   void sendGroup(int8_t c);
   int recv(int16_t timeout = INFINITE);
-  bool recvArg(int8_t& c, int16_t timeout = INFINITE);
+  bool recvArg(int8_t& c);
     
 public:
   /** Module identification number (firmware version) */
