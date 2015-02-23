@@ -11,7 +11,6 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 
 #if defined(ARDUINO) && ARDUINO >= 100
   #include "Arduino.h"
-  #include "Platform.h"
 #else
   #error "Arduino version not supported. Please update your IDE."
 #endif
