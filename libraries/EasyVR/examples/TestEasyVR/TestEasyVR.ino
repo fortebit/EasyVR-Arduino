@@ -44,7 +44,6 @@
 
 #if defined(ARDUINO) && ARDUINO >= 100
   #include "Arduino.h"
-  #include "Platform.h"
   #include "SoftwareSerial.h"
 #ifndef CDC_ENABLED
   // Shield Jumper on SW
