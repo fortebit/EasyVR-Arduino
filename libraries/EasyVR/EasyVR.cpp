@@ -762,16 +762,24 @@ int EasyVR::bridgeRequested(Stream& pcSerial)
 
 /** @mainpage
 
+  The EasyVR library implements the serial communication protocol to
+  manage the %EasyVR module and the %EasyVR Shield from Arduino boards and 
+  controllers and it enables easy access to all the %EasyVR features.
+
   <table><tr><td>
-  <img src="EasyVR_2.jpg" alt="EasyVR module" title="EasyVR module">
+  ![EasyVR module](@ref EasyVR_2.jpg)
   </td><td>
-  <img src="EasyVR_Shield_2.jpg" alt="EasyVR Shield" title="EasyVR Shield">
+  ![EasyVR Shield](@ref EasyVR_Shield_2.jpg)
   </td></tr></table>
 
-  The %EasyVR library implements the serial communication protocol to
-  manage the %EasyVR module and the EasyVR Shield from Arduino boards and 
-  controllers and it enables easy access to all the EasyVR features.
+  ### Installation
 
-  Examples for using the library are available from inside the Arduino
-  IDE, as for any other library (menu File > Examples > %EasyVR).
+  To install the EasyVR library on your Arduino IDE use the menu
+  Sketch > Import Library ... > Add Library and open the released zip archive.
+  
+  ### Examples
+
+  You can easily open the example sketches included with the EasyVR library
+  from inside the Arduino IDE, using the menu File > Examples > %EasyVR and
+  choosing one of the available sketches.
 */

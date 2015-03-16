@@ -1,0 +1,50 @@
+body, table, div, p, dl {
+	font-family: Lucida Grande, Verdana, Geneva, Arial, sans-serif;
+}
+
+/* Ensure that <CODE> and <TT> text is as big as the <BODY> text and use a nicer font */
+code, tt { 
+    font-family: Consolas, Courier, monospace, fixed;
+    font-size: 105%;
+}
+
+/* Need this as <PRE> makes the text look smaller due to different font */
+pre {
+    font-family: Consolas, Courier, monospace, fixed;
+    font-size: 105%;
+}
+
+#projectlogo
+{
+	text-align: center;
+	vertical-align: middle;
+	border-collapse: separate;
+	padding-left: 12px;
+	padding-right: 0.5em;
+}
+ 
+#projectlogo img
+{ 
+	border: 0px none;
+}
+ 
+#projectname
+{
+	font-size: 150%;
+	margin: 0px;
+	padding: 2px 0px;
+}
+    
+#projectbrief
+{
+	font-size: 120%;
+	margin: 0px;
+	padding: 0px;
+}
+
+#projectnumber
+{
+	font-size: 100%;
+	margin: 0px;
+	padding: 0px;
+}
