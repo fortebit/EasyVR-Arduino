@@ -16,25 +16,58 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 
 /*****************************************************************************/
 
+/** 
+  By defining these symbols before the library include directive, you can
+  alter the default settings used by the library implementation.
+  
+  These settings are available for completeness. The default settings should
+  be appropriate for normal use cases.
+  
+  @defgroup macros EasyVR library settings
+  @{
+*/
+
 #ifndef EASYVR_RX_TIMEOUT
-#define EASYVR_RX_TIMEOUT  100  //  default receive timeout (in ms)
+/** @brief Receive timeout (in ms).
+  The maximum time that is spent waiting for a reply from the %EasyVR module.
+*/
+#define EASYVR_RX_TIMEOUT  100
 #endif
 
 #ifndef EASYVR_STORAGE_TIMEOUT
-#define EASYVR_STORAGE_TIMEOUT  500  // reply timeout for storage ops (in ms)
+/** @brief Reply timeout for storage operations (in ms).
+  The maximum time that is spent waiting for a reply after a command that
+  involves write access to the %EasyVR internal storage.
+*/
+#define EASYVR_STORAGE_TIMEOUT  500
 #endif
 
 #ifndef EASYVR_WAKE_TIMEOUT
-#define EASYVR_WAKE_TIMEOUT  200  // wakeup max delay (in ms)
+/** @brief Wakeup maximum delay (in ms).
+  The maximum time that the %EasyVR module can spend for waking up from
+  idle states.
+*/
+#define EASYVR_WAKE_TIMEOUT  200
 #endif
 
 #ifndef EASYVR_PLAY_TIMEOUT
-#define EASYVR_PLAY_TIMEOUT  5000  // playback max duration (in ms)
+/** @brief Playback maximum duration (in ms).
+  The maximum time that is spent waiting for a synchronous playback operation
+  to complete. Asynchronous playback is not affected.
+*/
+#define EASYVR_PLAY_TIMEOUT  5000
 #endif
 
 #ifndef EASYVR_TOKEN_TIMEOUT
-#define EASYVR_TOKEN_TIMEOUT  1500  // token max duration (in ms)
+/** @brief Token maximum duration (in ms).
+  The maximum time that is spent by the %EasyVR module for sending a SonicNet
+  token and reply.
+*/
+#define EASYVR_TOKEN_TIMEOUT  1500
 #endif
+
+/** @}
+*/
 
 /**
   An implementation of the %EasyVR communication protocol.
