@@ -222,9 +222,12 @@ public:
   /** Available pin numbers on the extra I/O connector */
   enum PinNumber
   {
-    IO1 = 1,  /**< Pin IO1 */
-    IO2 = 2,  /**< Pin IO2 */
-    IO3 = 3,  /**< Pin IO3 */
+    IO1 = 1,  /**< Identifier of pin IO1 */
+    IO2 = 2,  /**< Identifier of pin IO2 */
+    IO3 = 3,  /**< Identifier of pin IO3 */
+    IO4 = 4,  /**< Identifier of pin IO4 (only EasyVR3) */
+    IO5 = 5,  /**< Identifier of pin IO5 (only EasyVR3) */
+    IO6 = 6,  /**< Identifier of pin IO6 (only EasyVR3) */
   };
   /** Some quick volume settings for the sound playback functions
   (any value in the range 0-31 can be used) */
