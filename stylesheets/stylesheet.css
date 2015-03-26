@@ -140,15 +140,16 @@ img {
   padding: 5px;
   margin: 10px 0 10px 0;
   border: 1px solid #ebebeb;
-
+/*
   box-shadow: 0 0 5px #ebebeb;
   -webkit-box-shadow: 0 0 5px #ebebeb;
   -moz-box-shadow: 0 0 5px #ebebeb;
   -o-box-shadow: 0 0 5px #ebebeb;
   -ms-box-shadow: 0 0 5px #ebebeb;
+*/
 }
 
-p img {
+p img, h1 img, h2 img, h3 img, h4 img {
   display: inline;
   margin: 0;
   padding: 0;
@@ -190,6 +191,7 @@ pre code {
 
 blockquote {
   color: #666;
+  background-color: #FFF;
   margin-bottom: 20px;
   padding: 0 0 0 20px;
   border-left: 3px solid #bbb;
@@ -271,6 +273,21 @@ Full-Width Styles
   margin: 0 auto;
 }
 
+#browseme_banner {
+  display: block;
+  position: absolute;
+  top:0;
+  left: 10px;
+  z-index: 10;
+  padding: 10px 10px 10px 10px;
+  color: #fff;
+  background: #0090ff;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 #forkme_banner {
   display: block;
   position: absolute;
@@ -282,8 +299,8 @@ Full-Width Styles
   background: url('../images/blacktocat.png') #0090ff no-repeat 95% 50%;
   font-weight: 700;
   box-shadow: 0 0 10px rgba(0,0,0,.5);
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 #header_wrap {
