@@ -1,13 +1,16 @@
 EasyVR Arduino library
 ======================
 
-*Copyright (C) 2011-2014 RoboTech srl*
+*Copyright (C) 2011-2015 RoboTech srl*
 
 Written for Arduino and compatible boards for use with EasyVR modules or
 EasyVR Shield boards produced by [VeeaR](http://www.veear.eu)
 
 > ![EasyVR module](libraries/EasyVR/docs/EasyVR_2.jpg "EasyVR module")
 > ![EasyVR Shield](libraries/EasyVR/docs/EasyVR_Shield_2.jpg "EasyVR Shield")
+
+On-line documentation is also available at this project
+[GitHub Pages](http://robotech-srl.github.io/EasyVR-Arduino/)
 
 Library code is released under the terms of the MIT license, as found in the accompanying
 file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
