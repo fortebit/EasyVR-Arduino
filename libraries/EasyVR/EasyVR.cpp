@@ -767,9 +767,9 @@ int EasyVR::bridgeRequested(Stream& pcSerial)
   controllers and it enables easy access to all the %EasyVR features.
 
   <table><tr><td>
-  ![EasyVR module](@ref EasyVR_2.jpg)
+  ![EasyVR module](@ref EasyVR_3.jpg)
   </td><td>
-  ![EasyVR Shield](@ref EasyVR_Shield_2.jpg)
+  ![EasyVR Shield](@ref EasyVR_Shield_3.jpg)
   </td></tr></table>
 
   ### Installation
