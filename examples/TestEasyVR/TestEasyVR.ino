@@ -30,8 +30,8 @@
   Details are displayed on the serial monitor window.
 
 **
-  Example code for the EasyVR library v1.6
-  Written in 2014 by RoboTech srl for VeeaR <http:://www.veear.eu>
+  Example code for the EasyVR library v1.7.1
+  Written in 2015 by RoboTech srl for VeeaR <http:://www.veear.eu>
 
   To the extent possible under law, the author(s) have dedicated all
   copyright and related and neighboring rights to this software to the
