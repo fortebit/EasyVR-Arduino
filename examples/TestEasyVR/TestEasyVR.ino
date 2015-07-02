@@ -67,7 +67,7 @@ int8_t set = 0;
 int8_t group = 0;
 uint32_t mask = 0;
 uint8_t train = 0;
-uint8_t grammars = 0;
+int8_t grammars = 0;
 int8_t lang = 0;
 char name[33];
 bool useCommands = true;
@@ -159,7 +159,10 @@ void setup()
           pcSerial.println(F(" command(s)"));
       }
       else
+      {
         pcSerial.println(F(" error"));
+        continue;
+      }
 
       for (int8_t idx = 0; idx < num; ++idx)
       {
