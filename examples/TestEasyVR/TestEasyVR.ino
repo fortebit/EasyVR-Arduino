@@ -30,8 +30,8 @@
   Details are displayed on the serial monitor window.
 
 **
-  Example code for the EasyVR library v1.6
-  Written in 2014 by RoboTech srl for VeeaR <http:://www.veear.eu>
+  Example code for the EasyVR library v1.7.1
+  Written in 2015 by RoboTech srl for VeeaR <http:://www.veear.eu>
 
   To the extent possible under law, the author(s) have dedicated all
   copyright and related and neighboring rights to this software to the
@@ -67,7 +67,7 @@ int8_t set = 0;
 int8_t group = 0;
 uint32_t mask = 0;
 uint8_t train = 0;
-uint8_t grammars = 0;
+int8_t grammars = 0;
 int8_t lang = 0;
 char name[33];
 bool useCommands = true;
@@ -159,7 +159,10 @@ void setup()
           pcSerial.println(F(" command(s)"));
       }
       else
+      {
         pcSerial.println(F(" error"));
+        continue;
+      }
 
       for (int8_t idx = 0; idx < num; ++idx)
       {
@@ -224,6 +227,7 @@ void setup()
     }
   }
   group = 0;
+  set = 0;
   useCommands = (mask != 0);
   mask |= 1; // force to use trigger
   isSleeping = false;
