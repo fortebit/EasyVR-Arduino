@@ -6,6 +6,7 @@
 #define CMD_KNOB        'k' // set si knob <1>
 #define CMD_MIC_DIST    'k' // set microphone (<1>=-1) distance <2>
 #define CMD_LEVEL       'v' // set sd level <1>
+#define CMD_VERIFY_RP   'v' // verify filesystem (<1>=-1) with flags <2> (0=check only, 1=fix)
 #define CMD_LANGUAGE    'l' // set si language <1>
 #define CMD_TIMEOUT     'o' // set timeout <1>
 #define CMD_RECOG_SI    'i' // do si recog from ws <1>
@@ -13,12 +14,18 @@
 #define CMD_GROUP_SD    'g' // insert new command at group <1> pos <2>
 #define CMD_UNGROUP_SD  'u' // remove command at group <1> pos <2>
 #define CMD_RECOG_SD    'd' // do sd recog at group <1> (0 = trigger mixed si/sd)
+#define CMD_DUMP_RP     'd' // dump message (<1>=-1) at pos <2>
 #define CMD_ERASE_SD    'e' // reset command at group <1> pos <2>
+#define CMD_ERASE_RP    'e' // erase recording (<1>=-1) at pos <2>
 #define CMD_NAME_SD     'n' // label command at group <1> pos <2> with length <3> name <4-n>
 #define CMD_COUNT_SD    'c' // get command count for group <1>
 #define CMD_DUMP_SD     'p' // read command data at group <1> pos <2>
+#define CMD_PLAY_RP     'p' // play recording (<1>=-1) at pos <2> with flags <3>
 #define CMD_MASK_SD     'm' // get active group mask
-#define CMD_RESETALL    'r' // reset all commands and groups
+#define CMD_RESETALL    'r' // reset all commands and groups, with <1>='R'
+#define CMD_RESET_SD    'r' // reset all commands and groups, with <1>='D'
+#define CMD_RESET_RP    'r' // reset all commands and groups, with <1>='M'
+#define CMD_RECORD_RP   'r' // record message (<1>=-1) at pos <2> with bits <3> and timeout <4>
 #define CMD_ID          'x' // get version id
 #define CMD_DELAY       'y' // set transmit delay <1> (log scale)
 #define CMD_BAUDRATE    'a' // set baudrate <1> (bit time, 1=>115200)
@@ -47,6 +54,7 @@
 #define STS_TABLE_SX    'h' // table entries count <1-2> (10-bit), table name <3-35> (counted string)
 #define STS_GRAMMAR     'z' // si grammar: flags <1>, word count <2>, labels... <3-35> (n counted strings)
 #define STS_TOKEN       'f' // received sonicnet token <1-2>
+#define STS_MESSAGE     'g' // message status <1> (0=empty, 4/8=bits format), length <2-7>
 
 // protocol arguments are in the range 0x40 (-1) to 0x60 (+31) inclusive
 #define ARG_MIN     0x40
