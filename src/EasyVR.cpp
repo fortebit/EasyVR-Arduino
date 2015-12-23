@@ -65,6 +65,77 @@ bool EasyVR::recvArg(int8_t& c)
   return r >= ARG_MIN && r <= ARG_MAX;
 }
 
+void EasyVR::readStatus(int8_t rx)
+{
+  _status.v = 0;
+  _value = 0;
+  
+  switch (rx)
+  {
+  case STS_SUCCESS:
+    return;
+  
+  case STS_SIMILAR:
+    _status.b._builtin = true;
+    goto GET_WORD_INDEX;
+
+  case STS_RESULT:
+    _status.b._command = true;
+  
+  GET_WORD_INDEX:
+    if (recvArg(rx))
+    {
+      _value = rx;
+      return;
+    }
+    break;
+    
+  case STS_TOKEN:
+    _status.b._token = true;
+  
+    if (recvArg(rx))
+    {
+      _value = rx << 5;
+      if (recvArg(rx))
+      {
+        _value |= rx;
+        return;
+      }
+    }
+    break;
+    
+  case STS_AWAKEN:
+    _status.b._awakened = true;
+    return;
+    
+  case STS_TIMEOUT:
+    _status.b._timeout = true;
+    return;
+    
+  case STS_INVALID:
+    _status.b._invalid = true;
+    return;
+    
+  case STS_ERROR:
+    _status.b._error = true;
+    if (recvArg(rx))
+    {
+      _value = rx << 4;
+      if (recvArg(rx))
+      {
+        _value |= rx;
+        return;
+      }
+    }
+    break;
+  }
+
+  // unexpected condition (communication error)
+  _status.v = 0;
+  _status.b._error = true;
+  _value = 0;
+}
+
 /*****************************************************************************/
 
 bool EasyVR::detect()
@@ -444,73 +515,7 @@ bool EasyVR::hasFinished()
   if (rx < 0)
     return false;
   
-  _status.v = 0;
-  _value = 0;
-  
-  switch (rx)
-  {
-  case STS_SUCCESS:
-    return true;
-  
-  case STS_SIMILAR:
-    _status.b._builtin = true;
-    goto GET_WORD_INDEX;
-
-  case STS_RESULT:
-    _status.b._command = true;
-  
-  GET_WORD_INDEX:
-    if (recvArg(rx))
-    {
-      _value = rx;
-      return true;
-    }
-    break;
-    
-  case STS_TOKEN:
-    _status.b._token = true;
-  
-    if (recvArg(rx))
-    {
-      _value = rx << 5;
-      if (recvArg(rx))
-      {
-        _value |= rx;
-        return true;
-      }
-    }
-    break;
-    
-  case STS_AWAKEN:
-    _status.b._awakened = true;
-    return true;
-    
-  case STS_TIMEOUT:
-    _status.b._timeout = true;
-    return true;
-    
-  case STS_INVALID:
-    _status.b._invalid = true;
-    return true;
-    
-  case STS_ERROR:
-    _status.b._error = true;
-    if (recvArg(rx))
-    {
-      _value = rx << 4;
-      if (recvArg(rx))
-      {
-        _value |= rx;
-        return true;
-      }
-    }
-    break;
-  }
-
-  // unexpected condition (communication error)
-  _status.v = 0;
-  _status.b._error = true;
-  _value = 0;
+  readStatus(rx);
   return true;
 }
 
@@ -665,7 +670,7 @@ bool EasyVR::dumpSoundTable(char* name, int16_t& count)
 bool EasyVR::resetAll(bool wait)
 {
   sendCmd(CMD_RESETALL);
-  sendArg(17);
+  sendArg('R' - ARG_ZERO);
 
   if (!wait)
     return true;
@@ -676,8 +681,76 @@ bool EasyVR::resetAll(bool wait)
   while (timeout != 0 && _s->available() == 0)
   {
     delay(1000);
-    if (timeout > 0)
-      --timeout;
+    --timeout;
+  }
+  if (_s->read() == STS_SUCCESS)
+    return true;
+  return false;
+}
+
+bool EasyVR::resetCommands(bool wait)
+{
+  sendCmd(CMD_RESETALL);
+  sendArg('D' - ARG_ZERO);
+
+  if (!wait)
+    return true;
+
+  int timeout = 5; // seconds
+  while (timeout != 0 && _s->available() == 0)
+  {
+    delay(1000);
+    --timeout;
+  }
+  if (_s->read() == STS_SUCCESS)
+    return true;
+  return false;
+}
+
+bool EasyVR::resetMessages(bool wait)
+{
+  sendCmd(CMD_RESETALL);
+  sendArg('M' - ARG_ZERO);
+
+  if (!wait)
+    return true;
+
+  int timeout = 15; // seconds
+  while (timeout != 0 && _s->available() == 0)
+  {
+    delay(1000);
+    --timeout;
+  }
+  if (_s->read() == STS_SUCCESS)
+    return true;
+  return false;
+}
+
+bool EasyVR::checkMessages()
+{
+  sendCmd(CMD_VERIFY_RP);
+  sendArg(-1);
+  sendArg(0);
+
+  int rx = recv(STORAGE_TIMEOUT);
+  readStatus(rx);
+  return (_status.v == 0);
+}
+
+bool EasyVR::fixMessages(bool wait)
+{
+  sendCmd(CMD_VERIFY_RP);
+  sendArg(-1);
+  sendArg(1);
+
+  if (!wait)
+    return true;
+
+  int timeout = 25; // seconds
+  while (timeout != 0 && _s->available() == 0)
+  {
+    delay(1000);
+    --timeout;
   }
   if (_s->read() == STS_SUCCESS)
     return true;

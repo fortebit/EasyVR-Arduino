@@ -119,6 +119,7 @@ protected:
   void sendGroup(int8_t c);
   int recv(int16_t timeout = INFINITE);
   bool recvArg(int8_t& c);
+  void readStatus(int8_t rx);
     
 public:
   /** Module identification number (firmware version) */
@@ -129,6 +130,7 @@ public:
     EASYVR2,  /**< Identifies an EasyVR module version 2 */
     EASYVR2_3, /**< Identifies an EasyVR module version 2, firmware revision 3 */
     EASYVR3 = 8, /**< Identifies an EasyVR module version 3, firmware revision 0 */
+    EASYVR3_1, /**< Identifies an EasyVR module version 3, firmware revision 1 */
   };
   /** Language to use for recognition of built-in words */
   enum Language
@@ -301,6 +303,7 @@ public:
 
     //-- 8x: Custom errors
     ERR_CUSTOM_NOTA             = 0x80, /**< none of the above (out of grammar) */
+    ERR_CUSTOM_INVALID          = 0x81, /**< invalid data (for memory check) */
 
     //-- Cx: Internal errors (all)
     ERR_SW_STACK_OVERFLOW       = 0xC0, /**< no room left in software stack */
@@ -655,14 +658,50 @@ public:
   */
   bool playPhoneTone(int8_t tone, uint8_t duration);
   /**
-    Empties internal memory for custom commands and groups.
+    Empties internal memory for custom commands/groups and messages.
     @param wait specifies whether to wait until the operation is complete (or times out)
     @retval true if the operation is successful
-    @note It will take about 35 seconds for the whole process to complete
+    @note It will take some time for the whole process to complete (EasyVR3 is faster)
     and it cannot be interrupted. During this time the module cannot
     accept any other command. The sound table and custom grammars data is not affected.
   */
   bool resetAll(bool wait = true);
+  /**
+    Empties internal memory for custom commands/groups only. Messages are not affected.
+    @param wait specifies whether to wait until the operation is complete (or times out)
+    @retval true if the operation is successful
+    @note It will take some time for the whole process to complete (EasyVR3 is faster)
+    and it cannot be interrupted. During this time the module cannot
+    accept any other command. The sound table and custom grammars data is not affected.
+  */
+  bool resetCommands(bool wait = true);
+  /**
+    Empties internal memory used for messages only. Commands/groups are not affected.
+    @param wait specifies whether to wait until the operation is complete (or times out)
+    @retval true if the operation is successful
+    @note It will take some time for the whole process to complete (EasyVR3 is faster)
+    and it cannot be interrupted. During this time the module cannot
+    accept any other command. The sound table and custom grammars data is not affected.
+  */
+  bool resetMessages(bool wait = true);
+  /**
+    Performs a memory check for consistency.
+    @retval true if the operation is successful
+    @note If a memory write or erase operation does not complete due to unexpected
+    conditions, like power losses, the memory contents may be currupted. When the
+    check fails #getError() returns #ERR_CUSTOM_INVALID.
+  */
+  bool checkMessages();
+  /**
+    Performs a memory check and attempt recovery if necessary. Incomplete data will
+    be erased. Custom commands/groups are not affected.
+    @param wait specifies whether to wait until the operation is complete (or times out)
+    @retval true if the operation is successful
+    @note It will take some time for the whole process to complete (several seconds)
+    and it cannot be interrupted. During this time the module cannot
+    accept any other command. The sound table and custom grammars data is not affected.
+  */
+  bool fixMessages(bool wait = true);
   /**
     Tests if bridge mode has been requested on the specified port
     @param port is the target serial port (usually the PC serial port)
