@@ -257,6 +257,20 @@ public:
     REJECTION_AVG,    /**< Medium noise rejection, medium sensitivity */
     REJECTION_MAX,    /**< Highest noise rejection, lowest sensitivity */
   };
+  /** Playback speed for recorded messages */
+  enum MessageSpeed
+  {
+    SPEED_NORMAL,    /**< Normal playback speed */
+    SPEED_FASTER,    /**< Faster playback speed */
+  };
+  /** Playback attenuation for recorded messages */
+  enum MessageAttenuation
+  {
+    ATTEN_NONE,   /**< No attenuation (normalized volume) */
+    ATTEN_2DB2,   /**< Attenuation of -2.2dB */
+    ATTEN_4DB5,   /**< Attenuation of -4.5dB */
+    ATTEN_6DB7,   /**< Attenuation of -6.7dB */
+  };
   /** Error codes used by various functions */
   enum ErrorCode
   {
@@ -702,6 +716,16 @@ public:
     accept any other command. The sound table and custom grammars data is not affected.
   */
   bool fixMessages(bool wait = true);
+  /**
+    Starts playback of a recorded message. Manually check for
+    completion with #hasFinished().
+    @param index (0-31) is the index of the target sound in the sound table
+    @param speed (0-1) may be one of the values in #MessageSpeed
+    @param atten (0-3) may be one of the values in #MessageAttenuation
+    @note The module is busy until playback completes and it cannot
+    accept other commands. You can interrupt playback with #stop().
+  */
+  void playMessageAsync(int8_t index, int8_t speed, int8_t atten);
   /**
     Tests if bridge mode has been requested on the specified port
     @param port is the target serial port (usually the PC serial port)

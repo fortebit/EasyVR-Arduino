@@ -757,6 +757,14 @@ bool EasyVR::fixMessages(bool wait)
   return false;
 }
 
+void EasyVR::playMessageAsync(int8_t index, int8_t speed, int8_t atten)
+{
+  sendCmd(CMD_PLAY_RP);
+  sendArg(-1);
+  sendArg(index);
+  sendArg((speed << 2) | (atten & 3));
+}
+
 // Bridge Mode implementation
 
 void EasyVR::bridgeLoop(Stream& pcSerial)
