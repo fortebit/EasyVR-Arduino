@@ -757,6 +757,15 @@ bool EasyVR::fixMessages(bool wait)
   return false;
 }
 
+void EasyVR::recordMessageAsync(int8_t index, int8_t bits, int8_t timeout)
+{
+  sendCmd(CMD_RECORD_RP);
+  sendArg(-1);
+  sendArg(index);
+  sendArg(bits);
+  sendArg(timeout);
+}
+
 void EasyVR::playMessageAsync(int8_t index, int8_t speed, int8_t atten)
 {
   sendCmd(CMD_PLAY_RP);
