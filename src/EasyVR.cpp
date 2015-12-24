@@ -1,5 +1,5 @@
 /*
-EasyVR library v1.6
+EasyVR library v1.8
 Copyright (C) 2014 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -24,6 +24,7 @@ void EasyVR::send(uint8_t c)
 void EasyVR::sendCmd(uint8_t c)
 {
   _s->flush();
+  while (_s->available() > 0);
   send(c);
 }
 
@@ -63,6 +64,77 @@ bool EasyVR::recvArg(int8_t& c)
   int r = recv(DEF_TIMEOUT);
   c = r - ARG_ZERO;
   return r >= ARG_MIN && r <= ARG_MAX;
+}
+
+void EasyVR::readStatus(int8_t rx)
+{
+  _status.v = 0;
+  _value = 0;
+  
+  switch (rx)
+  {
+  case STS_SUCCESS:
+    return;
+  
+  case STS_SIMILAR:
+    _status.b._builtin = true;
+    goto GET_WORD_INDEX;
+
+  case STS_RESULT:
+    _status.b._command = true;
+  
+  GET_WORD_INDEX:
+    if (recvArg(rx))
+    {
+      _value = rx;
+      return;
+    }
+    break;
+    
+  case STS_TOKEN:
+    _status.b._token = true;
+  
+    if (recvArg(rx))
+    {
+      _value = rx << 5;
+      if (recvArg(rx))
+      {
+        _value |= rx;
+        return;
+      }
+    }
+    break;
+    
+  case STS_AWAKEN:
+    _status.b._awakened = true;
+    return;
+    
+  case STS_TIMEOUT:
+    _status.b._timeout = true;
+    return;
+    
+  case STS_INVALID:
+    _status.b._invalid = true;
+    return;
+    
+  case STS_ERROR:
+    _status.b._error = true;
+    if (recvArg(rx))
+    {
+      _value = rx << 4;
+      if (recvArg(rx))
+      {
+        _value |= rx;
+        return;
+      }
+    }
+    break;
+  }
+
+  // unexpected condition (communication error)
+  _status.v = 0;
+  _status.b._error = true;
+  _value = 0;
 }
 
 /*****************************************************************************/
@@ -444,73 +516,7 @@ bool EasyVR::hasFinished()
   if (rx < 0)
     return false;
   
-  _status.v = 0;
-  _value = 0;
-  
-  switch (rx)
-  {
-  case STS_SUCCESS:
-    return true;
-  
-  case STS_SIMILAR:
-    _status.b._builtin = true;
-    goto GET_WORD_INDEX;
-
-  case STS_RESULT:
-    _status.b._command = true;
-  
-  GET_WORD_INDEX:
-    if (recvArg(rx))
-    {
-      _value = rx;
-      return true;
-    }
-    break;
-    
-  case STS_TOKEN:
-    _status.b._token = true;
-  
-    if (recvArg(rx))
-    {
-      _value = rx << 5;
-      if (recvArg(rx))
-      {
-        _value |= rx;
-        return true;
-      }
-    }
-    break;
-    
-  case STS_AWAKEN:
-    _status.b._awakened = true;
-    return true;
-    
-  case STS_TIMEOUT:
-    _status.b._timeout = true;
-    return true;
-    
-  case STS_INVALID:
-    _status.b._invalid = true;
-    return true;
-    
-  case STS_ERROR:
-    _status.b._error = true;
-    if (recvArg(rx))
-    {
-      _value = rx << 4;
-      if (recvArg(rx))
-      {
-        _value |= rx;
-        return true;
-      }
-    }
-    break;
-  }
-
-  // unexpected condition (communication error)
-  _status.v = 0;
-  _status.b._error = true;
-  _value = 0;
+  readStatus(rx);
   return true;
 }
 
@@ -665,7 +671,7 @@ bool EasyVR::dumpSoundTable(char* name, int16_t& count)
 bool EasyVR::resetAll(bool wait)
 {
   sendCmd(CMD_RESETALL);
-  sendArg(17);
+  sendArg('R' - ARG_ZERO);
 
   if (!wait)
     return true;
@@ -676,12 +682,142 @@ bool EasyVR::resetAll(bool wait)
   while (timeout != 0 && _s->available() == 0)
   {
     delay(1000);
-    if (timeout > 0)
-      --timeout;
+    --timeout;
   }
   if (_s->read() == STS_SUCCESS)
     return true;
   return false;
+}
+
+bool EasyVR::resetCommands(bool wait)
+{
+  sendCmd(CMD_RESETALL);
+  sendArg('D' - ARG_ZERO);
+
+  if (!wait)
+    return true;
+
+  int timeout = 5; // seconds
+  while (timeout != 0 && _s->available() == 0)
+  {
+    delay(1000);
+    --timeout;
+  }
+  if (_s->read() == STS_SUCCESS)
+    return true;
+  return false;
+}
+
+bool EasyVR::resetMessages(bool wait)
+{
+  sendCmd(CMD_RESETALL);
+  sendArg('M' - ARG_ZERO);
+
+  if (!wait)
+    return true;
+
+  int timeout = 15; // seconds
+  while (timeout != 0 && _s->available() == 0)
+  {
+    delay(1000);
+    --timeout;
+  }
+  if (_s->read() == STS_SUCCESS)
+    return true;
+  return false;
+}
+
+bool EasyVR::checkMessages()
+{
+  sendCmd(CMD_VERIFY_RP);
+  sendArg(-1);
+  sendArg(0);
+
+  int rx = recv(STORAGE_TIMEOUT);
+  readStatus(rx);
+  return (_status.v == 0);
+}
+
+bool EasyVR::fixMessages(bool wait)
+{
+  sendCmd(CMD_VERIFY_RP);
+  sendArg(-1);
+  sendArg(1);
+
+  if (!wait)
+    return true;
+
+  int timeout = 25; // seconds
+  while (timeout != 0 && _s->available() == 0)
+  {
+    delay(1000);
+    --timeout;
+  }
+  if (_s->read() == STS_SUCCESS)
+    return true;
+  return false;
+}
+
+void EasyVR::recordMessageAsync(int8_t index, int8_t bits, int8_t timeout)
+{
+  sendCmd(CMD_RECORD_RP);
+  sendArg(-1);
+  sendArg(index);
+  sendArg(bits);
+  sendArg(timeout);
+}
+
+void EasyVR::playMessageAsync(int8_t index, int8_t speed, int8_t atten)
+{
+  sendCmd(CMD_PLAY_RP);
+  sendArg(-1);
+  sendArg(index);
+  sendArg((speed << 2) | (atten & 3));
+}
+
+void EasyVR::eraseMessageAsync(int8_t index)
+{
+  sendCmd(CMD_ERASE_RP);
+  sendArg(-1);
+  sendArg(index);
+}
+
+bool EasyVR::dumpMessage(int8_t index, int8_t& type, int32_t& length)
+{
+  sendCmd(CMD_DUMP_RP);
+  sendArg(-1);
+  sendArg(index);
+
+  int sts = recv(STORAGE_TIMEOUT);
+  if (sts != STS_MESSAGE)
+  {
+    readStatus(sts);
+    return false;
+  }
+
+  // if communication should fail
+  _status.v = 0;
+  _status.b._error = true;
+
+  if (!recvArg(type))
+    return false;
+
+  int8_t rx;
+  length = 0;
+  if (type == 0)
+    return true; // skip reading if empty
+
+  for (int8_t i = 0; i < 6; ++i)
+  {
+    if (!recvArg(rx))
+      return false;
+    ((uint8_t*)&length)[i] |= rx & 0x0F;
+    if (!recvArg(rx))
+      return false;
+    ((uint8_t*)&length)[i] |= (rx << 4) & 0xF0;
+  }
+  _status.v = 0;
+  return true;
 }
 
 // Bridge Mode implementation

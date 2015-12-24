@@ -1,5 +1,5 @@
 /** @file
-EasyVR library v1.6
+EasyVR library v1.8
 Copyright (C) 2014 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -119,6 +119,7 @@ protected:
   void sendGroup(int8_t c);
   int recv(int16_t timeout = INFINITE);
   bool recvArg(int8_t& c);
+  void readStatus(int8_t rx);
     
 public:
   /** Module identification number (firmware version) */
@@ -129,6 +130,7 @@ public:
     EASYVR2,  /**< Identifies an EasyVR module version 2 */
     EASYVR2_3, /**< Identifies an EasyVR module version 2, firmware revision 3 */
     EASYVR3 = 8, /**< Identifies an EasyVR module version 3, firmware revision 0 */
+    EASYVR3_1, /**< Identifies an EasyVR module version 3, firmware revision 1 */
   };
   /** Language to use for recognition of built-in words */
   enum Language
@@ -255,6 +257,26 @@ public:
     REJECTION_AVG,    /**< Medium noise rejection, medium sensitivity */
     REJECTION_MAX,    /**< Highest noise rejection, lowest sensitivity */
   };
+  /** Playback speed for recorded messages */
+  enum MessageSpeed
+  {
+    SPEED_NORMAL,    /**< Normal playback speed */
+    SPEED_FASTER,    /**< Faster playback speed */
+  };
+  /** Playback attenuation for recorded messages */
+  enum MessageAttenuation
+  {
+    ATTEN_NONE,   /**< No attenuation (normalized volume) */
+    ATTEN_2DB2,   /**< Attenuation of -2.2dB */
+    ATTEN_4DB5,   /**< Attenuation of -4.5dB */
+    ATTEN_6DB7,   /**< Attenuation of -6.7dB */
+  };
+  /** Type of recorded message */
+  enum MessageType
+  {
+    MSG_EMPTY = 0,   /**< Empty message slot */
+    MSG_8BIT = 8,    /**< Message recorded with 8-bits PCM */
+  };
   /** Error codes used by various functions */
   enum ErrorCode
   {
@@ -301,6 +323,7 @@ public:
 
     //-- 8x: Custom errors
     ERR_CUSTOM_NOTA             = 0x80, /**< none of the above (out of grammar) */
+    ERR_CUSTOM_INVALID          = 0x81, /**< invalid data (for memory check) */
 
     //-- Cx: Internal errors (all)
     ERR_SW_STACK_OVERFLOW       = 0xC0, /**< no room left in software stack */
@@ -655,14 +678,86 @@ public:
   */
   bool playPhoneTone(int8_t tone, uint8_t duration);
   /**
-    Empties internal memory for custom commands and groups.
+    Empties internal memory for custom commands/groups and messages.
     @param wait specifies whether to wait until the operation is complete (or times out)
     @retval true if the operation is successful
-    @note It will take about 35 seconds for the whole process to complete
+    @note It will take some time for the whole process to complete (EasyVR3 is faster)
     and it cannot be interrupted. During this time the module cannot
     accept any other command. The sound table and custom grammars data is not affected.
   */
   bool resetAll(bool wait = true);
+  /**
+    Empties internal memory for custom commands/groups only. Messages are not affected.
+    @param wait specifies whether to wait until the operation is complete (or times out)
+    @retval true if the operation is successful
+    @note It will take some time for the whole process to complete (EasyVR3 is faster)
+    and it cannot be interrupted. During this time the module cannot
+    accept any other command. The sound table and custom grammars data is not affected.
+  */
+  bool resetCommands(bool wait = true);
+  /**
+    Empties internal memory used for messages only. Commands/groups are not affected.
+    @param wait specifies whether to wait until the operation is complete (or times out)
+    @retval true if the operation is successful
+    @note It will take some time for the whole process to complete (EasyVR3 is faster)
+    and it cannot be interrupted. During this time the module cannot
+    accept any other command. The sound table and custom grammars data is not affected.
+  */
+  bool resetMessages(bool wait = true);
+  /**
+    Performs a memory check for consistency.
+    @retval true if the operation is successful
+    @note If a memory write or erase operation does not complete due to unexpected
+    conditions, like power losses, the memory contents may be corrupted. When the
+    check fails #getError() returns #ERR_CUSTOM_INVALID.
+  */
+  bool checkMessages();
+  /**
+    Performs a memory check and attempt recovery if necessary. Incomplete data will
+    be erased. Custom commands/groups are not affected.
+    @param wait specifies whether to wait until the operation is complete (or times out)
+    @retval true if the operation is successful
+    @note It will take some time for the whole process to complete (several seconds)
+    and it cannot be interrupted. During this time the module cannot
+    accept any other command. The sound table and custom grammars data is not affected.
+  */
+  bool fixMessages(bool wait = true);
+  /**
+    Starts recording a message. Manually check for completion with #hasFinished().
+    @param index (0-31) is the index of the target message slot
+    @param bits (4 or 8) specifies the audio format (see #MessageType)
+    @param timeout (0-31) is the maximum recording time (0=infinite)
+    @note The module is busy until recording times out or the end of memory is
+    reached. You can interrupt an ongoing recording with #stop().
+  */
+  void recordMessageAsync(int8_t index, int8_t bits, int8_t timeout);
+  /**
+    Starts playback of a recorded message. Manually check for completion with #hasFinished().
+    @param index (0-31) is the index of the target message slot
+    @param speed (0-1) may be one of the values in #MessageSpeed
+    @param atten (0-3) may be one of the values in #MessageAttenuation
+    @note The module is busy until playback completes and it cannot
+    accept other commands. You can interrupt playback with #stop().
+  */
+  void playMessageAsync(int8_t index, int8_t speed, int8_t atten);
+  /**
+    Erases a recorded message. Manually check for completion with #hasFinished().
+    @param index (0-31) is the index of the target message slot
+    @retval true if the operation is successful
+  */
+  void eraseMessageAsync(int8_t index);
+  /**
+    Retrieves the type and length of a recorded message
+    @param index (0-31) is the index of the target message slot
+    @param type (0,4,8) is a variable that holds the message format when the
+    function returns (see #MessageType)
+    @param length is a variable that holds the message length in bytes when
+    the function returns
+    @retval true if the operation is successful
+    @note The specified message may have errors. Use #getError() when the
+    function fails, to know the reason of the failure.
+  */
+  bool dumpMessage(int8_t index, int8_t& type, int32_t& length);
   /**
     Tests if bridge mode has been requested on the specified port
     @param port is the target serial port (usually the PC serial port)
