@@ -709,7 +709,7 @@ public:
     Performs a memory check for consistency.
     @retval true if the operation is successful
     @note If a memory write or erase operation does not complete due to unexpected
-    conditions, like power losses, the memory contents may be currupted. When the
+    conditions, like power losses, the memory contents may be corrupted. When the
     check fails #getError() returns #ERR_CUSTOM_INVALID.
   */
   bool checkMessages();
@@ -741,6 +741,24 @@ public:
     accept other commands. You can interrupt playback with #stop().
   */
   void playMessageAsync(int8_t index, int8_t speed, int8_t atten);
+  /**
+    Erases a recorded message. Manually check for completion with #hasFinished().
+    @param index (0-31) is the index of the target message slot
+    @retval true if the operation is successful
+  */
+  void eraseMessageAsync(int8_t index);
+  /**
+    Retrieves the type and length of a recorded message
+    @param index (0-31) is the index of the target message slot
+    @param type (0,4,8) is a variable that holds the message format when the
+    function returns (see #MessageType)
+    @param length is a variable that holds the message length in bytes when
+    the function returns
+    @retval true if the operation is successful
+    @note The specified message may have errors. Use #getError() when the
+    function fails, to know the reason of the failure.
+  */
+  bool dumpMessage(int8_t index, int8_t& type, int32_t& length);
   /**
     Tests if bridge mode has been requested on the specified port
     @param port is the target serial port (usually the PC serial port)

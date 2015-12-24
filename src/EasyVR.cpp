@@ -774,6 +774,51 @@ void EasyVR::playMessageAsync(int8_t index, int8_t speed, int8_t atten)
   sendArg((speed << 2) | (atten & 3));
 }
 
+void EasyVR::eraseMessageAsync(int8_t index)
+{
+  sendCmd(CMD_ERASE_RP);
+  sendArg(-1);
+  sendArg(index);
+}
+
+bool EasyVR::dumpMessage(int8_t index, int8_t& type, int32_t& length)
+{
+  sendCmd(CMD_DUMP_RP);
+  sendArg(-1);
+  sendArg(index);
+
+  int sts = recv(STORAGE_TIMEOUT);
+  if (sts != STS_MESSAGE)
+  {
+    readStatus(sts);
+    return false;
+  }
+
+  // if communication should fail
+  _status.v = 0;
+  _status.b._error = true;
+
+  if (!recvArg(type))
+    return false;
+
+  int8_t rx;
+  length = 0;
+  if (type == 0)
+    return true; // skip reading if empty
+
+  for (int8_t i = 0; i < 6; ++i)
+  {
+    if (!recvArg(rx))
+      return false;
+    ((uint8_t*)&length)[i] |= rx & 0x0F;
+    if (!recvArg(rx))
+      return false;
+    ((uint8_t*)&length)[i] |= (rx << 4) & 0xF0;
+  }
+  _status.v = 0;
+  return true;
+}
+
 // Bridge Mode implementation
 
 void EasyVR::bridgeLoop(Stream& pcSerial)
