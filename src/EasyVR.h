@@ -275,7 +275,6 @@ public:
   enum MessageType
   {
     MSG_EMPTY = 0,   /**< Empty message slot */
-    MSG_4BIT = 4,    /**< Message recorded with 4-bits ADPCM */
     MSG_8BIT = 8,    /**< Message recorded with 8-bits PCM */
   };
   /** Error codes used by various functions */
