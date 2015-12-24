@@ -32,7 +32,7 @@
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <h1>
-<img alt="Logo" src="EasyVR_Logo.png"/>&#160;&#160;EasyVR Library&#160;<span id="projectnumber">1.7</span>
+<img alt="Logo" src="EasyVR_Logo.png"/>&#160;&#160;EasyVR Library&#160;<span id="projectnumber">1.8.0</span>
 </h1>
 </div>
 <!-- end header part -->
@@ -168,6 +168,8 @@ Public Types</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="class_easy_v_r.html#a59e56af19e754a6aa26a612ebf91d05fab75fe7584be738f55d319426722ac166">ERR_CUSTOM_NOTA</a> = 0x80, 
 <br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a59e56af19e754a6aa26a612ebf91d05fa061bcc86375b1f0cdc3e29c993b0bf32">ERR_CUSTOM_INVALID</a> = 0x81, 
+<br />
 &#160;&#160;<a class="el" href="class_easy_v_r.html#a59e56af19e754a6aa26a612ebf91d05fa3a5f56a2abe0ecfaac1ccb57ff8cf63d">ERR_SW_STACK_OVERFLOW</a> = 0xC0, 
 <br />
 &#160;&#160;<a class="el" href="class_easy_v_r.html#a59e56af19e754a6aa26a612ebf91d05fa12775323df755fa5284feadba87097f3">ERR_INTERNAL_T2SI_BAD_SETUP</a> = 0xCC
@@ -231,6 +233,34 @@ Public Types</h2></td></tr>
  }<tr class="memdesc:a221b779e6bb7b8d40677d7642bfefac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strictness values for the level settings, used for recognition of custom commands (not used for the mixed trigger group)  <a href="class_easy_v_r.html#a221b779e6bb7b8d40677d7642bfefac5">More...</a><br /></td></tr>
 <tr class="separator:a221b779e6bb7b8d40677d7642bfefac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </td></tr>
+<tr class="memitem:a9f9031a10cbf11fd80e2b877bc9855e5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a9f9031a10cbf11fd80e2b877bc9855e5">MessageAttenuation</a> { <br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a9f9031a10cbf11fd80e2b877bc9855e5aa7c4aafbbd86a113f97bccd86bb70325">ATTEN_NONE</a>, 
+<br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a9f9031a10cbf11fd80e2b877bc9855e5aa07d81676007731d63e51187ad9bec63">ATTEN_2DB2</a>, 
+<br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a9f9031a10cbf11fd80e2b877bc9855e5a44162cb865cc26bf4b7199255ae674b8">ATTEN_4DB5</a>, 
+<br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a9f9031a10cbf11fd80e2b877bc9855e5ade01169107eab951e88a486eeda8f323">ATTEN_6DB7</a>
+<br />
+ }<tr class="memdesc:a9f9031a10cbf11fd80e2b877bc9855e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Playback attenuation for recorded messages.  <a href="class_easy_v_r.html#a9f9031a10cbf11fd80e2b877bc9855e5">More...</a><br /></td></tr>
+<tr class="separator:a9f9031a10cbf11fd80e2b877bc9855e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+<tr class="memitem:a01ecd42aca3967373dac1826d0803ceb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a01ecd42aca3967373dac1826d0803ceb">MessageSpeed</a> { <br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a01ecd42aca3967373dac1826d0803ceba72123bce81b2e54cb80038c7f4d2a92f">SPEED_NORMAL</a>, 
+<br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a01ecd42aca3967373dac1826d0803cebaf6568d3de8dfb98d1bf7c7608087e853">SPEED_FASTER</a>
+<br />
+ }<tr class="memdesc:a01ecd42aca3967373dac1826d0803ceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Playback speed for recorded messages.  <a href="class_easy_v_r.html#a01ecd42aca3967373dac1826d0803ceb">More...</a><br /></td></tr>
+<tr class="separator:a01ecd42aca3967373dac1826d0803ceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+<tr class="memitem:ac6606ebe91c8ac66a2c314c79f5ab013"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a> { <br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#ac6606ebe91c8ac66a2c314c79f5ab013a333144c22bc62a58615bff5b43f46df8">MSG_EMPTY</a> = 0, 
+<br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#ac6606ebe91c8ac66a2c314c79f5ab013ab5da2678bd21b8f04e0c859a62afa8e7">MSG_8BIT</a> = 8
+<br />
+ }<tr class="memdesc:ac6606ebe91c8ac66a2c314c79f5ab013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of recorded message.  <a href="class_easy_v_r.html#ac6606ebe91c8ac66a2c314c79f5ab013">More...</a><br /></td></tr>
+<tr class="separator:ac6606ebe91c8ac66a2c314c79f5ab013"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
 <tr class="memitem:a2af2c6f2596e5cc6b96f738b48bd35d6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6">ModuleId</a> { <br />
 &#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6abf58bd8a75213d1cce6811abecc04c22">VRBOT</a>, 
 <br />
@@ -240,7 +270,9 @@ Public Types</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6a879f52f1837cfd6c1e13e6ac3e7cccaf">EASYVR2_3</a>, 
 <br />
-&#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6aa0c4c90debd6d70d15361b0b83f7276b">EASYVR3</a> = 8
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6aa0c4c90debd6d70d15361b0b83f7276b">EASYVR3</a> = 8, 
+<br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6a88ab90bc8ee0c0502aa777dce31f8ecd">EASYVR3_1</a>
 <br />
  }<tr class="memdesc:a2af2c6f2596e5cc6b96f738b48bd35d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module identification number (firmware version)  <a href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6">More...</a><br /></td></tr>
 <tr class="separator:a2af2c6f2596e5cc6b96f738b48bd35d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -342,6 +374,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5fc0a8eebd4ba4377e747d4de2d356ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a5fc0a8eebd4ba4377e747d4de2d356ea">changeBaudrate</a> (int8_t baud)</td></tr>
 <tr class="memdesc:a5fc0a8eebd4ba4377e747d4de2d356ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the new communication speed.  <a href="#a5fc0a8eebd4ba4377e747d4de2d356ea">More...</a><br /></td></tr>
 <tr class="separator:a5fc0a8eebd4ba4377e747d4de2d356ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76cb43081a42a5b0c7966ff6d8de3de3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a76cb43081a42a5b0c7966ff6d8de3de3">checkMessages</a> ()</td></tr>
+<tr class="memdesc:a76cb43081a42a5b0c7966ff6d8de3de3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a memory check for consistency.  <a href="#a76cb43081a42a5b0c7966ff6d8de3de3">More...</a><br /></td></tr>
+<tr class="separator:a76cb43081a42a5b0c7966ff6d8de3de3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54820318c743846723c0040c04f62df7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a54820318c743846723c0040c04f62df7">detect</a> ()</td></tr>
 <tr class="memdesc:a54820318c743846723c0040c04f62df7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detects an <a class="el" href="class_easy_v_r.html" title="An implementation of the EasyVR communication protocol. ">EasyVR</a> module, waking it from sleep mode and checking it responds correctly.  <a href="#a54820318c743846723c0040c04f62df7">More...</a><br /></td></tr>
 <tr class="separator:a54820318c743846723c0040c04f62df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -354,6 +389,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a37fb3c33185ed63bb1e03d742e71ab31"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a37fb3c33185ed63bb1e03d742e71ab31">dumpGrammar</a> (int8_t grammar, uint8_t &amp;flags, uint8_t &amp;count)</td></tr>
 <tr class="memdesc:a37fb3c33185ed63bb1e03d742e71ab31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the contents of a built-in or a custom grammar.  <a href="#a37fb3c33185ed63bb1e03d742e71ab31">More...</a><br /></td></tr>
 <tr class="separator:a37fb3c33185ed63bb1e03d742e71ab31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a168bd623d4addf2acad90ce65e0feaf3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a168bd623d4addf2acad90ce65e0feaf3">dumpMessage</a> (int8_t index, int8_t &amp;type, int32_t &amp;length)</td></tr>
+<tr class="memdesc:a168bd623d4addf2acad90ce65e0feaf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the type and length of a recorded message.  <a href="#a168bd623d4addf2acad90ce65e0feaf3">More...</a><br /></td></tr>
+<tr class="separator:a168bd623d4addf2acad90ce65e0feaf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86655e4bdf1558c471412adcbccf212a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a86655e4bdf1558c471412adcbccf212a">dumpSoundTable</a> (char *name, int16_t &amp;count)</td></tr>
 <tr class="memdesc:a86655e4bdf1558c471412adcbccf212a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the name of the sound table and the number of sounds it contains.  <a href="#a86655e4bdf1558c471412adcbccf212a">More...</a><br /></td></tr>
 <tr class="separator:a86655e4bdf1558c471412adcbccf212a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -366,6 +404,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ade1c4262473afe7fe9d1d3371ab6b8ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#ade1c4262473afe7fe9d1d3371ab6b8ca">eraseCommand</a> (int8_t group, int8_t index)</td></tr>
 <tr class="memdesc:ade1c4262473afe7fe9d1d3371ab6b8ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases the training data of a custom command.  <a href="#ade1c4262473afe7fe9d1d3371ab6b8ca">More...</a><br /></td></tr>
 <tr class="separator:ade1c4262473afe7fe9d1d3371ab6b8ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9254f438434be9fd454459e2fc174504"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a9254f438434be9fd454459e2fc174504">eraseMessageAsync</a> (int8_t index)</td></tr>
+<tr class="memdesc:a9254f438434be9fd454459e2fc174504"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases a recorded message.  <a href="#a9254f438434be9fd454459e2fc174504">More...</a><br /></td></tr>
+<tr class="separator:a9254f438434be9fd454459e2fc174504"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4716eb0f152d51d5c9fb8dd8036861a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#ae4716eb0f152d51d5c9fb8dd8036861a">fixMessages</a> (bool wait=true)</td></tr>
+<tr class="memdesc:ae4716eb0f152d51d5c9fb8dd8036861a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a memory check and attempt recovery if necessary.  <a href="#ae4716eb0f152d51d5c9fb8dd8036861a">More...</a><br /></td></tr>
+<tr class="separator:ae4716eb0f152d51d5c9fb8dd8036861a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a834260587b1299abfc9b616c5e674812"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a834260587b1299abfc9b616c5e674812">getCommand</a> ()</td></tr>
 <tr class="memdesc:a834260587b1299abfc9b616c5e674812"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the recognised command index if any.  <a href="#a834260587b1299abfc9b616c5e674812">More...</a><br /></td></tr>
 <tr class="separator:a834260587b1299abfc9b616c5e674812"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -411,6 +455,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5d9ba39eba853f2ba5eb0efba8dc30df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a5d9ba39eba853f2ba5eb0efba8dc30df">isTimeout</a> ()</td></tr>
 <tr class="memdesc:a5d9ba39eba853f2ba5eb0efba8dc30df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the timeout indicator.  <a href="#a5d9ba39eba853f2ba5eb0efba8dc30df">More...</a><br /></td></tr>
 <tr class="separator:a5d9ba39eba853f2ba5eb0efba8dc30df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a150f4fd94b3d76fa55f3d064b4957838"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a150f4fd94b3d76fa55f3d064b4957838">playMessageAsync</a> (int8_t index, int8_t speed, int8_t atten)</td></tr>
+<tr class="memdesc:a150f4fd94b3d76fa55f3d064b4957838"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts playback of a recorded message.  <a href="#a150f4fd94b3d76fa55f3d064b4957838">More...</a><br /></td></tr>
+<tr class="separator:a150f4fd94b3d76fa55f3d064b4957838"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abac4635e2a0b1e062f899f89556336fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#abac4635e2a0b1e062f899f89556336fb">playPhoneTone</a> (int8_t tone, uint8_t duration)</td></tr>
 <tr class="memdesc:abac4635e2a0b1e062f899f89556336fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plays a phone tone and waits for completion.  <a href="#abac4635e2a0b1e062f899f89556336fb">More...</a><br /></td></tr>
 <tr class="separator:abac4635e2a0b1e062f899f89556336fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -426,12 +473,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a74f21b2542308dd00082ff31029315d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a74f21b2542308dd00082ff31029315d6">recognizeWord</a> (int8_t wordset)</td></tr>
 <tr class="memdesc:a74f21b2542308dd00082ff31029315d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts recognition of a built-in word.  <a href="#a74f21b2542308dd00082ff31029315d6">More...</a><br /></td></tr>
 <tr class="separator:a74f21b2542308dd00082ff31029315d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47ded1845734c89e98b8106bc8e3fbe0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a47ded1845734c89e98b8106bc8e3fbe0">recordMessageAsync</a> (int8_t index, int8_t bits, int8_t timeout)</td></tr>
+<tr class="memdesc:a47ded1845734c89e98b8106bc8e3fbe0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts recording a message.  <a href="#a47ded1845734c89e98b8106bc8e3fbe0">More...</a><br /></td></tr>
+<tr class="separator:a47ded1845734c89e98b8106bc8e3fbe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6cfac9e923405d675b9e95f7b21a0823"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a6cfac9e923405d675b9e95f7b21a0823">removeCommand</a> (int8_t group, int8_t index)</td></tr>
 <tr class="memdesc:a6cfac9e923405d675b9e95f7b21a0823"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a custom command from a group.  <a href="#a6cfac9e923405d675b9e95f7b21a0823">More...</a><br /></td></tr>
 <tr class="separator:a6cfac9e923405d675b9e95f7b21a0823"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2beba9fbcf8bb2afab418d068fb57b58"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a2beba9fbcf8bb2afab418d068fb57b58">resetAll</a> (bool wait=true)</td></tr>
-<tr class="memdesc:a2beba9fbcf8bb2afab418d068fb57b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empties internal memory for custom commands and groups.  <a href="#a2beba9fbcf8bb2afab418d068fb57b58">More...</a><br /></td></tr>
+<tr class="memdesc:a2beba9fbcf8bb2afab418d068fb57b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empties internal memory for custom commands/groups and messages.  <a href="#a2beba9fbcf8bb2afab418d068fb57b58">More...</a><br /></td></tr>
 <tr class="separator:a2beba9fbcf8bb2afab418d068fb57b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85c72872683506c1ff21a7cd92a290eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a85c72872683506c1ff21a7cd92a290eb">resetCommands</a> (bool wait=true)</td></tr>
+<tr class="memdesc:a85c72872683506c1ff21a7cd92a290eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empties internal memory for custom commands/groups only.  <a href="#a85c72872683506c1ff21a7cd92a290eb">More...</a><br /></td></tr>
+<tr class="separator:a85c72872683506c1ff21a7cd92a290eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a949b36ccf8eabae72623e5a645c75534"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a949b36ccf8eabae72623e5a645c75534">resetMessages</a> (bool wait=true)</td></tr>
+<tr class="memdesc:a949b36ccf8eabae72623e5a645c75534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empties internal memory used for messages only.  <a href="#a949b36ccf8eabae72623e5a645c75534">More...</a><br /></td></tr>
+<tr class="separator:a949b36ccf8eabae72623e5a645c75534"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a822739743ad6475750e8776bbb40f989"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a822739743ad6475750e8776bbb40f989">sendToken</a> (int8_t bits, uint8_t token)</td></tr>
 <tr class="memdesc:a822739743ad6475750e8776bbb40f989"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plays a SonicNet token and waits for completion.  <a href="#a822739743ad6475750e8776bbb40f989">More...</a><br /></td></tr>
 <tr class="separator:a822739743ad6475750e8776bbb40f989"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -690,6 +746,9 @@ Public Member Functions</h2></td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a59e56af19e754a6aa26a612ebf91d05fab75fe7584be738f55d319426722ac166"></a>ERR_CUSTOM_NOTA&#160;</td><td class="fielddoc">
 <p>none of the above (out of grammar) </p>
 </td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a59e56af19e754a6aa26a612ebf91d05fa061bcc86375b1f0cdc3e29c993b0bf32"></a>ERR_CUSTOM_INVALID&#160;</td><td class="fielddoc">
+<p>invalid data (for memory check) </p>
+</td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a59e56af19e754a6aa26a612ebf91d05fa3a5f56a2abe0ecfaac1ccb57ff8cf63d"></a>ERR_SW_STACK_OVERFLOW&#160;</td><td class="fielddoc">
 <p>no room left in software stack </p>
 </td></tr>
@@ -837,6 +896,78 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a9f9031a10cbf11fd80e2b877bc9855e5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_easy_v_r.html#a9f9031a10cbf11fd80e2b877bc9855e5">MessageAttenuation</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Playback attenuation for recorded messages. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a9f9031a10cbf11fd80e2b877bc9855e5aa7c4aafbbd86a113f97bccd86bb70325"></a>ATTEN_NONE&#160;</td><td class="fielddoc">
+<p>No attenuation (normalized volume) </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9f9031a10cbf11fd80e2b877bc9855e5aa07d81676007731d63e51187ad9bec63"></a>ATTEN_2DB2&#160;</td><td class="fielddoc">
+<p>Attenuation of -2.2dB. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9f9031a10cbf11fd80e2b877bc9855e5a44162cb865cc26bf4b7199255ae674b8"></a>ATTEN_4DB5&#160;</td><td class="fielddoc">
+<p>Attenuation of -4.5dB. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9f9031a10cbf11fd80e2b877bc9855e5ade01169107eab951e88a486eeda8f323"></a>ATTEN_6DB7&#160;</td><td class="fielddoc">
+<p>Attenuation of -6.7dB. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="a01ecd42aca3967373dac1826d0803ceb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_easy_v_r.html#a01ecd42aca3967373dac1826d0803ceb">MessageSpeed</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Playback speed for recorded messages. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a01ecd42aca3967373dac1826d0803ceba72123bce81b2e54cb80038c7f4d2a92f"></a>SPEED_NORMAL&#160;</td><td class="fielddoc">
+<p>Normal playback speed. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a01ecd42aca3967373dac1826d0803cebaf6568d3de8dfb98d1bf7c7608087e853"></a>SPEED_FASTER&#160;</td><td class="fielddoc">
+<p>Faster playback speed. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="ac6606ebe91c8ac66a2c314c79f5ab013"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_easy_v_r.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Type of recorded message. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="ac6606ebe91c8ac66a2c314c79f5ab013a333144c22bc62a58615bff5b43f46df8"></a>MSG_EMPTY&#160;</td><td class="fielddoc">
+<p>Empty message slot. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ac6606ebe91c8ac66a2c314c79f5ab013ab5da2678bd21b8f04e0c859a62afa8e7"></a>MSG_8BIT&#160;</td><td class="fielddoc">
+<p>Message recorded with 8-bits PCM. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a class="anchor" id="a2af2c6f2596e5cc6b96f738b48bd35d6"></a>
 <div class="memitem">
 <div class="memproto">
@@ -863,6 +994,9 @@ Public Member Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a2af2c6f2596e5cc6b96f738b48bd35d6aa0c4c90debd6d70d15361b0b83f7276b"></a>EASYVR3&#160;</td><td class="fielddoc">
 <p>Identifies an <a class="el" href="class_easy_v_r.html" title="An implementation of the EasyVR communication protocol. ">EasyVR</a> module version 3, firmware revision 0. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a2af2c6f2596e5cc6b96f738b48bd35d6a88ab90bc8ee0c0502aa777dce31f8ecd"></a>EASYVR3_1&#160;</td><td class="fielddoc">
+<p>Identifies an <a class="el" href="class_easy_v_r.html" title="An implementation of the EasyVR communication protocol. ">EasyVR</a> module version 3, firmware revision 1. </p>
 </td></tr>
 </table>
 
@@ -1216,6 +1350,30 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a76cb43081a42a5b0c7966ff6d8de3de3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool checkMessages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Performs a memory check for consistency. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if the operation is successful </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>If a memory write or erase operation does not complete due to unexpected conditions, like power losses, the memory contents may be corrupted. When the check fails <a class="el" href="class_easy_v_r.html#a4475ed5c298ad3967a895bc03ad03268" title="Gets the last error code if any. ">getError()</a> returns <a class="el" href="class_easy_v_r.html#a59e56af19e754a6aa26a612ebf91d05fa061bcc86375b1f0cdc3e29c993b0bf32" title="invalid data (for memory check) ">ERR_CUSTOM_INVALID</a>. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a54820318c743846723c0040c04f62df7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1385,6 +1543,55 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a168bd623d4addf2acad90ce65e0feaf3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool dumpMessage </td>
+          <td>(</td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int8_t &amp;&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t &amp;&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the type and length of a recorded message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>(0-31) is the index of the target message slot </td></tr>
+    <tr><td class="paramname">type</td><td>(0,4,8) is a variable that holds the message format when the function returns (see <a class="el" href="class_easy_v_r.html#ac6606ebe91c8ac66a2c314c79f5ab013" title="Type of recorded message. ">MessageType</a>) </td></tr>
+    <tr><td class="paramname">length</td><td>is a variable that holds the message length in bytes when the function returns </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if the operation is successful </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The specified message may have errors. Use <a class="el" href="class_easy_v_r.html#a4475ed5c298ad3967a895bc03ad03268" title="Gets the last error code if any. ">getError()</a> when the function fails, to know the reason of the failure. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a86655e4bdf1558c471412adcbccf212a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1513,6 +1720,67 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a9254f438434be9fd454459e2fc174504"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void eraseMessageAsync </td>
+          <td>(</td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Erases a recorded message. </p>
+<p>Manually check for completion with <a class="el" href="class_easy_v_r.html#ac448c0d2c73cbf593d2b2e72cdad7443" title="Polls the status of on-going recognition, training or asynchronous playback tasks. ">hasFinished()</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>(0-31) is the index of the target message slot </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if the operation is successful </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ae4716eb0f152d51d5c9fb8dd8036861a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool fixMessages </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>wait</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Performs a memory check and attempt recovery if necessary. </p>
+<p>Incomplete data will be erased. Custom commands/groups are not affected. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wait</td><td>specifies whether to wait until the operation is complete (or times out) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if the operation is successful </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>It will take some time for the whole process to complete (several seconds) and it cannot be interrupted. During this time the module cannot accept any other command. The sound table and custom grammars data is not affected. </dd></dl>
 
 </div>
 </div>
@@ -1901,6 +2169,49 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a150f4fd94b3d76fa55f3d064b4957838"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void playMessageAsync </td>
+          <td>(</td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>speed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>atten</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts playback of a recorded message. </p>
+<p>Manually check for completion with <a class="el" href="class_easy_v_r.html#ac448c0d2c73cbf593d2b2e72cdad7443" title="Polls the status of on-going recognition, training or asynchronous playback tasks. ">hasFinished()</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>(0-31) is the index of the target message slot </td></tr>
+    <tr><td class="paramname">speed</td><td>(0-1) may be one of the values in <a class="el" href="class_easy_v_r.html#a01ecd42aca3967373dac1826d0803ceb" title="Playback speed for recorded messages. ">MessageSpeed</a> </td></tr>
+    <tr><td class="paramname">atten</td><td>(0-3) may be one of the values in <a class="el" href="class_easy_v_r.html#a9f9031a10cbf11fd80e2b877bc9855e5" title="Playback attenuation for recorded messages. ">MessageAttenuation</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The module is busy until playback completes and it cannot accept other commands. You can interrupt playback with <a class="el" href="class_easy_v_r.html#a68a350717fe6bf9012843e7c977d87b2" title="Interrupts pending recognition or playback operations. ">stop()</a>. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="abac4635e2a0b1e062f899f89556336fb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -2070,6 +2381,49 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a47ded1845734c89e98b8106bc8e3fbe0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void recordMessageAsync </td>
+          <td>(</td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>bits</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts recording a message. </p>
+<p>Manually check for completion with <a class="el" href="class_easy_v_r.html#ac448c0d2c73cbf593d2b2e72cdad7443" title="Polls the status of on-going recognition, training or asynchronous playback tasks. ">hasFinished()</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>(0-31) is the index of the target message slot </td></tr>
+    <tr><td class="paramname">bits</td><td>(4 or 8) specifies the audio format (see <a class="el" href="class_easy_v_r.html#ac6606ebe91c8ac66a2c314c79f5ab013" title="Type of recorded message. ">MessageType</a>) </td></tr>
+    <tr><td class="paramname">timeout</td><td>(0-31) is the maximum recording time (0=infinite) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The module is busy until recording times out or the end of memory is reached. You can interrupt an ongoing recording with <a class="el" href="class_easy_v_r.html#a68a350717fe6bf9012843e7c977d87b2" title="Interrupts pending recognition or playback operations. ">stop()</a>. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a6cfac9e923405d675b9e95f7b21a0823"></a>
 <div class="memitem">
 <div class="memproto">
@@ -2125,7 +2479,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Empties internal memory for custom commands and groups. </p>
+<p>Empties internal memory for custom commands/groups and messages. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">wait</td><td>specifies whether to wait until the operation is complete (or times out) </td></tr>
@@ -2138,7 +2492,69 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>It will take about 35 seconds for the whole process to complete and it cannot be interrupted. During this time the module cannot accept any other command. The sound table and custom grammars data is not affected. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>It will take some time for the whole process to complete (EasyVR3 is faster) and it cannot be interrupted. During this time the module cannot accept any other command. The sound table and custom grammars data is not affected. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a85c72872683506c1ff21a7cd92a290eb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool resetCommands </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>wait</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Empties internal memory for custom commands/groups only. </p>
+<p>Messages are not affected. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wait</td><td>specifies whether to wait until the operation is complete (or times out) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if the operation is successful </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>It will take some time for the whole process to complete (EasyVR3 is faster) and it cannot be interrupted. During this time the module cannot accept any other command. The sound table and custom grammars data is not affected. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a949b36ccf8eabae72623e5a645c75534"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool resetMessages </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>wait</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Empties internal memory used for messages only. </p>
+<p>Commands/groups are not affected. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wait</td><td>specifies whether to wait until the operation is complete (or times out) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if the operation is successful </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>It will take some time for the whole process to complete (EasyVR3 is faster) and it cannot be interrupted. During this time the module cannot accept any other command. The sound table and custom grammars data is not affected. </dd></dl>
 
 </div>
 </div>
