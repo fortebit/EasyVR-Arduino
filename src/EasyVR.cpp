@@ -24,6 +24,7 @@ void EasyVR::send(uint8_t c)
 void EasyVR::sendCmd(uint8_t c)
 {
   _s->flush();
+  while (_s->available() > 0);
   send(c);
 }
 
