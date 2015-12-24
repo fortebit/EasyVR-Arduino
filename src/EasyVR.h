@@ -271,6 +271,13 @@ public:
     ATTEN_4DB5,   /**< Attenuation of -4.5dB */
     ATTEN_6DB7,   /**< Attenuation of -6.7dB */
   };
+  /** Type of recorded message */
+  enum MessageType
+  {
+    MSG_EMPTY = 0,   /**< Empty message slot */
+    MSG_4BIT = 4,    /**< Message recorded with 4-bits ADPCM */
+    MSG_8BIT = 8,    /**< Message recorded with 8-bits PCM */
+  };
   /** Error codes used by various functions */
   enum ErrorCode
   {
@@ -717,9 +724,17 @@ public:
   */
   bool fixMessages(bool wait = true);
   /**
-    Starts playback of a recorded message. Manually check for
-    completion with #hasFinished().
-    @param index (0-31) is the index of the target sound in the sound table
+    Starts recording a message. Manually check for completion with #hasFinished().
+    @param index (0-31) is the index of the target message slot
+    @param bits (4 or 8) specifies the audio format (see #MessageType)
+    @param timeout (0-31) is the maximum recording time (0=infinite)
+    @note The module is busy until recording times out or the end of memory is
+    reached. You can interrupt an ongoing recording with #stop().
+  */
+  void recordMessageAsync(int8_t index, int8_t bits, int8_t timeout);
+  /**
+    Starts playback of a recorded message. Manually check for completion with #hasFinished().
+    @param index (0-31) is the index of the target message slot
     @param speed (0-1) may be one of the values in #MessageSpeed
     @param atten (0-3) may be one of the values in #MessageAttenuation
     @note The module is busy until playback completes and it cannot
