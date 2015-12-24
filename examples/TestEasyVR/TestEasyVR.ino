@@ -23,6 +23,9 @@
   'w2' - enter sleep mode with "double-clap" wakeup
   'w3' - enter sleep mode with "triple-clap" wakeup
   'wl' - enter sleep mode with "loud-sound" wakeup
+  'r12' - record message 12 if empty
+  'p12' - play back message 12 if recorded
+  'e12' - erase message 12
 
   With EasyVR Shield, the green LED is ON while the module
   is listening (using pin IO1 of EasyVR).
@@ -71,8 +74,10 @@ int8_t grammars = 0;
 int8_t lang = 0;
 char name[33];
 bool useCommands = true;
+bool useGrammars = false;
 bool useTokens = false;
 bool isSleeping = false;
+bool isBusy = false;
 
 void setup()
 {
@@ -122,6 +127,37 @@ void setup()
   easyvr.setPinOutput(EasyVR::IO1, LOW);
   pcSerial.print(F("EasyVR detected, version "));
   pcSerial.println(easyvr.getID());
+  
+  if (easyvr.getID() >= EasyVR::EASYVR3_1)
+  {
+    if (!easyvr.checkMessages() && easyvr.getError() == EasyVR::ERR_CUSTOM_INVALID)
+    {
+      pcSerial.print(F("Message recovery needed, please wait..."));
+      if (easyvr.fixMessages())
+        pcSerial.println(F(" done!"));
+      else
+        pcSerial.println(F(" failed!"));
+    }
+  }
+
+  pcSerial.println(F("Recorded messages:"));
+  for (int8_t idx = 0; idx < 32; ++idx)
+  {
+    int8_t bits = -1; int32_t len = 0;
+    if (easyvr.dumpMessage(idx, bits, len) && (bits == 0))
+      continue; // skip empty
+    pcSerial.print(idx);
+    pcSerial.print(F(" = "));
+    if (bits < 0)
+      pcSerial.println(F(" has errors"));
+    else
+    {
+      pcSerial.print(bits);
+      pcSerial.print(F(" bits, size "));
+      pcSerial.println(len);
+    }
+  }
+
   easyvr.setTimeout(5);
   lang = EasyVR::ENGLISH;
   easyvr.setLanguage(lang);
@@ -274,6 +310,22 @@ const char* ws3[] =
 };
 const char** ws[] = { ws0, ws1, ws2, ws3 };
 
+int readNum()
+{
+  int rx;
+  int num = 0;
+  delay(5);
+  while ((rx = pcSerial.read()) >= 0)
+  {
+    delay(5);
+    if (isdigit(rx))
+      num = num * 10 + (rx - '0');
+    else
+      break;
+  }
+  return num;
+}
+
 bool checkMonitorInput()
 {
   if (pcSerial.available() <= 0)
@@ -310,6 +362,7 @@ bool checkMonitorInput()
   {
     useTokens = false;
     useCommands = false;
+    useGrammars = true;
     set++;
     if (set > 3)
       set = 0;
@@ -318,6 +371,7 @@ bool checkMonitorInput()
   {
     useTokens = false;
     useCommands = false;
+    useGrammars = true;
     set++;
     if (set >= grammars)
       set = 4;
@@ -326,6 +380,7 @@ bool checkMonitorInput()
   {
     useTokens = false;
     useCommands = true;
+    useGrammars = false;
     do
     {
       group++;
@@ -337,6 +392,8 @@ bool checkMonitorInput()
   if (rx == 'k')
   {
     useTokens = true;
+    useCommands = false;
+    useGrammars = false;
   }
   if (rx == '4')
   {
@@ -348,16 +405,7 @@ bool checkMonitorInput()
   }
   if (rx == 'n')
   {
-    int16_t num = 0;
-    delay(5);
-    while ((rx = pcSerial.read()) >= 0)
-    {
-      delay(5);
-      if (isdigit(rx))
-        num = num * 10 + (rx - '0');
-      else
-        break;
-    }
+    int16_t num = readNum();
     pcSerial.print(F("Play token "));
     pcSerial.println(num);
     easyvr.stop();
@@ -410,16 +458,7 @@ bool checkMonitorInput()
   }
   if (rx == 'm')
   {
-    int16_t num = 0;
-    delay(5);
-    while ((rx = pcSerial.read()) >= 0)
-    {
-      delay(5);
-      if (isdigit(rx))
-        num = num * 10 + (rx - '0');
-      else
-        break;
-    }
+    int16_t num = readNum();
     pcSerial.print(F("Mic distance "));
     pcSerial.println(num);
     easyvr.stop();
@@ -448,6 +487,45 @@ bool checkMonitorInput()
     isSleeping = easyvr.sleep(mode);
     return true;
   }
+  if (rx == 'r')
+  {
+    int8_t num = readNum();
+    pcSerial.print(F("Record (5 seconds) message "));
+    pcSerial.println(num);
+    easyvr.stop();
+    easyvr.recordMessageAsync(num, 8, 5);
+    useTokens = false;
+    useCommands = false;
+    useGrammars = false;
+    isBusy = true;
+    return true;
+  }
+  if (rx == 'p')
+  {
+    int8_t num = readNum();
+    pcSerial.print(F("Play message "));
+    pcSerial.println(num);
+    easyvr.stop();
+    easyvr.playMessageAsync(num, EasyVR::SPEED_NORMAL, EasyVR::ATTEN_NONE);
+    useTokens = false;
+    useCommands = false;
+    useGrammars = false;
+    isBusy = true;
+    return true;
+  }
+  if (rx == 'e')
+  {
+    int8_t num = readNum();
+    pcSerial.print(F("Erase message "));
+    pcSerial.println(num);
+    easyvr.stop();
+    easyvr.eraseMessageAsync(num);
+    useTokens = false;
+    useCommands = false;
+    useGrammars = false;
+    isBusy = true;
+    return true;
+  }
 
   if (rx >= 0)
   {
@@ -462,7 +540,7 @@ void loop()
 {
   checkMonitorInput();
 
-  if (!isSleeping)
+  if (!isSleeping && !isBusy)
   {
     easyvr.setPinOutput(EasyVR::IO1, HIGH); // LED on (listening)
     if (useTokens)
@@ -478,7 +556,7 @@ void loop()
       pcSerial.println(group);
       easyvr.recognizeCommand(group);
     }
-    else
+    else if (useGrammars)
     {
       pcSerial.print(F("Say a word in Wordset "));
       pcSerial.println(set);
@@ -492,6 +570,7 @@ void loop()
   }
   while (!easyvr.hasFinished());
   isSleeping = false;
+  isBusy = false;
 
   easyvr.setPinOutput(EasyVR::IO1, LOW); // LED off
 
@@ -580,14 +659,16 @@ void loop()
     }
     else // errors or timeout
     {
-      if (easyvr.isTimeout())
-        pcSerial.println(F("Timed out, try again..."));
       int16_t err = easyvr.getError();
       if (err >= 0)
       {
         pcSerial.print(F("Error 0x"));
         pcSerial.println(err, HEX);
       }
+      else if (easyvr.isTimeout())
+        pcSerial.println(F("Timed out."));
+      else
+        pcSerial.println(F("Done."));
     }
   }
 }
