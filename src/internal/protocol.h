@@ -8,6 +8,7 @@
 #define CMD_LEVEL       'v' // set sd level <1>
 #define CMD_VERIFY_RP   'v' // verify filesystem (<1>=-1) with flags <2> (0=check only, 1=fix)
 #define CMD_LANGUAGE    'l' // set si language <1>
+#define CMD_LIPSYNC     'l' // start real-time lipsync (<1>=-1) with threshold <2-3>, timeout <4-5>
 #define CMD_TIMEOUT     'o' // set timeout <1>
 #define CMD_RECOG_SI    'i' // do si recog from ws <1>
 #define CMD_TRAIN_SD    't' // train sd command at group <1> pos <2>

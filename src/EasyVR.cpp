@@ -820,6 +820,29 @@ bool EasyVR::dumpMessage(int8_t index, int8_t& type, int32_t& length)
   return true;
 }
 
+bool EasyVR::realtimeLipsync(int16_t threshold, uint8_t timeout)
+{
+  sendCmd(CMD_LIPSYNC);
+  sendArg(-1);
+  sendArg((threshold >> 5) & 0x1F);
+  sendArg(threshold & 0x1F);
+  sendArg((timeout >> 4) & 0x0F);
+  sendArg(timeout & 0x0F);
+
+  int sts = recv(DEF_TIMEOUT);
+  if (sts != STS_SUCCESS)
+  {
+    readStatus(sts);
+    return false;
+  }
+  return true;
+}
+
+bool EasyVR::fetchMouthPosition(int8_t& value)
+{
+  return recvArg(value);
+}
+
 // Bridge Mode implementation
 
 void EasyVR::bridgeLoop(Stream& pcSerial)

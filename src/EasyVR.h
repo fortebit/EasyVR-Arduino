@@ -277,6 +277,12 @@ public:
     MSG_EMPTY = 0,   /**< Empty message slot */
     MSG_8BIT = 8,    /**< Message recorded with 8-bits PCM */
   };
+  /** Threshold for real-time lip-sync */
+  enum LipsyncThreshold
+  {
+    RTLS_THRESHOLD_DEF = 270,   /**< Default threshold */
+    RTLS_THRESHOLD_MAX = 1023,  /**< Maximum threshold */
+  };
   /** Error codes used by various functions */
   enum ErrorCode
   {
@@ -758,6 +764,23 @@ public:
     function fails, to know the reason of the failure.
   */
   bool dumpMessage(int8_t index, int8_t& type, int32_t& length);
+  /**
+    Starts real-time lip-sync on the input voice signal.
+    Retrieve output values with #fetchMouthPosition() or abort with #stop().
+    @param threshold (0-1023) is a measure of the strength of the input signal
+    below which the mouth is considered to be closed (see #LipsyncThreshold,
+    adjust based on microphone settings, distance and background noise)
+    @param timeout (0-255) is the maximum duration of the function in seconds,
+    0 means infinite
+    @retval true if the operation is successfully started
+  */
+  bool realtimeLipsync(int16_t threshold, uint8_t timeout);
+  /**
+    Retrieves the current mouth position during lip-sync.
+    @param value (0-31) is filled in with the current mouth opening position
+    @retval true if the operation is successful, false if lip-sync has finished
+  */
+  bool fetchMouthPosition(int8_t& value);
   /**
     Tests if bridge mode has been requested on the specified port
     @param port is the target serial port (usually the PC serial port)
