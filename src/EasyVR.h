@@ -1,6 +1,6 @@
 /** @file
-EasyVR library v1.8
-Copyright (C) 2014 RoboTech srl
+EasyVR library v1.9
+Copyright (C) 2016 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
 EasyVR Shield boards produced by VeeaR <www.veear.eu>
