@@ -28,18 +28,19 @@
 #endif
 
 #include "EasyVR.h"
-
 EasyVR easyvr(port);
 
 #include <Servo.h>
-
 Servo myservo;  // create servo object to control a servo
+
+#define SERVO_PIN 11
+#define LIPSYNC_TIMEOUT 0 // in seconds, 0 means no timeout
 
 unsigned long t;
 
 void setup()
 {
-  myservo.attach(11);  // attaches the servo on pin 11 to the servo object
+  myservo.attach(SERVO_PIN);  // attaches the servo
 
   // setup PC serial port
   pcSerial.begin(9600);
@@ -95,7 +96,7 @@ void setup()
 
   pcSerial.println(F("---"));
 
-  if (!easyvr.realtimeLipsync(EasyVR::RTLS_THRESHOLD_DEF, 10))
+  if (!easyvr.realtimeLipsync(EasyVR::RTLS_THRESHOLD_DEF, LIPSYNC_TIMEOUT))
   {
     pcSerial.println(F("Failed to start Lip-Sync!"));
     for(;;);
@@ -133,14 +134,18 @@ void loop()
     t = millis() + 25;
     
     // map mouth position (0-31) to the pwm range (0-255)
-    uint8_t pwm = (pos << 3) | (pos >> 2);
+    uint8_t pwm = map(pos, 0, 31, 0, 255);
     analogWrite(A3, pwm);
 
-    myservo.write(12+pos*5);
+    // map mouth to servo angle (45-135), adjust based on mechanical setup
+    uint16_t angle = map(pos, 0, 31, 45, 135);
+    myservo.write(angle);
 
-    pcSerial.print(pos, DEC);
+    // send to PC (can use Serial Plotter to view graphically)
+    int amp = map(pos, 0, 31, 0, 100);
+    pcSerial.print(amp, DEC);
     pcSerial.print(" , ");
-    pcSerial.println(pwm, DEC);
+    pcSerial.println(-amp, DEC);
   }
   else
   {
@@ -153,7 +158,7 @@ void loop()
       for(;;);
     }
     else
-    if (easyvr.getError())
+    if (easyvr.getError() >= 0)
     {
       pcSerial.println("lipsync error");
       easyvr.stop();
