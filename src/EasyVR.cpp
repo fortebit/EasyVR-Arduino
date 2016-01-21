@@ -840,7 +840,17 @@ bool EasyVR::realtimeLipsync(int16_t threshold, uint8_t timeout)
 
 bool EasyVR::fetchMouthPosition(int8_t& value)
 {
-  return recvArg(value);
+  send(ARG_ACK);
+  int rx = recv(DEF_TIMEOUT);
+  if (rx >= ARG_MIN && rx <= ARG_MAX)
+  {
+    value = rx - ARG_ZERO;
+    return true;
+  }
+  // check if finished
+  if (rx >= 0)
+    readStatus(rx);
+  return false;
 }
 
 // Bridge Mode implementation
