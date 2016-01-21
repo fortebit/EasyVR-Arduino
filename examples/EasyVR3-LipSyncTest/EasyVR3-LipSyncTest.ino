@@ -31,10 +31,16 @@
 
 EasyVR easyvr(port);
 
+#include <Servo.h>
+
+Servo myservo;  // create servo object to control a servo
+
 unsigned long t;
 
 void setup()
 {
+  myservo.attach(11);  // attaches the servo on pin 11 to the servo object
+
   // setup PC serial port
   pcSerial.begin(9600);
 
@@ -89,26 +95,48 @@ void setup()
 
   pcSerial.println(F("---"));
 
-  if (!easyvr.realtimeLipsync(EasyVR::RTLS_THRESHOLD_DEF, 0))
+  if (!easyvr.realtimeLipsync(EasyVR::RTLS_THRESHOLD_DEF, 10))
   {
     pcSerial.println(F("Failed to start Lip-Sync!"));
     for(;;);
   }
 
-  delay(100); // wait for lipsync to be ready
+  t = millis() + 2000; // wait for lipsync to be ready
 }
 
 void loop()
 {
+  // wait for next lipsync value
+  // lipsync refreshes every 27ms, but we wait 25ms
+  // the next fetch will synchronize
+  while (millis() < t)
+  {
+    // do something else
+    delay(1);
+    // test interruption
+    int rx = pcSerial.read();
+    if ((uint8_t)rx == (uint8_t)'.')
+    {
+      if (easyvr.stop() || easyvr.stop())
+      {
+        pcSerial.println("lipsync stopped");
+        easyvr.playSound(EasyVR::BEEP, EasyVR::VOL_FULL);
+        for(;;);
+      }
+    }
+  }
+
   // fetch new lipsync value
   int8_t pos = -1;
   if (easyvr.fetchMouthPosition(pos))
   {
-    t = millis();
+    t = millis() + 25;
     
     // map mouth position (0-31) to the pwm range (0-255)
     uint8_t pwm = (pos << 3) | (pos >> 2);
     analogWrite(A3, pwm);
+
+    myservo.write(12+pos*5);
 
     pcSerial.print(pos, DEC);
     pcSerial.print(" , ");
@@ -116,16 +144,23 @@ void loop()
   }
   else
   {
-    t = millis();
-    pcSerial.println("no lipsync");
-  }
-  
-  // wait for next lipsync value
-  // lipsync refreshes every 27ms, but we wait 25ms
-  // the next fetch will synchronize
-  while (t+25 < millis())
-  {
-    // do something else
-    delay(1);
+    t = millis() + 25;
+
+    if (easyvr.isTimeout())
+    {
+      pcSerial.println("lipsync completed");
+      easyvr.playSound(EasyVR::BEEP, EasyVR::VOL_FULL);
+      for(;;);
+    }
+    else
+    if (easyvr.getError())
+    {
+      pcSerial.println("lipsync error");
+      easyvr.stop();
+      easyvr.playSound(EasyVR::BEEP, EasyVR::VOL_FULL);
+      for(;;);
+    }
+    else
+      pcSerial.println("no lipsync");
   }
 }
