@@ -542,7 +542,9 @@ void loop()
 
   if (!isSleeping && !isBusy)
   {
-    easyvr.setPinOutput(EasyVR::IO1, HIGH); // LED on (listening)
+    if (easyvr.getID() < EasyVR::EASYVR3)
+      easyvr.setPinOutput(EasyVR::IO1, HIGH); // LED on (listening)
+
     if (useTokens)
     {
       pcSerial.print(F("Detect a "));
@@ -572,7 +574,8 @@ void loop()
   isSleeping = false;
   isBusy = false;
 
-  easyvr.setPinOutput(EasyVR::IO1, LOW); // LED off
+  if (easyvr.getID() < EasyVR::EASYVR3)
+    easyvr.setPinOutput(EasyVR::IO1, LOW); // LED off
 
   if (easyvr.isAwakened())
   {
