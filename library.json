@@ -8,6 +8,7 @@
 		"url": "https://github.com/RoboTech-srl/EasyVR-Arduino.git"
 	},
 	"version": "1.8.0",
+	"exclude": "extras",
 	"frameworks": "arduino",
 	"platforms": "*"
 }
