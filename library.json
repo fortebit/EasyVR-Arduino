@@ -1,0 +1,11 @@
+{
+	"name": "EasyVR",
+	"keywords": "speech, recognition, sensor, serial",
+	"description": "A library for the EasyVR line of products",
+	"repository":
+	{
+		"type": "git",
+		"url": "https://github.com/RoboTech-srl/EasyVR-Arduino.git"
+	},
+	"framework": "arduino"
+}
