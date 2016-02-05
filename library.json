@@ -5,7 +5,10 @@
 	"repository":
 	{
 		"type": "git",
-		"url": "https://github.com/RoboTech-srl/EasyVR-Arduino.git"
+		"url": "https://github.com/RoboTech-srl/EasyVR-Arduino.git",
+		"branch": "master"
 	},
-	"framework": "arduino"
+	"exclude": "extras",
+	"frameworks": "arduino",
+	"platforms": "*"
 }
