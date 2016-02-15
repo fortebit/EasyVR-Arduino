@@ -50,8 +50,8 @@ void setup()
     // setup EasyVR serial port
     port.begin(9600);
     // run normally
-    pcSerial.println(F("---"));
     pcSerial.println(F("Bridge not started!"));
+    pcSerial.println(F("---"));
     break;
     
   case EasyVR::BRIDGE_NORMAL:
@@ -60,8 +60,8 @@ void setup()
     // soft-connect the two serial ports (PC and EasyVR)
     easyvr.bridgeLoop(pcSerial);
     // resume normally if aborted
-    pcSerial.println(F("---"));
     pcSerial.println(F("Bridge connection aborted!"));
+    pcSerial.println(F("---"));
     break;
     
   case EasyVR::BRIDGE_BOOT:
@@ -70,8 +70,8 @@ void setup()
     // soft-connect the two serial ports (PC and EasyVR)
     easyvr.bridgeLoop(pcSerial);
     // resume normally if aborted
-    pcSerial.println(F("---"));
     pcSerial.println(F("Bridge connection aborted!"));
+    pcSerial.println(F("---"));
     break;
   }
 }
