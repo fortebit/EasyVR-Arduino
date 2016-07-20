@@ -33,7 +33,7 @@
   Details are displayed on the serial monitor window.
 
 **
-  Example code for the EasyVR library v1.7.1
+  Example code for the EasyVR library v1.9.1
   Written in 2015 by RoboTech srl for VeeaR <http:://www.veear.eu>
 
   To the extent possible under law, the author(s) have dedicated all
@@ -167,6 +167,9 @@ void setup()
   easyvr.setTimeout(5);
   lang = EasyVR::ENGLISH;
   easyvr.setLanguage(lang);
+  // use fast recognition
+  easyvr.setTrailingSilence(EasyVR::TRAILING_MIN);
+  easyvr.setCommandLatency(EasyVR::MODE_FAST);
 
   int16_t count = 0;
 
