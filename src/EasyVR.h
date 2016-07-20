@@ -186,6 +186,30 @@ public:
     HARDER,   /**< Higher value, fewer results reported */
     HARDEST,  /**< Highest value, fewest results reported */
   };
+  /** Trailing silence settings used for recognition of built-in words or
+  custom grammars (including the mixed trigger group), in a range from
+  100ms to 875ms in steps of 25ms. */
+  enum TrailingSilence
+  {
+    TRAILING_MIN = 0,     /**< Lowest value (100ms), minimum latency */
+    TRAILING_DEF = 12,    /**< Default value (400ms) after power on or reset */
+    TRAILING_MAX = 31,    /**< Highest value (875ms), maximum latency */
+    TRAILING_100MS = 0,   /**< Silence duration is 100ms */
+    TRAILING_200MS = 4,   /**< Silence duration is 200ms */
+    TRAILING_300MS = 8,   /**< Silence duration is 300ms */
+    TRAILING_400MS = 12,  /**< Silence duration is 400ms */
+    TRAILING_500MS = 16,  /**< Silence duration is 500ms */
+    TRAILING_600MS = 20,  /**< Silence duration is 600ms */
+    TRAILING_700MS = 24,  /**< Silence duration is 700ms */
+    TRAILING_800MS = 28,  /**< Silence duration is 800ms */
+  };
+  /** Latency settings used for recognition of custom commands or passwords
+  (excluding the mixed trigger group) */
+  enum CommandLatency
+  {
+    MODE_NORMAL,  /**< Normal settings (default), higher latency */
+    MODE_FAST,    /**< Fast settings, better response time */
+  };
   /** Constants to use for baudrate settings */
   enum Baudrate
   {
@@ -391,17 +415,30 @@ public:
   */
   bool setMicDistance(int8_t dist);
   /**
-    Sets the confidence threshold to use for recognition of built-in words.
+    Sets the confidence threshold to use for recognition of built-in words or custom grammars.
     @param knob (0-4) is one of values in #Knob
     @retval true if the operation is successful
   */
   bool setKnob(int8_t knob);
+  /**
+    Sets the trailing silence duration for recognition of built-in words or custom grammars.
+    @param dur (0-31) is the silence duration as defined in #TrailingSilence
+    @retval true if the operation is successful
+  */
+  bool setTrailingSilence(int8_t dur);
   /**
     Sets the strictness level to use for recognition of custom commands.
     @param level (1-5) is one of values in #Level
     @retval true if the operation is successful
   */
   bool setLevel(int8_t level);
+  /**
+    Enables or disables fast recognition for custom commands and passwords.
+    Fast SD/SV recognition can improve response time.
+    @param mode (0-1) is one of the values in #CommandLatency
+    @retval true if the operation is successful
+  */
+  bool setCommandLatency(int8_t mode);
   /**
     Sets the delay before any reply of the module.
     @param millis (0-1000) is the delay duration in milliseconds, rounded to

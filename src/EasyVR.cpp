@@ -225,10 +225,32 @@ bool EasyVR::setKnob(int8_t knob)
   return false;
 }
 
+bool EasyVR::setTrailingSilence(int8_t dur)
+{
+  sendCmd(CMD_TRAILING);
+  sendArg(-1);
+  sendArg(dur);
+
+  if (recv(DEF_TIMEOUT) == STS_SUCCESS)
+    return true;
+  return false;
+}
+
 bool EasyVR::setLevel(int8_t level)
 {
   sendCmd(CMD_LEVEL);
   sendArg(level);
+
+  if (recv(DEF_TIMEOUT) == STS_SUCCESS)
+    return true;
+  return false;
+}
+
+bool EasyVR::setCommandLatency(int8_t mode)
+{
+  sendCmd(CMD_FAST_SD);
+  sendArg(-1);
+  sendArg(mode);
 
   if (recv(DEF_TIMEOUT) == STS_SUCCESS)
     return true;

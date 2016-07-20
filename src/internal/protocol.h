@@ -12,6 +12,7 @@
 #define CMD_TIMEOUT     'o' // set timeout <1>
 #define CMD_RECOG_SI    'i' // do si recog from ws <1>
 #define CMD_TRAIN_SD    't' // train sd command at group <1> pos <2>
+#define CMD_TRAILING    't' // set trailing (<1>=-1) silence <2> (0-31 = 100-875 milliseconds)
 #define CMD_GROUP_SD    'g' // insert new command at group <1> pos <2>
 #define CMD_UNGROUP_SD  'u' // remove command at group <1> pos <2>
 #define CMD_RECOG_SD    'd' // do sd recog at group <1> (0 = trigger mixed si/sd)
@@ -37,6 +38,7 @@
 #define CMD_DUMP_SI     'z' // dump si settings for ws <1> (or total ws count if -1)
 #define CMD_SEND_SN     'j' // send sonicnet token with bits <1> index <2-3> at time <4-5>
 #define CMD_RECV_SN     'f' // receive sonicnet token with bits <1> rejection <2> timeout <3-4>
+#define CMD_FAST_SD     'f' // set sd/sv (<1>=-1) to use fast recognition <2> (0=normal/default, 1=fast)
 
 #define STS_MASK        'k' // mask of active groups <1-8>
 #define STS_COUNT       'c' // count of commands <1> (or number of ws <1>)
