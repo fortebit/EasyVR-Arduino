@@ -45,6 +45,7 @@
 #define STS_ERROR       'e' // signal error code <1-2>
 #define STS_INVALID     'v' // invalid command or argument
 #define STS_TIMEOUT     't' // timeout expired
+#define STS_LIPSYNC     'l' // lipsync stream follows
 #define STS_INTERR      'i' // back from aborted recognition (see 'break')
 #define STS_SUCCESS     'o' // no errors status
 #define STS_RESULT      'r' // recognised sd command <1> - training similar to sd <1>

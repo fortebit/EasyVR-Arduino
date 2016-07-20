@@ -830,7 +830,7 @@ bool EasyVR::realtimeLipsync(int16_t threshold, uint8_t timeout)
   sendArg(timeout & 0x0F);
 
   int sts = recv(DEF_TIMEOUT);
-  if (sts != STS_SUCCESS)
+  if (sts != STS_LIPSYNC)
   {
     readStatus(sts);
     return false;
