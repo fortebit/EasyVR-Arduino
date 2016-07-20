@@ -27,6 +27,10 @@
   #define pcSerial SERIAL_PORT_MONITOR
 #endif
 
+// PLEASE NOTE:
+// Using SoftwareSerial with Servo library can produce glitches in servo position update!
+// --------------------------------------------------------------------------------------
+
 #include "EasyVR.h"
 EasyVR easyvr(port);
 
