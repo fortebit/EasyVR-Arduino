@@ -131,6 +131,9 @@ public:
     EASYVR2_3, /**< Identifies an EasyVR module version 2, firmware revision 3 */
     EASYVR3 = 8, /**< Identifies an EasyVR module version 3, firmware revision 0 */
     EASYVR3_1, /**< Identifies an EasyVR module version 3, firmware revision 1 */
+    EASYVR3_2, /**< Identifies an EasyVR module version 3, firmware revision 2 */
+    EASYVR3_3, /**< Identifies an EasyVR module version 3, firmware revision 3 */
+    EASYVR3_4, /**< Identifies an EasyVR module version 3, firmware revision 4 */
   };
   /** Language to use for recognition of built-in words */
   enum Language
@@ -624,6 +627,12 @@ public:
     constaints (up to 32 custom commands can be created)
   */
   bool isMemoryFull() { return _status.b._memfull; }
+  /**
+    Retrieves the invalid protocol indicator.
+    @retval true if an invalid sequence has been detected in the communication
+    protocol
+  */
+  bool isInvalid() { return _status.b._invalid; }
   // pin I/O functions
   /**
     Configures an I/O pin as an output and sets its value
@@ -818,6 +827,36 @@ public:
     @retval true if the operation is successful, false if lip-sync has finished
   */
   bool fetchMouthPosition(int8_t& value);
+  // service functions
+  /**
+    Retrieves all internal data associated to a custom command.
+    @param group (0-16) is the target group, or one of the values in #Groups
+    @param index (0-31) is the index of the command within the selected group
+    @param data points to an array of at least 258 bytes that holds the
+    command raw data
+    @retval true if the operation is successful
+  */
+  bool exportCommand(int8_t group, int8_t index, uint8_t* data);
+  /**
+    Overwrites all internal data associated to a custom command.
+    When commands are imported this way, their training should be tested again
+    with #verifyCommand()
+    @param group (0-16) is the target group, or one of the values in #Groups
+    @param index (0-31) is the index of the command within the selected group
+    @param data points to an array of at least 258 bytes that holds the
+    command raw data
+    @retval true if the operation is successful
+  */
+  bool importCommand(int8_t group, int8_t index, const uint8_t* data);
+  /**
+    Verifies training of a custom command (useful after import).
+    Similarly to #trainCommand(), you should check results after #hasFinished()
+    returns true
+    @param group (0-16) is the target group, or one of the values in #Groups
+    @param index (0-31) is the index of the command within the selected group
+  */
+  void verifyCommand(int8_t group, int8_t index);
+  // bridge mode
   /**
     Tests if bridge mode has been requested on the specified port
     @param port is the target serial port (usually the PC serial port)

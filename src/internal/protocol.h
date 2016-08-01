@@ -40,6 +40,14 @@
 #define CMD_RECV_SN     'f' // receive sonicnet token with bits <1> rejection <2> timeout <3-4>
 #define CMD_FAST_SD     'f' // set sd/sv (<1>=-1) to use fast recognition <2> (0=normal/default, 1=fast)
 
+#define CMD_SERVICE     '~' // send service request
+#define SVC_EXPORT_SD   'X' // request raw data for command <2> in group <1>
+#define SVC_IMPORT_SD   'I' // request import of raw data for command <2> in group <1>, followed by same format as raw dump
+#define SVC_VERIFY_SD   'V' // verify training of imported raw command <2> in group <1>
+
+#define STS_SERVICE     '~' // get service reply
+#define SVC_DUMP_SD     'D' // provide raw data as encoded hex nibbles <1-512> followed by checksum <513-516>
+
 #define STS_MASK        'k' // mask of active groups <1-8>
 #define STS_COUNT       'c' // count of commands <1> (or number of ws <1>)
 #define STS_AWAKEN      'w' // back from power down mode

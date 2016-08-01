@@ -875,6 +875,62 @@ bool EasyVR::fetchMouthPosition(int8_t& value)
   return false;
 }
 
+// Service functions
+
+bool EasyVR::exportCommand(int8_t group, int8_t index, uint8_t* data)
+{
+  sendCmd(CMD_SERVICE);
+  sendArg(SVC_EXPORT_SD - ARG_ZERO);
+  sendGroup(group);
+  sendArg(index);
+  
+  if (recv(STORAGE_TIMEOUT) != STS_SERVICE)
+    return false;
+  
+  int8_t rx;
+  if (!recvArg(rx) || rx != SVC_DUMP_SD - ARG_ZERO)
+    return false;
+  
+  for (int i = 0; i < 258; ++i)
+  {
+    if (!recvArg(rx))
+      return false;
+    data[i] = (rx << 4) & 0xF0;
+    if (!recvArg(rx))
+      return false;
+    data[i] |= (rx & 0x0F);
+  }
+  return true;
+}
+
+bool EasyVR::importCommand(int8_t group, int8_t index, const uint8_t* data)
+{
+  sendCmd(CMD_SERVICE);
+  sendArg(SVC_IMPORT_SD - ARG_ZERO);
+  sendGroup(group);
+  sendArg(index);
+  
+  int8_t tx;
+  for (int i = 0; i < 258; ++i)
+  {
+    tx = (data[i] >> 4) & 0x0F;
+    sendArg(tx);
+    tx = data[i] & 0x0F;
+    sendArg(tx);
+  }
+  if (recv(STORAGE_TIMEOUT) != STS_SUCCESS)
+    return false;
+  return true;
+}
+
+void EasyVR::verifyCommand(int8_t group, int8_t index)
+{
+  sendCmd(CMD_SERVICE);
+  sendArg(SVC_VERIFY_SD - ARG_ZERO);
+  sendGroup(group);
+  sendArg(index);
+}
+
 // Bridge Mode implementation
 
 void EasyVR::bridgeLoop(Stream& pcSerial)
