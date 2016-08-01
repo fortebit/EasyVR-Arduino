@@ -1,6 +1,6 @@
 /**
   Example code for the EasyVR library v1.9
-  Written in 2015 by RoboTech srl for VeeaR <http:://www.veear.eu>
+  Written in 2016 by RoboTech srl for VeeaR <http:://www.veear.eu>
 
   To the extent possible under law, the author(s) have dedicated all
   copyright and related and neighboring rights to this software to the
@@ -92,7 +92,7 @@ void setup()
   pcSerial.print(F("EasyVR detected, version "));
   pcSerial.println(easyvr.getID());
   
-  if (easyvr.getID() <= EasyVR::EASYVR3_1)
+  if (easyvr.getID() < EasyVR::EASYVR3_4)
   {
     pcSerial.println(F("Update firmware to use Lip-Sync!"));
     for(;;);
