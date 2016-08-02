@@ -24,9 +24,9 @@
 #define CMD_DUMP_SD     'p' // read command data at group <1> pos <2>
 #define CMD_PLAY_RP     'p' // play recording (<1>=-1) at pos <2> with flags <3>
 #define CMD_MASK_SD     'm' // get active group mask
-#define CMD_RESETALL    'r' // reset all commands and groups, with <1>='R'
-#define CMD_RESET_SD    'r' // reset all commands and groups, with <1>='D'
-#define CMD_RESET_RP    'r' // reset all commands and groups, with <1>='M'
+#define CMD_RESETALL    'r' // reset all memory (commands/groups and messages), with <1>='R'
+#define CMD_RESET_SD    'r' // reset only commands/groups, with <1>='D'
+#define CMD_RESET_RP    'r' // reset only messages, with <1>='M'
 #define CMD_RECORD_RP   'r' // record message (<1>=-1) at pos <2> with bits <3> and timeout <4>
 #define CMD_ID          'x' // get version id
 #define CMD_DELAY       'y' // set transmit delay <1> (log scale)
@@ -41,12 +41,12 @@
 #define CMD_FAST_SD     'f' // set sd/sv (<1>=-1) to use fast recognition <2> (0=normal/default, 1=fast)
 
 #define CMD_SERVICE     '~' // send service request
-#define SVC_EXPORT_SD   'X' // request raw data for command <2> in group <1>
-#define SVC_IMPORT_SD   'I' // request import of raw data for command <2> in group <1>, followed by same format as raw dump
+#define SVC_EXPORT_SD   'X' // request export of command <2> in group <1> as raw dump
+#define SVC_IMPORT_SD   'I' // request import of command <2> in group <1> as raw dump
 #define SVC_VERIFY_SD   'V' // verify training of imported raw command <2> in group <1>
 
 #define STS_SERVICE     '~' // get service reply
-#define SVC_DUMP_SD     'D' // provide raw data as encoded hex nibbles <1-512> followed by checksum <513-516>
+#define SVC_DUMP_SD     'D' // provide raw command data <1-512> followed by checksum <513-516>
 
 #define STS_MASK        'k' // mask of active groups <1-8>
 #define STS_COUNT       'c' // count of commands <1> (or number of ws <1>)
@@ -76,4 +76,3 @@
 #define ARG_ACK     0x20    // to read more status arguments
 
 #endif //PROTOCOL_H
-
