@@ -347,6 +347,11 @@ public:
     ERR_T2SI_TRIG_OOV           = 0x2D, /**< trigger recognized Out Of Vocabulary */
     ERR_T2SI_TOO_SHORT          = 0x2F, /**< utterance was too short */
 
+    //-- 3x: Record and Play errors (standard RP and messaging)
+    ERR_RP_BAD_LEVEL            = 0x31, /**<  play - illegal compression level */
+    ERR_RP_NO_MSG               = 0x38, /**<  play, erase, copy - msg doesn't exist */
+    ERR_RP_MSG_EXISTS           = 0x39, /**<  rec, copy - msg already exists */
+
     //-- 4x: Synthesis errors (talk, sxtalk)
     ERR_SYNTH_BAD_VERSION       = 0x4A, /**< bad release number in speech file */
     ERR_SYNTH_ID_NOT_SET        = 0x4B, /**< (obsolete) bad sentence structure */
@@ -777,7 +782,7 @@ public:
   /**
     Starts recording a message. Manually check for completion with #hasFinished().
     @param index (0-31) is the index of the target message slot
-    @param bits (4 or 8) specifies the audio format (see #MessageType)
+    @param bits (8) specifies the audio format (see #MessageType)
     @param timeout (0-31) is the maximum recording time (0=infinite)
     @note The module is busy until recording times out or the end of memory is
     reached. You can interrupt an ongoing recording with #stop().
@@ -801,7 +806,7 @@ public:
   /**
     Retrieves the type and length of a recorded message
     @param index (0-31) is the index of the target message slot
-    @param type (0,4,8) is a variable that holds the message format when the
+    @param type (0,8) is a variable that holds the message format when the
     function returns (see #MessageType)
     @param length is a variable that holds the message length in bytes when
     the function returns
