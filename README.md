@@ -1,7 +1,7 @@
 EasyVR Arduino library
 ======================
 
-*Copyright (C) 2011-2015 RoboTech srl*
+*Copyright (C) 2011-2016 RoboTech srl*
 
 Written for Arduino and compatible boards for use with EasyVR modules or
 EasyVR Shield boards produced by [VeeaR](http://www.veear.eu)
