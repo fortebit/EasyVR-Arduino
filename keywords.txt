@@ -95,6 +95,11 @@ dumpMessage	KEYWORD2
 realtimeLipsync	KEYWORD2
 fetchMouthPosition	KEYWORD2
 
+# service functions
+exportCommand	KEYWORD2
+importCommand	KEYWORD2
+verifyCommand	KEYWORD2
+
 # bridge mode
 bridgeRequested	KEYWORD2
 bridgeLoop	KEYWORD2
