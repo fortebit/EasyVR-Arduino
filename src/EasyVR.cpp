@@ -961,6 +961,7 @@ void EasyVR::bridgeLoop(Stream& pcSerial)
 
 int EasyVR::bridgeRequested(Stream& pcSerial)
 {
+  pcSerial.write(0x99);
   // look for a request header
   int bridge = BRIDGE_NONE;
   bool request = false;
