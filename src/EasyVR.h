@@ -17,54 +17,44 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 /*****************************************************************************/
 
 /** 
-  By defining these symbols before the library include directive, you can
-  alter the default settings used by the library implementation.
+  By assigning new values to these symbols you can alter the default settings
+  used by the library implementation.
   
-  These settings are available for completeness. The default settings should
+  These settings are available for completeness. The default values should
   be appropriate for normal use cases.
   
   @defgroup macros EasyVR library settings
   @{
 */
 
-#ifndef EASYVR_RX_TIMEOUT
 /** @brief Receive timeout (in ms).
   The maximum time that is spent waiting for a reply from the %EasyVR module.
 */
-#define EASYVR_RX_TIMEOUT  100
-#endif
+#define EASYVR_RX_TIMEOUT  EasyVR::DEF_TIMEOUT
 
-#ifndef EASYVR_STORAGE_TIMEOUT
 /** @brief Reply timeout for storage operations (in ms).
   The maximum time that is spent waiting for a reply after a command that
   involves write access to the %EasyVR internal storage.
 */
-#define EASYVR_STORAGE_TIMEOUT  500
-#endif
+#define EASYVR_STORAGE_TIMEOUT  EasyVR::STORAGE_TIMEOUT
 
-#ifndef EASYVR_WAKE_TIMEOUT
 /** @brief Wakeup maximum delay (in ms).
   The maximum time that the %EasyVR module can spend for waking up from
   idle states.
 */
-#define EASYVR_WAKE_TIMEOUT  200
-#endif
+#define EASYVR_WAKE_TIMEOUT  EasyVR::WAKE_TIMEOUT
 
-#ifndef EASYVR_PLAY_TIMEOUT
 /** @brief Playback maximum duration (in ms).
   The maximum time that is spent waiting for a synchronous playback operation
   to complete. Asynchronous playback is not affected.
 */
-#define EASYVR_PLAY_TIMEOUT  5000
-#endif
+#define EASYVR_PLAY_TIMEOUT  EasyVR::PLAY_TIMEOUT
 
-#ifndef EASYVR_TOKEN_TIMEOUT
 /** @brief Token maximum duration (in ms).
   The maximum time that is spent by the %EasyVR module for sending a SonicNet
   token and reply.
 */
-#define EASYVR_TOKEN_TIMEOUT  1500
-#endif
+#define EASYVR_TOKEN_TIMEOUT  EasyVR::TOKEN_TIMEOUT
 
 /** @}
 */
@@ -105,11 +95,6 @@ protected:
   enum // internal constants
   {
       NO_TIMEOUT = 0, INFINITE = -1,
-      DEF_TIMEOUT = EASYVR_RX_TIMEOUT,
-      WAKE_TIMEOUT = EASYVR_WAKE_TIMEOUT,
-      PLAY_TIMEOUT = EASYVR_PLAY_TIMEOUT,
-      TOKEN_TIMEOUT = EASYVR_TOKEN_TIMEOUT,
-      STORAGE_TIMEOUT = EASYVR_STORAGE_TIMEOUT,
   };
 
   // internal functions
@@ -122,6 +107,14 @@ protected:
   void readStatus(int8_t rx);
     
 public:
+  // overridable
+  static int
+    DEF_TIMEOUT,
+    WAKE_TIMEOUT,
+    PLAY_TIMEOUT,
+    TOKEN_TIMEOUT,
+    STORAGE_TIMEOUT;
+
   /** Module identification number (firmware version) */
   enum ModuleId
   {

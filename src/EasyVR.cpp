@@ -15,6 +15,12 @@ file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
 
 /*****************************************************************************/
 
+int EASYVR_RX_TIMEOUT = 100;
+int EASYVR_STORAGE_TIMEOUT = 500;
+int EASYVR_WAKE_TIMEOUT = 200;
+int EASYVR_PLAY_TIMEOUT = 5000;
+int EASYVR_TOKEN_TIMEOUT = 1500;
+
 void EasyVR::send(uint8_t c)
 {
   delay(1);
