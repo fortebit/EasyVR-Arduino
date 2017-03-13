@@ -1,6 +1,6 @@
 /**
-  Example code for the EasyVR library v1.9
-  Written in 2016 by RoboTech srl for VeeaR <http:://www.veear.eu>
+  Example code for the EasyVR library v1.10
+  Written in 2017 by RoboTech srl for VeeaR <http:://www.veear.eu>
 
   To the extent possible under law, the author(s) have dedicated all
   copyright and related and neighboring rights to this software to the
@@ -16,7 +16,11 @@
   #error "Arduino version not supported. Please update your IDE to the latest version."
 #endif
 
-#if defined(SERIAL_PORT_USBVIRTUAL)
+#if defined(__SAMD21G18A__)
+  // Shield Jumper on HW (for Zero, use Programming Port)
+  #define port SERIAL_PORT_HARDWARE
+  #define pcSerial SERIAL_PORT_MONITOR
+#elif defined(SERIAL_PORT_USBVIRTUAL)
   // Shield Jumper on HW (for Leonardo and Due)
   #define port SERIAL_PORT_HARDWARE
   #define pcSerial SERIAL_PORT_USBVIRTUAL
@@ -48,7 +52,7 @@ void setup()
 
   // setup PC serial port
   pcSerial.begin(9600);
-
+bridge:
   // bridge mode?
   int mode = easyvr.bridgeRequested(pcSerial);
   switch (mode)
@@ -57,8 +61,8 @@ void setup()
     // setup EasyVR serial port
     port.begin(9600);
     // run normally
+    pcSerial.println(F("Bridge not requested, run normally"));
     pcSerial.println(F("---"));
-    pcSerial.println(F("Bridge not started!"));
     break;
     
   case EasyVR::BRIDGE_NORMAL:
@@ -67,18 +71,20 @@ void setup()
     // soft-connect the two serial ports (PC and EasyVR)
     easyvr.bridgeLoop(pcSerial);
     // resume normally if aborted
+    pcSerial.println(F("Bridge connection aborted"));
     pcSerial.println(F("---"));
-    pcSerial.println(F("Bridge connection aborted!"));
     break;
     
   case EasyVR::BRIDGE_BOOT:
     // setup EasyVR serial port (high speed)
     port.begin(115200);
+    pcSerial.end();
+    pcSerial.begin(115200);
     // soft-connect the two serial ports (PC and EasyVR)
     easyvr.bridgeLoop(pcSerial);
     // resume normally if aborted
+    pcSerial.println(F("Bridge connection aborted"));
     pcSerial.println(F("---"));
-    pcSerial.println(F("Bridge connection aborted!"));
     break;
   }
 
@@ -86,7 +92,12 @@ void setup()
   while (!easyvr.detect())
   {
     pcSerial.println(F("EasyVR not detected!"));
-    delay(1000);
+    for (int i = 0; i < 10; ++i)
+    {
+      if (pcSerial.available() > 0)
+        goto bridge;
+      delay(100);
+    }
   }
 
   pcSerial.print(F("EasyVR detected, version "));
