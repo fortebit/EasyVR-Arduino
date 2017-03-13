@@ -156,7 +156,7 @@ bool EasyVR::stop()
 {
   sendCmd(CMD_BREAK);
 
-  uint8_t rx = recv(WAKE_TIMEOUT);
+  uint8_t rx = recv(STORAGE_TIMEOUT);
   if (rx == STS_INTERR || rx == STS_SUCCESS)
     return true;
   return false;

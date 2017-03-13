@@ -33,7 +33,7 @@
   Details are displayed on the serial monitor window.
 
 **
-  Example code for the EasyVR library v1.9.1
+  Example code for the EasyVR library v1.9.2
   Written in 2016 by RoboTech srl for VeeaR <http:://www.veear.eu>
 
   To the extent possible under law, the author(s) have dedicated all
@@ -124,9 +124,22 @@ void setup()
     delay(1000);
   }
 
-  easyvr.setPinOutput(EasyVR::IO1, LOW);
+  if (easyvr.getID() < EasyVR::EASYVR3)
+    easyvr.setPinOutput(EasyVR::IO1, LOW); // Shield 2.0 LED off
+    
   pcSerial.print(F("EasyVR detected, version "));
-  pcSerial.println(easyvr.getID());
+  pcSerial.print(easyvr.getID());
+
+  if (easyvr.getID() < EasyVR::EASYVR)
+    pcSerial.print(F(" = VRbot module"));
+  else if (easyvr.getID() < EasyVR::EASYVR2)
+    pcSerial.print(F(" = EasyVR module"));
+  else if (easyvr.getID() < EasyVR::EASYVR3)
+    pcSerial.print(F(" = EasyVR 2 module"));
+  else
+    pcSerial.print(F(" = EasyVR 3 module"));
+  pcSerial.print(F(", FW Rev."));
+  pcSerial.println(easyvr.getID() & 7);
 
   easyvr.setDelay(0); // speed-up replies
 
@@ -494,7 +507,8 @@ bool checkMonitorInput()
     pcSerial.print(F("Sleep mode "));
     pcSerial.println(mode);
     easyvr.stop();
-    easyvr.setPinOutput(EasyVR::IO1, LOW); // LED off
+    if (easyvr.getID() < EasyVR::EASYVR3)
+      easyvr.setPinOutput(EasyVR::IO1, LOW);  // Shield 2.0 LED off
     isSleeping = easyvr.sleep(mode);
     return true;
   }
@@ -554,7 +568,7 @@ void loop()
   if (!isSleeping && !isBusy)
   {
     if (easyvr.getID() < EasyVR::EASYVR3)
-      easyvr.setPinOutput(EasyVR::IO1, HIGH); // LED on (listening)
+      easyvr.setPinOutput(EasyVR::IO1, HIGH); // Shield 2.0 LED on (listening)
 
     if (useTokens)
     {
@@ -586,7 +600,7 @@ void loop()
   isBusy = false;
 
   if (easyvr.getID() < EasyVR::EASYVR3)
-    easyvr.setPinOutput(EasyVR::IO1, LOW); // LED off
+    easyvr.setPinOutput(EasyVR::IO1, LOW); // Shield 2.0 LED off
 
   if (easyvr.isAwakened())
   {
