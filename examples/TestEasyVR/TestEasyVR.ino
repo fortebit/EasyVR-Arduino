@@ -299,8 +299,8 @@ bridge:
   }
   group = 0;
   set = 0;
+  mask |= 1; // force to use trigger (mixed SI/SD)
   useCommands = (mask != 0);
-  mask |= 1; // force to use trigger
   isSleeping = false;
   pcSerial.println(F("---"));
 }
