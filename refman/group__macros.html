@@ -32,7 +32,7 @@
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <h1>
-<img alt="Logo" src="EasyVR_Logo.png"/>&#160;&#160;EasyVR Library&#160;<span id="projectnumber">1.9.1</span>
+<img alt="Logo" src="EasyVR_Logo.png"/>&#160;&#160;EasyVR Library&#160;<span id="projectnumber">1.10.0</span>
 </h1>
 </div>
 <!-- end header part -->
@@ -53,37 +53,37 @@
 </div><!--header-->
 <div class="contents">
 
-<p>By defining these symbols before the library include directive, you can alter the default settings used by the library implementation.  
+<p>By assigning new values to these symbols you can alter the default settings used by the library implementation.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga866f494f257e31da353bce5c662115ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#ga866f494f257e31da353bce5c662115ad">EASYVR_PLAY_TIMEOUT</a>&#160;&#160;&#160;5000</td></tr>
+<tr class="memitem:ga866f494f257e31da353bce5c662115ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#ga866f494f257e31da353bce5c662115ad">EASYVR_PLAY_TIMEOUT</a>&#160;&#160;&#160;EasyVR::PLAY_TIMEOUT</td></tr>
 <tr class="memdesc:ga866f494f257e31da353bce5c662115ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Playback maximum duration (in ms).  <a href="#ga866f494f257e31da353bce5c662115ad">More...</a><br /></td></tr>
 <tr class="separator:ga866f494f257e31da353bce5c662115ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1a632879e16fe11ab70ed6e8de0c88ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#ga1a632879e16fe11ab70ed6e8de0c88ff">EASYVR_RX_TIMEOUT</a>&#160;&#160;&#160;100</td></tr>
+<tr class="memitem:ga1a632879e16fe11ab70ed6e8de0c88ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#ga1a632879e16fe11ab70ed6e8de0c88ff">EASYVR_RX_TIMEOUT</a>&#160;&#160;&#160;EasyVR::DEF_TIMEOUT</td></tr>
 <tr class="memdesc:ga1a632879e16fe11ab70ed6e8de0c88ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive timeout (in ms).  <a href="#ga1a632879e16fe11ab70ed6e8de0c88ff">More...</a><br /></td></tr>
 <tr class="separator:ga1a632879e16fe11ab70ed6e8de0c88ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga719d93f028e3c6b0736b16ea40861430"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#ga719d93f028e3c6b0736b16ea40861430">EASYVR_STORAGE_TIMEOUT</a>&#160;&#160;&#160;500</td></tr>
+<tr class="memitem:ga719d93f028e3c6b0736b16ea40861430"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#ga719d93f028e3c6b0736b16ea40861430">EASYVR_STORAGE_TIMEOUT</a>&#160;&#160;&#160;EasyVR::STORAGE_TIMEOUT</td></tr>
 <tr class="memdesc:ga719d93f028e3c6b0736b16ea40861430"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reply timeout for storage operations (in ms).  <a href="#ga719d93f028e3c6b0736b16ea40861430">More...</a><br /></td></tr>
 <tr class="separator:ga719d93f028e3c6b0736b16ea40861430"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1c3418413eb62a72cfeacdb72934d5cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#ga1c3418413eb62a72cfeacdb72934d5cf">EASYVR_TOKEN_TIMEOUT</a>&#160;&#160;&#160;1500</td></tr>
+<tr class="memitem:ga1c3418413eb62a72cfeacdb72934d5cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#ga1c3418413eb62a72cfeacdb72934d5cf">EASYVR_TOKEN_TIMEOUT</a>&#160;&#160;&#160;EasyVR::TOKEN_TIMEOUT</td></tr>
 <tr class="memdesc:ga1c3418413eb62a72cfeacdb72934d5cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Token maximum duration (in ms).  <a href="#ga1c3418413eb62a72cfeacdb72934d5cf">More...</a><br /></td></tr>
 <tr class="separator:ga1c3418413eb62a72cfeacdb72934d5cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac876f79b9cdce4974454be887a927add"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#gac876f79b9cdce4974454be887a927add">EASYVR_WAKE_TIMEOUT</a>&#160;&#160;&#160;200</td></tr>
+<tr class="memitem:gac876f79b9cdce4974454be887a927add"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__macros.html#gac876f79b9cdce4974454be887a927add">EASYVR_WAKE_TIMEOUT</a>&#160;&#160;&#160;EasyVR::WAKE_TIMEOUT</td></tr>
 <tr class="memdesc:gac876f79b9cdce4974454be887a927add"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wakeup maximum delay (in ms).  <a href="#gac876f79b9cdce4974454be887a927add">More...</a><br /></td></tr>
 <tr class="separator:gac876f79b9cdce4974454be887a927add"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>By defining these symbols before the library include directive, you can alter the default settings used by the library implementation. </p>
-<p>These settings are available for completeness. The default settings should be appropriate for normal use cases. </p>
+<p>By assigning new values to these symbols you can alter the default settings used by the library implementation. </p>
+<p>These settings are available for completeness. The default values should be appropriate for normal use cases. </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="ga866f494f257e31da353bce5c662115ad"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define EASYVR_PLAY_TIMEOUT&#160;&#160;&#160;5000</td>
+          <td class="memname">#define EASYVR_PLAY_TIMEOUT&#160;&#160;&#160;EasyVR::PLAY_TIMEOUT</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -98,7 +98,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define EASYVR_RX_TIMEOUT&#160;&#160;&#160;100</td>
+          <td class="memname">#define EASYVR_RX_TIMEOUT&#160;&#160;&#160;EasyVR::DEF_TIMEOUT</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -113,7 +113,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define EASYVR_STORAGE_TIMEOUT&#160;&#160;&#160;500</td>
+          <td class="memname">#define EASYVR_STORAGE_TIMEOUT&#160;&#160;&#160;EasyVR::STORAGE_TIMEOUT</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -128,7 +128,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define EASYVR_TOKEN_TIMEOUT&#160;&#160;&#160;1500</td>
+          <td class="memname">#define EASYVR_TOKEN_TIMEOUT&#160;&#160;&#160;EasyVR::TOKEN_TIMEOUT</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -143,7 +143,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define EASYVR_WAKE_TIMEOUT&#160;&#160;&#160;200</td>
+          <td class="memname">#define EASYVR_WAKE_TIMEOUT&#160;&#160;&#160;EasyVR::WAKE_TIMEOUT</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -162,10 +162,10 @@ Macros</h2></td></tr>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-		<address class="footer"><small>
+        <p class="copyright">EasyVR-Arduino maintained by <a href="https://github.com/RoboTech-srl">RoboTech-srl</a><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1
 </small></address>
-        <p class="copyright">EasyVR-Arduino maintained by <a href="https://github.com/RoboTech-srl">RoboTech-srl</a></p>
+		</p>
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
