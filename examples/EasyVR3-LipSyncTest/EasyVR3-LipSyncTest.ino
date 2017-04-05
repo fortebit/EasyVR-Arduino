@@ -1,5 +1,5 @@
 /**
-  Example code for the EasyVR library v1.10
+  Example code for the EasyVR library v1.10.1
   Written in 2017 by RoboTech srl for VeeaR <http:://www.veear.eu>
 
   To the extent possible under law, the author(s) have dedicated all
@@ -94,7 +94,7 @@ bridge:
     pcSerial.println(F("EasyVR not detected!"));
     for (int i = 0; i < 10; ++i)
     {
-      if (pcSerial.available() > 0)
+      if (pcSerial.read() == EasyVR::BRIDGE_ESCAPE_CHAR)
         goto bridge;
       delay(100);
     }
@@ -131,7 +131,7 @@ void loop()
     delay(1);
     // test interruption
     int rx = pcSerial.read();
-    if ((uint8_t)rx == (uint8_t)'.')
+    if (rx == '.')
     {
       if (easyvr.stop() || easyvr.stop())
       {
@@ -139,6 +139,11 @@ void loop()
         easyvr.playSound(EasyVR::BEEP, EasyVR::VOL_FULL);
         for(;;);
       }
+    }
+    if (rx == EasyVR::BRIDGE_ESCAPE_CHAR)
+    {
+      setup();
+      return;
     }
   }
 

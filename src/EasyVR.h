@@ -1,5 +1,5 @@
 /** @file
-EasyVR library v1.9
+EasyVR library v1.10.1
 Copyright (C) 2016 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -366,6 +366,7 @@ public:
     BRIDGE_NONE,    /**< Bridge mode has not been requested */
     BRIDGE_NORMAL,  /**< Normal bridge mode (EasyVR baudrate 9600) */
     BRIDGE_BOOT,    /**< Bridge mode for EasyVR bootloader (baudrate 115200) */
+    BRIDGE_ESCAPE_CHAR = '?'  /**< Special character to enter/exit Bridge mode */
   };
 
   /**

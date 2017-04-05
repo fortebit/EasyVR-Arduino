@@ -1,5 +1,5 @@
 /*
-EasyVR library v1.9
+EasyVR library v1.10.1
 Copyright (C) 2016 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
@@ -950,7 +950,7 @@ void EasyVR::bridgeLoop(Stream& pcSerial)
     if (pcSerial.available())
     {
       rx = pcSerial.read();
-      if (rx == '?' && millis() >= time)
+      if (rx == EasyVR::BRIDGE_ESCAPE_CHAR && millis() >= time)
       {
         cmd = rx;
         time = millis() + 100;
