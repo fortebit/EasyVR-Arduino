@@ -698,15 +698,16 @@ bool EasyVR::dumpSoundTable(char* name, int16_t& count)
 
 bool EasyVR::resetAll(bool wait)
 {
+  int timeout = 40; // seconds
+  if (getID() >= EASYVR3)
+    timeout = 5;
+
   sendCmd(CMD_RESETALL);
   sendArg('R' - ARG_ZERO);
 
   if (!wait)
     return true;
 
-  int timeout = 40; // seconds
-  if (getID() >= EASYVR3)
-    timeout = 5;
   while (timeout != 0 && _s->available() == 0)
   {
     delay(1000);
@@ -719,7 +720,10 @@ bool EasyVR::resetAll(bool wait)
 
 bool EasyVR::resetCommands(bool wait)
 {
-  sendCmd(CMD_RESETALL);
+  if (getID() >= EASYVR3_1)
+    return resetAll(wait); // map to reset all for older firmwares
+
+  sendCmd(CMD_RESET_SD);
   sendArg('D' - ARG_ZERO);
 
   if (!wait)
@@ -738,7 +742,7 @@ bool EasyVR::resetCommands(bool wait)
 
 bool EasyVR::resetMessages(bool wait)
 {
-  sendCmd(CMD_RESETALL);
+  sendCmd(CMD_RESET_RP);
   sendArg('M' - ARG_ZERO);
 
   if (!wait)
