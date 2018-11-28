@@ -127,6 +127,8 @@ public:
     EASYVR3_2, /**< Identifies an EasyVR module version 3, firmware revision 2 */
     EASYVR3_3, /**< Identifies an EasyVR module version 3, firmware revision 3 */
     EASYVR3_4, /**< Identifies an EasyVR module version 3, firmware revision 4 */
+    EASYVR3_5, /**< Identifies an EasyVR module version 3, firmware revision 5 */
+    EASYVR3PLUS = 16, /**< Identifies an EasyVR module version 3+, firmware revision 0 */
   };
   /** Language to use for recognition of built-in words */
   enum Language

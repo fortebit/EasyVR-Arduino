@@ -46,7 +46,9 @@ inline void EasyVR::sendGroup(int8_t c)
   {
     _group = c;
     // worst case time to cache a full group in memory
-    if (_id >= EASYVR3)
+    if (_id >= EASYVR3PLUS)
+      delay(79);
+    else if (_id >= EASYVR3)
       delay(39);
     else
       delay(19);
