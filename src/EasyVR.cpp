@@ -550,11 +550,11 @@ bool EasyVR::hasFinished()
   return true;
 }
 
-bool EasyVR::setPinOutput(int8_t pin, int8_t value)
+bool EasyVR::setPinOutput(int8_t pin, int8_t config)
 {
   sendCmd(CMD_QUERY_IO);
   sendArg(pin);
-  sendArg(value);
+  sendArg(config);
 
   if (recv(DEF_TIMEOUT) == STS_SUCCESS)
     return true;
@@ -1022,9 +1022,9 @@ int EasyVR::bridgeRequested(Stream& pcSerial)
 
 /** @mainpage
 
-  The EasyVR library implements the serial communication protocol to
+  The %EasyVR library implements the serial communication protocol to
   manage the %EasyVR module and the %EasyVR Shield from Arduino boards and 
-  controllers and it enables easy access to all the %EasyVR features.
+  compatible controllers and it enables a quick access to all the %EasyVR features.
 
   <table><tr><td>
   ![EasyVR module](@ref EasyVR_3.jpg)
@@ -1034,12 +1034,17 @@ int EasyVR::bridgeRequested(Stream& pcSerial)
 
   ### Installation
 
-  To install the EasyVR library on your Arduino IDE use the menu
-  Sketch > Import Library ... > Add Library and open the released zip archive.
+  To install the %EasyVR library on your Arduino IDE use the menu
+  <tt>Sketch</tt> > <tt>Include Library</tt> > <tt>Add .ZIP Library</tt> and
+  open the release archive.
+
+  You can also use <tt>Sketch</tt> > <tt>Include Library</tt> >
+  <tt>Manage Libraries...</tt> and look for "EasyVR" to download and install
+  the latest release.
   
   ### Examples
 
   You can easily open the example sketches included with the EasyVR library
-  from inside the Arduino IDE, using the menu File > Examples > %EasyVR and
-  choosing one of the available sketches.
+  from inside the Arduino IDE, using the menu <tt>File</tt> >
+  <tt>Examples</tt> > <tt>%EasyVR</tt> and choosing one of the available sketches.
 */

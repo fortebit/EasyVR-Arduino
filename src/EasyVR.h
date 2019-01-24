@@ -237,8 +237,8 @@ public:
   /** Pin configuration options for the extra I/O connector */
   enum PinConfig
   {
-    OUTPUT_LOW,     /**< Pin is a low output (0V) */
-    OUTPUT_HIGH,    /**< Pin is a high output (3V) */
+    OUTPUT_LOW,     /**< Pin is an output at low level (0V) */
+    OUTPUT_HIGH,    /**< Pin is an output at high level (3V) */
     INPUT_HIZ,      /**< Pin is an high impedance input */
     INPUT_STRONG,   /**< Pin is an input with strong pull-up (~10K) */
     INPUT_WEAK,     /**< Pin is an input with weak pull-up (~200K) */
@@ -249,9 +249,9 @@ public:
     IO1 = 1,  /**< Identifier of pin IO1 */
     IO2 = 2,  /**< Identifier of pin IO2 */
     IO3 = 3,  /**< Identifier of pin IO3 */
-    IO4 = 4,  /**< Identifier of pin IO4 (only EasyVR3) */
-    IO5 = 5,  /**< Identifier of pin IO5 (only EasyVR3) */
-    IO6 = 6,  /**< Identifier of pin IO6 (only EasyVR3) */
+    IO4 = 4,  /**< Identifier of pin IO4 [only EasyVR3] */
+    IO5 = 5,  /**< Identifier of pin IO5 [only EasyVR3] */
+    IO6 = 6,  /**< Identifier of pin IO6 [only EasyVR3] */
   };
   /** Some quick volume settings for the sound playback functions
   (any value in the range 0-31 can be used) */
@@ -637,17 +637,18 @@ public:
   // pin I/O functions
   /**
     Configures an I/O pin as an output and sets its value
-    @param pin (1-3) is one of values in #PinNumber
-    @param pin (0-1) is one of the output values in #PinConfig,
-    or Arduino style HIGH and LOW macros
+    @param pin (1-3) is one of the values in #PinNumber
+    @param config (0-1,5-6) is one of the output values in #PinConfig
+    (#OUTPUT_LOW, #OUTPUT_HIGH) or Arduino style HIGH and LOW macros
     @retval true if the operation is successful
   */
-  bool setPinOutput(int8_t pin, int8_t value);
+  bool setPinOutput(int8_t pin, int8_t config);
   /**
     Configures an I/O pin as an input with optional pull-up and
     return its value
-    @param pin (1-3) is one of values in #PinNumber
-    @param pin (2-4) is one of the input values in #PinConfig
+    @param pin (1-3) is one of the values in #PinNumber
+    @param config (2-4) is one of the input values in #PinConfig (#INPUT_HIZ,
+    #INPUT_STRONG, #INPUT_WEAK)
     @retval integer is the logical value of the pin
   */
   int8_t getPinInput(int8_t pin, int8_t config);

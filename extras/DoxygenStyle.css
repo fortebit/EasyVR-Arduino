@@ -6,6 +6,12 @@ body, table, div, p, dl {
 code, tt { 
     font-family: Consolas, Courier, monospace, fixed;
     font-size: 105%;
+	padding: 2px 4px;
+    background-color: #EEE;
+	border: solid thin #777;
+	border-radius: 0.5em;
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
 }
 
 /* Need this as <PRE> makes the text look smaller due to different font */
