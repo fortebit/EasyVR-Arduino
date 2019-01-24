@@ -796,7 +796,6 @@ public:
   /**
     Erases a recorded message. Manually check for completion with #hasFinished().
     @param index (0-31) is the index of the target message slot
-    @retval true if the operation is successful
   */
   void eraseMessageAsync(int8_t index);
   /**
