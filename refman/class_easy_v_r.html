@@ -32,7 +32,7 @@
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <h1>
-<img alt="Logo" src="EasyVR_Logo.png"/>&#160;&#160;EasyVR Library&#160;<span id="projectnumber">1.10.0</span>
+<img alt="Logo" src="EasyVR_Logo.png"/>&#160;&#160;EasyVR Library&#160;<span id="projectnumber">1.11.0</span>
 </h1>
 </div>
 <!-- end header part -->
@@ -83,7 +83,9 @@ Public Types</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="class_easy_v_r.html#aee7d45f22df1a0e46da6a43773c19092a43d2d8bdb0fab37cf45813cc764a5a0f">BRIDGE_NORMAL</a>, 
 <br />
-&#160;&#160;<a class="el" href="class_easy_v_r.html#aee7d45f22df1a0e46da6a43773c19092a5392f8ccadae74d757d39c13d1b053f9">BRIDGE_BOOT</a>
+&#160;&#160;<a class="el" href="class_easy_v_r.html#aee7d45f22df1a0e46da6a43773c19092a5392f8ccadae74d757d39c13d1b053f9">BRIDGE_BOOT</a>, 
+<br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#aee7d45f22df1a0e46da6a43773c19092a88b30c4cacc8beeb74c41da0cad4626e">BRIDGE_ESCAPE_CHAR</a> = '?'
 <br />
  }</td></tr>
 <tr class="memdesc:aee7d45f22df1a0e46da6a43773c19092"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of Bridge mode requested.  <a href="class_easy_v_r.html#aee7d45f22df1a0e46da6a43773c19092">More...</a><br /></td></tr>
@@ -305,7 +307,11 @@ Public Types</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6a384f3dfe6cc2ed05f3fac9dcac5f052a">EASYVR3_3</a>, 
 <br />
-&#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6a86b11aedc9b948820681c8f90c41aff5">EASYVR3_4</a>
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6a86b11aedc9b948820681c8f90c41aff5">EASYVR3_4</a>, 
+<br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6a1c2cfad8fcfcfc2da5b1f3628d8b749b">EASYVR3_5</a>, 
+<br />
+&#160;&#160;<a class="el" href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6a5f5adab719af720ebfb32fc1fbadcc1a">EASYVR3PLUS</a> = 16
 <br />
  }</td></tr>
 <tr class="memdesc:a2af2c6f2596e5cc6b96f738b48bd35d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module identification number (firmware version)  <a href="class_easy_v_r.html#a2af2c6f2596e5cc6b96f738b48bd35d6">More...</a><br /></td></tr>
@@ -589,9 +595,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8e0a9eb7be22dc9f034842ee80e3f05b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a8e0a9eb7be22dc9f034842ee80e3f05b">setMicDistance</a> (int8_t dist)</td></tr>
 <tr class="memdesc:a8e0a9eb7be22dc9f034842ee80e3f05b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the operating distance of the microphone.  <a href="#a8e0a9eb7be22dc9f034842ee80e3f05b">More...</a><br /></td></tr>
 <tr class="separator:a8e0a9eb7be22dc9f034842ee80e3f05b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea82e7215f767e2db2514c9502c7e8f9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#aea82e7215f767e2db2514c9502c7e8f9">setPinOutput</a> (int8_t pin, int8_t value)</td></tr>
-<tr class="memdesc:aea82e7215f767e2db2514c9502c7e8f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures an I/O pin as an output and sets its value.  <a href="#aea82e7215f767e2db2514c9502c7e8f9">More...</a><br /></td></tr>
-<tr class="separator:aea82e7215f767e2db2514c9502c7e8f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c0ae228a5eb7c2829b8e2c8354195c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a3c0ae228a5eb7c2829b8e2c8354195c4">setPinOutput</a> (int8_t pin, int8_t config)</td></tr>
+<tr class="memdesc:a3c0ae228a5eb7c2829b8e2c8354195c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures an I/O pin as an output and sets its value.  <a href="#a3c0ae228a5eb7c2829b8e2c8354195c4">More...</a><br /></td></tr>
+<tr class="separator:a3c0ae228a5eb7c2829b8e2c8354195c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b6dc8d67cc9dd8aba8750700139c167"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_easy_v_r.html#a5b6dc8d67cc9dd8aba8750700139c167">setTimeout</a> (int8_t seconds)</td></tr>
 <tr class="memdesc:a5b6dc8d67cc9dd8aba8750700139c167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the timeout to use for any recognition task.  <a href="#a5b6dc8d67cc9dd8aba8750700139c167">More...</a><br /></td></tr>
 <tr class="separator:a5b6dc8d67cc9dd8aba8750700139c167"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -665,6 +671,9 @@ Public Member Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aee7d45f22df1a0e46da6a43773c19092a5392f8ccadae74d757d39c13d1b053f9"></a>BRIDGE_BOOT&#160;</td><td class="fielddoc">
 <p>Bridge mode for <a class="el" href="class_easy_v_r.html" title="An implementation of the EasyVR communication protocol. ">EasyVR</a> bootloader (baudrate 115200) </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="aee7d45f22df1a0e46da6a43773c19092a88b30c4cacc8beeb74c41da0cad4626e"></a>BRIDGE_ESCAPE_CHAR&#160;</td><td class="fielddoc">
+<p>Special character to enter/exit Bridge mode. </p>
 </td></tr>
 </table>
 
@@ -1143,6 +1152,12 @@ Public Member Functions</h2></td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a2af2c6f2596e5cc6b96f738b48bd35d6a86b11aedc9b948820681c8f90c41aff5"></a>EASYVR3_4&#160;</td><td class="fielddoc">
 <p>Identifies an <a class="el" href="class_easy_v_r.html" title="An implementation of the EasyVR communication protocol. ">EasyVR</a> module version 3, firmware revision 4. </p>
 </td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a2af2c6f2596e5cc6b96f738b48bd35d6a1c2cfad8fcfcfc2da5b1f3628d8b749b"></a>EASYVR3_5&#160;</td><td class="fielddoc">
+<p>Identifies an <a class="el" href="class_easy_v_r.html" title="An implementation of the EasyVR communication protocol. ">EasyVR</a> module version 3, firmware revision 5. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a2af2c6f2596e5cc6b96f738b48bd35d6a5f5adab719af720ebfb32fc1fbadcc1a"></a>EASYVR3PLUS&#160;</td><td class="fielddoc">
+<p>Identifies an <a class="el" href="class_easy_v_r.html" title="An implementation of the EasyVR communication protocol. ">EasyVR</a> module version 3+, firmware revision 0. </p>
+</td></tr>
 </table>
 
 </div>
@@ -1160,10 +1175,10 @@ Public Member Functions</h2></td></tr>
 <p>Pin configuration options for the extra I/O connector. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a3a8a28825ae2b26e757181838cf38a8fab1e89822dcebb01e037dfafbf389ca24"></a>OUTPUT_LOW&#160;</td><td class="fielddoc">
-<p>Pin is a low output (0V) </p>
+<p>Pin is an output at low level (0V) </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a3a8a28825ae2b26e757181838cf38a8fabd65d73153183405f29ef07823b40b51"></a>OUTPUT_HIGH&#160;</td><td class="fielddoc">
-<p>Pin is a high output (3V) </p>
+<p>Pin is an output at high level (3V) </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a3a8a28825ae2b26e757181838cf38a8fa2d9cef0aae8892312903ab7fde464484"></a>INPUT_HIZ&#160;</td><td class="fielddoc">
 <p>Pin is an high impedance input. </p>
@@ -1200,13 +1215,13 @@ Public Member Functions</h2></td></tr>
 <p>Identifier of pin IO3. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="ac97c75321bd298017c7fd91769f101e6aceb4e07988ce36a40df65fd124e9eba7"></a>IO4&#160;</td><td class="fielddoc">
-<p>Identifier of pin IO4 (only EasyVR3) </p>
+<p>Identifier of pin IO4 [only EasyVR3]. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="ac97c75321bd298017c7fd91769f101e6a75234be4d8932b918d2b4e7e94f49271"></a>IO5&#160;</td><td class="fielddoc">
-<p>Identifier of pin IO5 (only EasyVR3) </p>
+<p>Identifier of pin IO5 [only EasyVR3]. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="ac97c75321bd298017c7fd91769f101e6a2c05603b6ac28a5ee5495d1cc96a7969"></a>IO6&#160;</td><td class="fielddoc">
-<p>Identifier of pin IO6 (only EasyVR3) </p>
+<p>Identifier of pin IO6 [only EasyVR3]. </p>
 </td></tr>
 </table>
 
@@ -1938,12 +1953,6 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">true</td><td>if the operation is successful </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -2266,8 +2275,8 @@ Public Member Functions</h2></td></tr>
 <p>Configures an I/O pin as an input with optional pull-up and return its value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pin</td><td>(1-3) is one of values in <a class="el" href="class_easy_v_r.html#ac97c75321bd298017c7fd91769f101e6" title="Available pin numbers on the extra I/O connector. ">PinNumber</a> </td></tr>
-    <tr><td class="paramname">pin</td><td>(2-4) is one of the input values in <a class="el" href="class_easy_v_r.html#a3a8a28825ae2b26e757181838cf38a8f" title="Pin configuration options for the extra I/O connector. ">PinConfig</a> </td></tr>
+    <tr><td class="paramname">pin</td><td>(1-3) is one of the values in <a class="el" href="class_easy_v_r.html#ac97c75321bd298017c7fd91769f101e6" title="Available pin numbers on the extra I/O connector. ">PinNumber</a> </td></tr>
+    <tr><td class="paramname">config</td><td>(2-4) is one of the input values in <a class="el" href="class_easy_v_r.html#a3a8a28825ae2b26e757181838cf38a8f" title="Pin configuration options for the extra I/O connector. ">PinConfig</a> (<a class="el" href="class_easy_v_r.html#a3a8a28825ae2b26e757181838cf38a8fa2d9cef0aae8892312903ab7fde464484" title="Pin is an high impedance input. ">INPUT_HIZ</a>, <a class="el" href="class_easy_v_r.html#a3a8a28825ae2b26e757181838cf38a8fa0ec553e07d4c66c1b4ab01bfabe7147e" title="Pin is an input with strong pull-up (~10K) ">INPUT_STRONG</a>, <a class="el" href="class_easy_v_r.html#a3a8a28825ae2b26e757181838cf38a8fa21276fae639d0dc383dde865c4281fa1" title="Pin is an input with weak pull-up (~200K) ">INPUT_WEAK</a>) </td></tr>
   </table>
   </dd>
 </dl>
@@ -3247,7 +3256,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aea82e7215f767e2db2514c9502c7e8f9"></a>
+<a class="anchor" id="a3c0ae228a5eb7c2829b8e2c8354195c4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -3261,7 +3270,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int8_t&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
+          <td class="paramname"><em>config</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -3274,8 +3283,8 @@ Public Member Functions</h2></td></tr>
 <p>Configures an I/O pin as an output and sets its value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pin</td><td>(1-3) is one of values in <a class="el" href="class_easy_v_r.html#ac97c75321bd298017c7fd91769f101e6" title="Available pin numbers on the extra I/O connector. ">PinNumber</a> </td></tr>
-    <tr><td class="paramname">pin</td><td>(0-1) is one of the output values in <a class="el" href="class_easy_v_r.html#a3a8a28825ae2b26e757181838cf38a8f" title="Pin configuration options for the extra I/O connector. ">PinConfig</a>, or Arduino style HIGH and LOW macros </td></tr>
+    <tr><td class="paramname">pin</td><td>(1-3) is one of the values in <a class="el" href="class_easy_v_r.html#ac97c75321bd298017c7fd91769f101e6" title="Available pin numbers on the extra I/O connector. ">PinNumber</a> </td></tr>
+    <tr><td class="paramname">config</td><td>(0-1,5-6) is one of the output values in <a class="el" href="class_easy_v_r.html#a3a8a28825ae2b26e757181838cf38a8f" title="Pin configuration options for the extra I/O connector. ">PinConfig</a> (<a class="el" href="class_easy_v_r.html#a3a8a28825ae2b26e757181838cf38a8fab1e89822dcebb01e037dfafbf389ca24" title="Pin is an output at low level (0V) ">OUTPUT_LOW</a>, <a class="el" href="class_easy_v_r.html#a3a8a28825ae2b26e757181838cf38a8fabd65d73153183405f29ef07823b40b51" title="Pin is an output at high level (3V) ">OUTPUT_HIGH</a>) or Arduino style HIGH and LOW macros </td></tr>
   </table>
   </dd>
 </dl>
