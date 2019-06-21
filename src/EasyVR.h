@@ -1,9 +1,10 @@
 /** @file
-EasyVR library v1.10.1
-Copyright (C) 2016 RoboTech srl
+EasyVR library v1.11.1
+Copyright (C) 2019 RoboTech srl
 
 Written for Arduino and compatible boards for use with EasyVR modules or
-EasyVR Shield boards produced by VeeaR <www.veear.eu>
+EasyVR Shield boards produced by RoboTech srl with the Fortebit <fortebit.tech>
+brand (formerly VeeaR <www.veear.eu>)
 
 Released under the terms of the MIT license, as found in the accompanying
 file COPYING.txt or at this address: <http://www.opensource.org/licenses/MIT>
