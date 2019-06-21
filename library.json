@@ -1,6 +1,6 @@
 {
 	"name": "EasyVR",
-	"version": "1.11.0",
+	"version": "1.11.1",
 	"keywords": "speech, recognition, sensor, serial",
 	"description": "A library for the EasyVR line of products",
 	"repository":
