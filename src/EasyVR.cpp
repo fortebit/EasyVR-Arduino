@@ -841,7 +841,7 @@ bool EasyVR::dumpMessage(int8_t index, int8_t& type, int32_t& length)
   if (type == 0)
     return true; // skip reading if empty
 
-  for (int8_t i = 0; i < 6; ++i)
+  for (int8_t i = 0; i < 3; ++i)
   {
     if (!recvArg(rx))
       return false;

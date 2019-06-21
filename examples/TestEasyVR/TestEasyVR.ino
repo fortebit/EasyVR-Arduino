@@ -172,12 +172,13 @@ bridge:
     pcSerial.println();
     for (int8_t idx = 0; idx < 32; ++idx)
     {
-      int8_t bits = -1; int32_t len = 0;
-      if (easyvr.dumpMessage(idx, bits, len) && (bits == 0))
+      int8_t bits = -1; int32_t len = -1;
+	  easyvr.dumpMessage(idx, bits, len);
+      if ((bits == 0) && (len == 0))
         continue; // skip empty
       pcSerial.print(idx);
       pcSerial.print(F(" = "));
-      if (bits < 0)
+      if (bits < 0 || len < 0)
         pcSerial.println(F(" has errors"));
       else
       {
